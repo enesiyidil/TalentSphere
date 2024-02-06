@@ -1,0 +1,13 @@
+rootProject.name = 'TalentSphere'
+include 'auth-service'
+include 'apigateway-service'
+include 'config-server'
+include 'mail-service'
+include 'sms-service'
+include 'admin-service'
+include 'manager-service'
+include 'visitor-service'
+include 'personel-service'
+include 'company-service'
+include 'payment-service'
+
