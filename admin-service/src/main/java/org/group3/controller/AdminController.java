@@ -28,6 +28,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.findByIdDto(id));
     }
 
+    @GetMapping("/findbyauthid/{authid}")
+    public ResponseEntity<FindByIdResponseDto> findByAuthId(@PathVariable Long authid){
+        return ResponseEntity.ok(adminService.findByAuthIdDto(authid));
+    }
+
     @GetMapping("/findall")
     public ResponseEntity<List<FindAllResponseDto>> findAll(){
         return ResponseEntity.ok(adminService.findAllDto());
