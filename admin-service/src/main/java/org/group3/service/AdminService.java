@@ -56,6 +56,14 @@ public class AdminService extends ServiceManager<Admin, Long> {
         return IAdminMapper.INSTANCE.adminToFindByIdResponseDto(optionalAdmin.get());
     }
 
+    public FindByIdResponseDto findByAuthIdDto(Long authid) {
+        Optional<Admin> optionalAdmin = repository.findByAuthid(authid);
+        if (optionalAdmin.isEmpty()) {
+            throw new AdminManagerException(ErrorType.ID_NOT_FOUND);
+        }
+        return IAdminMapper.INSTANCE.adminToFindByIdResponseDto(optionalAdmin.get());
+    }
+
 
     public List<FindAllResponseDto> findAllDto() {
         return findAll().stream().map(IAdminMapper.INSTANCE::adminToFindAllResponseDto).collect(Collectors.toList());
@@ -104,4 +112,6 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .build());
         return "Named " + optionalAdmin.get().getName() + " has been deleted";
     }
+
+
 }
