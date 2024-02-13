@@ -35,7 +35,10 @@ public class ManagerService {
     }
 
     public void save(ManagerSaveModel model) {
-        ManagerMapper.INSTANCE.ManagerToResponseDto(repository.save(ManagerMapper.INSTANCE.saveModelToManager(model)));
+        repository.save(Manager.builder()
+                        .authId(model.getAuthId())
+                        .email(model.getEmail())
+                .build());
     }
 
     public ManagerResponseDto findById(Long id) {

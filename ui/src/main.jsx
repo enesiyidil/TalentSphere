@@ -5,18 +5,12 @@ import App from './App.jsx'
 import './index.css'
 import {ApiContextProvider} from "./context/ApiContext.jsx";
 import {store} from "./redux/stores.js";
-import {DevSupport} from "@react-buddy/ide-toolbox";
-import {ComponentPreviews, useInitial} from "./dev/index.js";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <ApiContextProvider>
             <Provider store={store}>
-                <DevSupport ComponentPreviews={ComponentPreviews}
-                            useInitialHook={useInitial}
-                >
-                    <App/>
-                </DevSupport>
+                <App/>
             </Provider>
         </ApiContextProvider>
     </React.StrictMode>,

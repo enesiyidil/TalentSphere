@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
 
+@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
 @RequestMapping(VISITOR)
 @RequiredArgsConstructor

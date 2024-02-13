@@ -38,13 +38,13 @@ public class CompanyService {
         this.serviceUtility = serviceUtility;
         this.managerProducer = managerProducer;
         this.messageSource = messageSource;
-        this.greet();
+//        this.greet();
     }
 
-    public void greet() {
-        String greeting = messageSource.getMessage("hello", null, Locale.getDefault());
-        System.out.println(greeting); // Hello (eğer varsayılan dil İngilizce ise)
-    }
+//    public void greet() {
+//        String greeting = messageSource.getMessage("hello", null, Locale.getDefault());
+//        System.out.println(greeting); // Hello (eğer varsayılan dil İngilizce ise)
+//    }
 
     public Company save(CompanySaveRequestDto dto) {
         Company company = repository.save(CompanyMapper.INSTANCE.saveRequestDtoToCompany(dto));

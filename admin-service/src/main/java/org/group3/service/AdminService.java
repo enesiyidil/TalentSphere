@@ -56,8 +56,8 @@ public class AdminService extends ServiceManager<Admin, Long> {
         return IAdminMapper.INSTANCE.adminToFindByIdResponseDto(optionalAdmin.get());
     }
 
-    public FindByIdResponseDto findByAuthIdDto(Long authid) {
-        Optional<Admin> optionalAdmin = repository.findByAuthid(authid);
+    public FindByIdResponseDto findByAuthIdDto(Long authId) {
+        Optional<Admin> optionalAdmin = repository.findByAuthId(authId);
         if (optionalAdmin.isEmpty()) {
             throw new AdminManagerException(ErrorType.ID_NOT_FOUND);
         }
@@ -89,7 +89,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
 
         update(admin);
         authUpdateProduce.convertAndSend(UpdateAuthModel.builder()
-                .authid(admin.getAuthid())
+                .authid(admin.getAuthId())
                 .email(admin.getEmail())
                 .build());
 
@@ -107,7 +107,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
         optionalAdmin.get().setStatus(EStatus.DELETED);
         save(optionalAdmin.get());
         authDeleteProducer.convertAndSend(DeleteAuthModel.builder()
-                .authid(optionalAdmin.get().getAuthid())
+                .authid(optionalAdmin.get().getAuthId())
                 .eStatus(optionalAdmin.get().getStatus())
                 .build());
         return "Named " + optionalAdmin.get().getName() + " has been deleted";

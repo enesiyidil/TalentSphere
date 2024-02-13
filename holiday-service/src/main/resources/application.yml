@@ -13,15 +13,21 @@ server:
 
 
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/talent-sphere-holiday-db
+    url: jdbc:mysql://localhost:3308/talent-sphere-holiday-db
     username: talent-sphere
     password: ts123456
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
 rabbitmq:
   exchange:

@@ -79,7 +79,7 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
 
         update(visitor);
         authUpdateProduce.convertAndSend(UpdateAuthModel.builder()
-                .authid(visitor.getAuthid())
+                .authid(visitor.getAuthId())
                 .email(visitor.getEmail())
                 .build());
 
@@ -97,7 +97,7 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         optionalVisitor.get().setStatus(EStatus.DELETED);
         save(optionalVisitor.get());
         authDeleteProducer.convertAndSend(DeleteAuthModel.builder()
-                .authid(optionalVisitor.get().getAuthid())
+                .authid(optionalVisitor.get().getAuthId())
                 .eStatus(optionalVisitor.get().getStatus())
                 .build());
         return "Named " + optionalVisitor.get().getName() + " has been deleted";

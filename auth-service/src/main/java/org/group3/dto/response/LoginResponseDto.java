@@ -1,20 +1,20 @@
-package org.group3.rabbit.model;
+package org.group3.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.Enums.ERole;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
-public class ManagerSaveModel {
+public class LoginResponseDto {
+
+    String token;
+
+    ERole role;
 
     Long authId;
-    String name;
-    String surname;
-    String email;
-    String phone;
-    String title;
 }

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.*;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdRespoonseDto;
+import org.group3.dto.response.LoginResponseDto;
 import org.group3.dto.response.RegisterResponseDto;
 import org.group3.entity.Enums.EStatus;
 import org.group3.exception.AuthManagerException;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
 
+@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
 @RequestMapping(AUTH)
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(dto));
     }
     @PostMapping(LOGIN)
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
     }
 

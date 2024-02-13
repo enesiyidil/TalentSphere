@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static org.group3.constant.EndPoints.*;
 
+@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
 @RequestMapping(MANAGER)
 @RequiredArgsConstructor

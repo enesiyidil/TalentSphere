@@ -5,6 +5,7 @@ import org.group3.dto.request.RegisterRequestDto;
 import org.group3.dto.request.UpdatePasswordRequestDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdRespoonseDto;
+import org.group3.dto.response.LoginResponseDto;
 import org.group3.dto.response.RegisterResponseDto;
 import org.group3.entity.Auth;
 import org.group3.entity.Enums.ERole;
@@ -68,7 +69,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
         if (auth.getRole().equals(ERole.ADMIN)) {
             adminSave.convertAndSend(SaveAuthModel.builder()
-                    .authid(auth.getId())
+                    .authId(auth.getId())
                     .email(auth.getEmail())
                     .name(dto.getName())
                     .surname(dto.getSurname())
@@ -79,7 +80,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
         if (auth.getRole().equals(ERole.VISITOR)) {
             visitorSaveProduce.convertAndSend(SaveAuthModel.builder()
-                    .authid(auth.getId())
+                    .authId(auth.getId())
                     .email(auth.getEmail())
                     .name(dto.getName())
                     .surname(dto.getSurname())
@@ -88,7 +89,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
         if (auth.getRole().equals(ERole.MANAGER)) {
             managerSaveProducer.convertAndSend(SaveAuthModel.builder()
-                    .authid(auth.getId())
+                    .authId(auth.getId())
                     .email(auth.getEmail())
                     .name(dto.getName())
                     .surname(dto.getSurname())
@@ -98,7 +99,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
 
 
-        String url = "http://localhost:9090/auth/activate?t=" + tokenManager.createToken(auth.getId(), dto.getRole()).get();
+        String url = "http://localhost:9092/auth/activate?t=" + tokenManager.createToken(auth.getId(), dto.getRole()).get();
         mailSenderProduce.convertAndSend(SendMailModel.builder()
                 .email(auth.getEmail())
                 .subject("Aktivasyon")
@@ -109,7 +110,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return IAuthMapper.INSTANCE.authToRegisterResponseDto(auth);
     }
 
-    public String login(LoginRequestDto dto) {
+    public LoginResponseDto login(LoginRequestDto dto) {
         Optional<Auth> optionalAuth = repository.findOptionalByEmailAndPassword(dto.getEmail(), dto.getPassword());
 
 
@@ -126,9 +127,19 @@ public class AuthService extends ServiceManager<Auth, Long> {
                     .toNumber(optionalAuth.get().getPhone())
                     .message(code)
                     .build());
-            return tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole(), code).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+            String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole(), code).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+            return LoginResponseDto.builder()
+                    .token(token)
+                    .authId(optionalAuth.get().getId())
+                    .role(optionalAuth.get().getRole())
+                    .build();
         }
-        return tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole()).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+        String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole()).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+        return LoginResponseDto.builder()
+                .token(token)
+                .authId(optionalAuth.get().getId())
+                .role(optionalAuth.get().getRole())
+                .build();
     }
 
     public List<FindAllResponseDto> findAll(String token, EStatus status) {

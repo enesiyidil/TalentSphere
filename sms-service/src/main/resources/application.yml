@@ -11,6 +11,13 @@
 server:
   port: 9100
 
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user
+
 twilio:
   accountSid: AC3ed26c1b5a67d6f6efbb49c199c5e2bc
   authToken: 6825f7bdb5f1304984727ac59319c97e

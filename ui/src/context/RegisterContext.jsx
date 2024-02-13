@@ -10,21 +10,21 @@ export const RegisterContextProvider = ({children}) => {
 
     async function doRegister(payload) {
         setIsLoading(true);
-        const responseData = await apiPost(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_AUTH_URL}${process.env.REACT_APP_LOGIN_URL}`, payload);
+        const responseData = await apiPost(`http://localhost:9092/auth/register`, payload);
         console.log(responseData)
         // todo: kayıt başarılımı değil mi kontrol edip çıktı ver
         setIsLoading(false);
     }
 
     return (
-        <RegisterContextProvider.Provider
+        <RegisterContext.Provider
             value={{
                 doRegister,
                 isLoading,
             }}
         >
             {children}
-        </RegisterContextProvider.Provider>
+        </RegisterContext.Provider>
     );
 };
 

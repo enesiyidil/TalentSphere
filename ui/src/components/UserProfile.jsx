@@ -12,7 +12,7 @@ export const UserProfile = () => {
 
     return (<>
         <div>
-            User Profile: {userProfile}
+            User Profile: {}
         </div>
     </>);
 };

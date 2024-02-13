@@ -1,4 +1,4 @@
-package org.group3.rabbitMq.model;
+package org.group3.rabbitmq.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SaveAuthModel {
-    private Long authId;
-    private String name;
-    private String surname;
+public class SendMailModel {
     private String email;
-    private String phone;
-    private String title;
+    private String subject;
+    private String content;
 }

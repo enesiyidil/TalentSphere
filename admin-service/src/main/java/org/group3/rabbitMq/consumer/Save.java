@@ -15,7 +15,7 @@ public class Save {
     @RabbitListener(queues = "${rabbitmq.queue.admin.save}")
     public void saveFromQueue(SaveAuthModel model){
         adminService.save(Admin.builder()
-                        .authid(model.getAuthid())
+                        .authId(model.getAuthId())
                         .email(model.getEmail())
                         .name(model.getName())
                         .surname(model.getSurname())

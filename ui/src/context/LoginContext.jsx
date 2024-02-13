@@ -13,7 +13,7 @@ export const LoginContextProvider = ({children}) => {
 
     async function doLogin(email, password) {
         setIsLoading(true);
-        const responseData = await apiPost(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_AUTH_URL}${process.env.REACT_APP_LOGIN_URL}`, {email, password});
+        const responseData = await apiPost(`http://localhost:9092/auth/login`, {email, password});
         console.log(responseData);
         // todo: login başarılı mı değil mi kontrol et ona göre setleme yap
         dispatch(setRole(responseData.data.role));
@@ -23,17 +23,17 @@ export const LoginContextProvider = ({children}) => {
     }
 
     return (
-        <LoginContextProvider.Provider
+        <LoginContext.Provider
             value={{
                 doLogin,
                 isLoading,
             }}
         >
             {children}
-        </LoginContextProvider.Provider>
+        </LoginContext.Provider>
     );
 };
 
-LoginContextProvider.propTypes = {
-    children: PropTypes.node.isRequired,
-};
+// LoginContextProvider.propTypes = {
+//     children: PropTypes..isRequired,
+// };

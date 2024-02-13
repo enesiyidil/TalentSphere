@@ -1,19 +1,22 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useForm } from 'react-hook-form';
 //import { useHistory } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import '../Css/register/register.css'
 import 'react-datepicker/dist/react-datepicker.css';
+import {RegisterContext} from "../context/RegisterContext.jsx";
 
 
 export default function RegisterPage() {
   //const history=useHistory()
   const {
     register,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors, isSubmitting },
     getValues,
   } = useForm();
+
+  const {doRegister} = useContext(RegisterContext);
 
   // const handleRoleSelection = (role) => {
   //   switch (role) {
@@ -29,7 +32,23 @@ export default function RegisterPage() {
   //     default:
   //       break;
   //   }
-  // };
+  // };berresumelek06@gmail.com
+
+    const handleSubmit = () => {
+        const obje = {
+            username: getValues("username"),
+            name: getValues('name'),
+            surname: getValues('surname'),
+            title: getValues('surname'),
+            phone: getValues('phone'),
+            email: getValues('email'),
+            password: getValues('password'),
+            rePassword: getValues('confirmPassword'),
+            role: getValues('role'),
+        };
+        console.log(obje)
+        doRegister(obje)
+    }
   
   return (
     <form onSubmit={handleSubmit} className="form RegisterPage">
@@ -134,7 +153,7 @@ export default function RegisterPage() {
             })}
             type="radio"
             id="manager"
-            value="manager"
+            value="MANAGER"
             //onClick={handleRoleSelection('manager')}
           />
           <label htmlFor="manager">Manager</label>
@@ -145,7 +164,7 @@ export default function RegisterPage() {
             })}
             type="radio"
             id="visitor"
-            value="visitor"
+            value="VISITOR"
             //onClick={() => handleRoleSelection('visitor')}
           />
           <label htmlFor="visitor">Visitor</label>
@@ -156,7 +175,7 @@ export default function RegisterPage() {
             })}
             type="radio"
             id="personal"
-            value="personal"
+            value="PERSONAL"
            //onClick={() => handleRoleSelection('personal')}
           />
           <label htmlFor="personal">Personal</label>
@@ -167,7 +186,8 @@ export default function RegisterPage() {
         </div>
       <button
         disabled={isSubmitting}
-        type="submit"
+        type="button"
+        onClick={handleSubmit}
         className="button"
       >
         Submit

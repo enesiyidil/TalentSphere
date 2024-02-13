@@ -11,7 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class SaveAuthModel {
-    private Long authid;
+    private Long authId;
     private String name;
     private String surname;
     private String email;

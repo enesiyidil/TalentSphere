@@ -1,31 +1,36 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as data from './user.json'
 import '../Css/login.css'
+import {useSelector} from "react-redux";
+import {LoginContext} from "../context/LoginContext.jsx";
 
 
 export default function UserLoginForm() {
+    const role = useSelector((state) => state.role);
+    const {doLogin} = useContext(LoginContext);
   const {
     register,
     formState: { errors, isSubmitting },
+      getValues
   } = useForm();
 
   const navigate = useNavigate();
   
 
   const handleLoginSubmit = () => {
-      const userRole = data.user.role
-      
-      switch(userRole) {
-        case('manager'):
+
+      doLogin(getValues('email'), getValues('password'))
+      switch(role) {
+        case('MANAGER'):
           navigate('/managerpage', {replace: true});
           break;
           
-        case('visitor'):
+        case('VISITOR'):
           navigate('/visitorpage', {replace: true});
           break;
-        case('personal'):
+        case('PERSONAL'):
           navigate('/personalpage', {replace: true});
           break;
 

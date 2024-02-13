@@ -1,17 +1,5 @@
-#spring:
-#  cloud:
-#    config:
-#      uri: ${CONFIG_SERVER_URL}
-#      # http://localhost:8888
-#  config:
-#    import: "configserver:"
-#  application:
-#    name:
-
 server:
-  port: 9094
-
-
+  port: 9099
 spring:
   rabbitmq:
     host: localhost
@@ -19,15 +7,18 @@ spring:
     username: user
     password: user
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/talent-sphere-manager-db
-    username: talent-sphere
-    password: ts123456
-
-  jpa:
-    hibernate:
-      ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: enesiyidil16@gmail.com
+    password: daax cupn kntt jxgz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 rabbitmq:
   exchange:
@@ -99,3 +90,5 @@ rabbitmq:
       sender: smsSenderBindingKey
     holiday:
       save: holidaySaveBindingKey
+
+

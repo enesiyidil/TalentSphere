@@ -17,22 +17,22 @@ export const UserProfileContextProvider = ({children}) => {
     let url;
     switch (role) {
         case 'ADMIN':
-            url = process.env.REACT_APP_API_GATEWAY_URL + process.env.REACT_APP_ADMIN_URL;
+            url = "http://localhost:9093/admin";
             break;
         case 'MANAGER':
-            url = process.env.REACT_APP_API_GATEWAY_URL + process.env.REACT_APP_MANAGER_URL;
+            url = "http://localhost:9094/manager";
             break;
         case 'PERSONAL':
-            url = process.env.REACT_APP_API_GATEWAY_URL + process.env.REACT_APP_PERSONAL_URL;
+            url = "http://localhost:9095/personal";
             break;
         case 'VISITOR':
-            url = process.env.REACT_APP_API_GATEWAY_URL + process.env.REACT_APP_VISITOR_URL;
+            url ="http://localhost:9096/visitor";
             break;
     }
 
     async function handleSetUserProfile() {
         setIsLoading(true);
-        const responseData = await apiGet(`${url}${process.env.REACT_APP_FIND_BY_AUTH_ID_URL}?authId=${authId}`, token);// todo: get isteğini kotrol et
+        const responseData = await apiGet(`${url}/findByAuthId?authId=${authId}`);// todo: get isteğini kotrol et
         console.log(responseData)
         // todo: data başarılı mı değil mi kontrol et ona göre setleme yap
         dispatch(setUserProfile(responseData.data))
@@ -41,7 +41,7 @@ export const UserProfileContextProvider = ({children}) => {
 
     async function handleUpdateUserProfile(user) {
         setIsLoading(true);
-        const responseData = await apiPatch(`${url}${process.env.REACT_APP_FIND_BY_AUTH_ID_URL}`, user, token);// todo: get isteğini kotrol et
+        const responseData = await apiPatch(`${url}/update`, user, token);// todo: get isteğini kotrol et
         console.log(responseData)
         // todo: data başarılı mı değil mi kontrol et ona göre setleme yap
         dispatch(updateUserProfile(responseData.data))

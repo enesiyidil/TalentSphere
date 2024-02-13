@@ -4,7 +4,7 @@ import { userReducer } from './reducers'
 const defaultState = {
     role: "",
     token: "",
-    authId: "",
+    authId: 0,
     userProfile: {},
     data: {}
 }

@@ -24,7 +24,8 @@ public enum ErrorType {
 
     INVALID_TOKEN(6000,"Geçersiz token",HttpStatus.BAD_REQUEST),
 
-    TOKEN_NOT_CREATE(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST);
+    TOKEN_NOT_CREATE(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST),
+    PARAMETER_NOT_VALID(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST);
 
 
     private final int code;

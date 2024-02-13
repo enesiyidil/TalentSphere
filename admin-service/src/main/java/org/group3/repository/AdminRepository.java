@@ -13,5 +13,5 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     Boolean existsByPhone(String phone);
 
-    Optional<Admin> findByAuthid (Long authid);
+    Optional<Admin> findByAuthId (Long authId);
 }
