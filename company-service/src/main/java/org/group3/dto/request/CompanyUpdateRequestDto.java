@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CompanyUpdateRequestDto {
 
+    Long id;
+
     Long managerId;
 
     String name;

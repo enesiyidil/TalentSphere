@@ -9,35 +9,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.group3.constant.EndPoints.*;
+
 @RestController
-@RequestMapping("/communication")
+@RequestMapping(COMMUNICATION)
 @RequiredArgsConstructor
 public class CommunicationController {
 
     private final CommunicationService service;
 
-    @PostMapping("/save")
+    @PostMapping(SAVE)
     public ResponseEntity<PhoneResponseDto> save(@RequestBody PhoneRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @GetMapping("/findById")
+    @GetMapping(FIND_BY_ID)
     public ResponseEntity<PhoneResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/findAllByCompanyId")
+    @GetMapping(FIND_ALL_BY_COMPANY_ID)
     public ResponseEntity<List<PhoneResponseDto>> findAllByCompanyId(@RequestParam Long companyId){
         return ResponseEntity.ok(service.findAllByCompanyId(companyId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(@RequestParam Long id){
+    @DeleteMapping(DELETE + "/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<PhoneResponseDto> update(@PathVariable Long id, @RequestBody PhoneRequestDto dto){
-        return ResponseEntity.ok(service.update(id,dto));
+    @PatchMapping(UPDATE)
+    public ResponseEntity<PhoneResponseDto> update(@RequestBody PhoneRequestDto dto){
+        return ResponseEntity.ok(service.update(dto));
     }
 }

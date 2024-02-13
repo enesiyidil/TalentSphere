@@ -58,8 +58,8 @@ public class BreakService {
         return serviceUtility.softDelete(id, repository);
     }
 
-    public BreakResponseDto update(Long id, BreakUpdateRequestDto dto) {
-        Optional<Break> optionalExistingBreak = repository.findById(id);
+    public BreakResponseDto update(BreakUpdateRequestDto dto) {
+        Optional<Break> optionalExistingBreak = repository.findById(dto.getId());
         if ((optionalExistingBreak.isPresent())) {
             if (optionalExistingBreak.get().getStatus() == EStatus.DELETED)
                 throw new CompanyServiceException(ErrorType.BREAK_NOT_ACTIVE);

@@ -61,8 +61,8 @@ public class ManagerService {
         throw new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND);
     }
 
-    public ManagerResponseDto update(Long id, ManagerUpdateRequestDto dto) {
-        Optional<Manager> optionalExistingManager = repository.findById(id);
+    public ManagerResponseDto update(ManagerUpdateRequestDto dto) {
+        Optional<Manager> optionalExistingManager = repository.findById(dto.getId());
         if ((optionalExistingManager.isPresent())) {
             if (optionalExistingManager.get().getStatus() == EStatus.DELETED)
                 throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);

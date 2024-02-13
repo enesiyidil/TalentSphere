@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PhoneRequestDto {
 
+    Long id;
+
     Long companyId;
 
     String name;

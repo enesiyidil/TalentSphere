@@ -10,35 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.group3.constant.EndPoints.*;
+
 @RestController
-@RequestMapping("/company")
+@RequestMapping(COMPANY)
 @RequiredArgsConstructor
 public class CompanyController {
 
     private final CompanyService service;
 
-    @PostMapping("/save")
+    @PostMapping(SAVE)
     public ResponseEntity<Company> save(@RequestBody CompanySaveRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @GetMapping("/findById")
+    @GetMapping(FIND_BY_ID)
     public ResponseEntity<Company> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/findAllByManagerId")
+    @GetMapping(FIND_ALL_BY_MANAGER_ID)
     public ResponseEntity<List<Company>> findAllByManagerId(@RequestParam Long managerId){
         return ResponseEntity.ok(service.findAllByManagerId(managerId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(@RequestParam Long id){
+    @DeleteMapping(DELETE + "/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Company> update(@PathVariable Long id, @RequestBody CompanyUpdateRequestDto dto){
-        return ResponseEntity.ok(service.update(id,dto));
+    @PatchMapping(UPDATE)
+    public ResponseEntity<Company> update(@RequestBody CompanyUpdateRequestDto dto){
+        return ResponseEntity.ok(service.update(dto));
     }
 }

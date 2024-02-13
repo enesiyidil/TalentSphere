@@ -63,8 +63,8 @@ public class PersonelService {
         personelRepository.deleteById(id);
     }
 
-    public PersonelResponseDto updatePersonel(Long id, PersonelUpdateRequestDto dto) {
-        Optional<Personel> optionalPersonel = personelRepository.findById(id);
+    public PersonelResponseDto updatePersonel(PersonelUpdateRequestDto dto) {
+        Optional<Personel> optionalPersonel = personelRepository.findById(dto.getId());
         if (optionalPersonel.isPresent()) {
             Personel existingPersonel = optionalPersonel.get();
             IPersonelMapper.INSTANCE.updatePersonelFromDto(dto, existingPersonel);
@@ -77,7 +77,7 @@ public class PersonelService {
     }
 
 
-    public List<PersonelResponseDto> findByCompanyId(Long companyId) {
+    public List<PersonelResponseDto> findAllByCompanyId(Long companyId) {
         List<Personel> personelList = personelRepository.findAllByCompanyId(companyId);
         return personelList.stream()
                 .map(IPersonelMapper.INSTANCE::personelToResponseDto)

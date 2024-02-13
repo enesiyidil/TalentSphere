@@ -57,8 +57,8 @@ public class CommunicationService {
         return serviceUtility.softDelete(id, repository);
     }
 
-    public PhoneResponseDto update(Long id, PhoneRequestDto dto) {
-        Optional<Communication> optionalExistingPhone = repository.findById(id);
+    public PhoneResponseDto update(PhoneRequestDto dto) {
+        Optional<Communication> optionalExistingPhone = repository.findById(dto.getId());
         if ((optionalExistingPhone.isPresent())) {
             if (optionalExistingPhone.get().getStatus() == EStatus.DELETED)
                 throw new CompanyServiceException(ErrorType.COMMUNICATION_NOT_ACTIVE);

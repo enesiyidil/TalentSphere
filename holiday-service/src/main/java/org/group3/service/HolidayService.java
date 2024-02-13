@@ -91,8 +91,8 @@ public class HolidayService {
         throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
     }
 
-    public HolidayResponseDto update(Long id, HolidayRequestDto dto) {
-        Optional<Holiday> optionalExistingHoliday = repository.findById(id);
+    public HolidayResponseDto update(HolidayRequestDto dto) {
+        Optional<Holiday> optionalExistingHoliday = repository.findById(dto.getId());
         if ((optionalExistingHoliday.isPresent())) {
             if (optionalExistingHoliday.get().getStatus() == EStatus.DELETED)
                 throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_ACTIVE);

@@ -10,35 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.group3.constant.EndPoints.*;
+
 @RestController
-@RequestMapping("/break")
+@RequestMapping(BREAK)
 @RequiredArgsConstructor
 public class BreakController {
 
     private final BreakService service;
 
-    @PostMapping("/save")
+    @PostMapping(SAVE)
     public ResponseEntity<BreakResponseDto> save(@RequestBody BreakSaveRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @GetMapping("/findById")
+    @GetMapping(FIND_BY_ID)
     public ResponseEntity<BreakResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/findAllByShiftId")
+    @GetMapping(FIND_ALL_BY_SHIFT_ID)
     public ResponseEntity<List<BreakResponseDto>> findAllByShiftId(@RequestParam Long shiftId){
         return ResponseEntity.ok(service.findAllByShiftId(shiftId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(@RequestParam Long id){
+    @DeleteMapping(DELETE + "/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<BreakResponseDto> update(@PathVariable Long id, @RequestBody BreakUpdateRequestDto dto){
-        return ResponseEntity.ok(service.update(id,dto));
+    @PatchMapping(UPDATE)
+    public ResponseEntity<BreakResponseDto> update(@RequestBody BreakUpdateRequestDto dto){
+        return ResponseEntity.ok(service.update(dto));
     }
 }

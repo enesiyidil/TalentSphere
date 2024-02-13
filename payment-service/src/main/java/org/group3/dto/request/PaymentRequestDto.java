@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PaymentRequestDto {
 
+    String id;
+
     Long companyId;
 
     BigDecimal amount;

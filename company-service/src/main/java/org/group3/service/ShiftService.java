@@ -58,8 +58,8 @@ public class ShiftService {
         return serviceUtility.softDelete(id, repository);
     }
 
-    public ShiftResponseDto update(Long id, ShiftUpdateRequestDto dto) {
-        Optional<Shift> optionalExistingShift = repository.findById(id);
+    public ShiftResponseDto update(ShiftUpdateRequestDto dto) {
+        Optional<Shift> optionalExistingShift = repository.findById(dto.getId());
         if ((optionalExistingShift.isPresent())) {
             if (optionalExistingShift.get().getStatus() == EStatus.DELETED)
                 throw new CompanyServiceException(ErrorType.SHIFT_NOT_ACTIVE);

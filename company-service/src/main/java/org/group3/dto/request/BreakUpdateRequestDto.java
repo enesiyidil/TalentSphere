@@ -13,6 +13,8 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class BreakUpdateRequestDto {
 
+    Long id;
+
     String name;
 
     LocalTime startTime;

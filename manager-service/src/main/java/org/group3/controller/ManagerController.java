@@ -7,30 +7,32 @@ import org.group3.service.ManagerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.group3.constant.EndPoints.*;
+
 @RestController
-@RequestMapping("/manager")
+@RequestMapping(MANAGER)
 @RequiredArgsConstructor
 public class ManagerController {
 
     private final ManagerService service;
 
-    @GetMapping("/findById")
+    @GetMapping(FIND_BY_ID)
     public ResponseEntity<ManagerResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/findByAuthId")
+    @GetMapping(FIND_BY_AUTH_ID)
     public ResponseEntity<ManagerResponseDto> findByAuthId(@RequestParam Long authId){
         return ResponseEntity.ok(service.findByAuthId(authId));
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<ManagerResponseDto> update(@RequestParam Long id, @RequestBody ManagerUpdateRequestDto dto){
-        return ResponseEntity.ok(service.update(id, dto));
+    @PatchMapping(UPDATE)
+    public ResponseEntity<ManagerResponseDto> update(@RequestBody ManagerUpdateRequestDto dto){
+        return ResponseEntity.ok(service.update(dto));
     }
 
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<Boolean> deleteById(@RequestParam Long id){
+    @DeleteMapping(DELETE + "/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 }

@@ -73,8 +73,8 @@ public class CompanyService {
         return serviceUtility.softDelete(id, repository);
     }
 
-    public Company update(Long id, CompanyUpdateRequestDto dto) {
-        Company existingCompany = this.findById(id);
+    public Company update(CompanyUpdateRequestDto dto) {
+        Company existingCompany = this.findById(dto.getId());
         if (dto.getManagerId() != null) {
             existingCompany.setManagerId(dto.getManagerId());
         }

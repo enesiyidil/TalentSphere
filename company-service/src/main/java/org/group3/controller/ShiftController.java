@@ -10,35 +10,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.group3.constant.EndPoints.*;
+
 @RestController
-@RequestMapping("/shift")
+@RequestMapping(SHIFT)
 @RequiredArgsConstructor
 public class ShiftController {
 
     private final ShiftService service;
 
-    @PostMapping("/save")
+    @PostMapping(SAVE)
     public ResponseEntity<ShiftResponseDto> save(@RequestBody ShiftSaveRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
 
-    @GetMapping("/findById")
+    @GetMapping(FIND_BY_ID)
     public ResponseEntity<ShiftResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/findAllByCompanyId")
+    @GetMapping(FIND_ALL_BY_COMPANY_ID)
     public ResponseEntity<List<ShiftResponseDto>> findAllByCompanyId(@RequestParam Long companyId){
         return ResponseEntity.ok(service.findAllByCompanyId(companyId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(@RequestParam Long id){
+    @DeleteMapping(DELETE + "/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
 
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<ShiftResponseDto> update(@PathVariable Long id, @RequestBody ShiftUpdateRequestDto dto){
-        return ResponseEntity.ok(service.update(id,dto));
+    @PatchMapping(UPDATE)
+    public ResponseEntity<ShiftResponseDto> update(@RequestBody ShiftUpdateRequestDto dto){
+        return ResponseEntity.ok(service.update(dto));
     }
 }

@@ -12,27 +12,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@RequestMapping("/personel")
+import static org.group3.constant.EndPoints.*;
+
+@RequestMapping(PERSONAL)
 @RestController
 @RequiredArgsConstructor
 public class PersonelController {
     private final PersonelService personelService;
 
-    @PostMapping("/save")
+    @PostMapping(SAVE)
     public ResponseEntity<PersonelResponseDto> save(@RequestBody PersonelSaveRequestDto dto){
         return ResponseEntity.ok(personelService.save(dto));
     }
-    @GetMapping("/findbyid/{id}")
-    public ResponseEntity<PersonelResponseDto> findById(@PathVariable Long id) {
+
+    @GetMapping(FIND_BY_ID)
+    public ResponseEntity<PersonelResponseDto> findById(@RequestParam Long id) {
         return ResponseEntity.ok(personelService.findById(id));
     }
 
-    @GetMapping("/findall")
+    @GetMapping(FIND_ALL)
     public ResponseEntity<List<PersonelResponseDto>> findAll() {
         return ResponseEntity.ok(personelService.findAll());
     }
 
-    @DeleteMapping("/personel/{id}")
+    @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<String> deletePersonelById(@PathVariable Long id) {
         try {
             personelService.deletePersonelById(id);
@@ -47,11 +50,10 @@ public class PersonelController {
     }
 
 
-@PutMapping("/update/{id}")
-    public ResponseEntity<PersonelResponseDto> updatePersonel(@PathVariable("id") Long id,
-                                                              @RequestBody PersonelUpdateRequestDto dto) {
+@PutMapping(UPDATE)
+    public ResponseEntity<PersonelResponseDto> updatePersonel(@RequestBody PersonelUpdateRequestDto dto) {
         try {
-            PersonelResponseDto updatedPersonel = personelService.updatePersonel(id, dto);
+            PersonelResponseDto updatedPersonel = personelService.updatePersonel(dto);
             return ResponseEntity.ok(updatedPersonel);
         } catch (PersonelServiceException e) {
             if (e.getErrorTypes().contains(ErrorType.USER_NOT_FOUND)) {
@@ -61,18 +63,18 @@ public class PersonelController {
             }
         }
     }
-    @GetMapping("/findByCompanyId/{id}")
-    public ResponseEntity<List<PersonelResponseDto>> findByCompanyId(@PathVariable("id")Long companyId) {
-        return ResponseEntity.ok(personelService.findByCompanyId(companyId));
+    @GetMapping(FIND_ALL_BY_COMPANY_ID)
+    public ResponseEntity<List<PersonelResponseDto>> findAllByCompanyId(@RequestParam Long companyId) {
+        return ResponseEntity.ok(personelService.findAllByCompanyId(companyId));
     }
 
-    @GetMapping("/findByManagerId/{id}")
-    public ResponseEntity<List<PersonelResponseDto>> findByManagerId(@PathVariable("id") Long managerId) {
+    @GetMapping(FIND_ALL_BY_MANAGER_ID)
+    public ResponseEntity<List<PersonelResponseDto>> findAllByManagerId(@RequestParam("id") Long managerId) {
         return ResponseEntity.ok(personelService.findAllByManagerId(managerId));
     }
 
-    @GetMapping("/findByAuthId/{id}")
-    public ResponseEntity<List<PersonelResponseDto>> findByAuthId(@PathVariable("id") Long authId) {
+    @GetMapping(FIND_BY_AUTH_ID)
+    public ResponseEntity<List<PersonelResponseDto>> findByAuthId(@RequestParam Long authId) {
         return ResponseEntity.ok(personelService.findByAuthId(authId));
     }
 }

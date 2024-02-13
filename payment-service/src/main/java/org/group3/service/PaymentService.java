@@ -71,8 +71,8 @@ public class PaymentService {
         throw new PaymentServiceException(ErrorType.PAYMENT_NOT_FOUND);
     }
 
-    public Payment update(String id, PaymentRequestDto dto) {
-        Optional<Payment> optionalExistingPayment = repository.findById(id);
+    public Payment update(PaymentRequestDto dto) {
+        Optional<Payment> optionalExistingPayment = repository.findById(dto.getId());
         if ((optionalExistingPayment.isPresent())) {
             if (optionalExistingPayment.get().getStatus() == EStatus.DELETED)
                 throw new PaymentServiceException(ErrorType.PAYMENT_NOT_ACTIVE);

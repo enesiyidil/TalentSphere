@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class HolidayRequestDto {
 
+    Long id;
+
     String name;
 
     LocalDate startDate;
