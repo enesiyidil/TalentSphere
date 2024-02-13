@@ -1,0 +1,34 @@
+/* Css Reset */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Form alanları */
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+/* Hata mesajları */
+.error-message {
+  color: red;
+  margin-top: 5px;
+}
+
+/* Gönder butonu */
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

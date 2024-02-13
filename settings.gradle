@@ -10,4 +10,5 @@ include 'visitor-service'
 include 'personel-service'
 include 'company-service'
 include 'payment-service'
+include 'holiday-service'
 

@@ -1,13 +1,12 @@
 ext {
     versions = [
             springBoot         : "3.2.2",
-            swagger            : "1.7.0",
+            swagger            : "2.3.0",
             springCloud        : "4.1.0",
             springCircuitBraker: "3.1.0",
             lombok             : "1.18.30",
             mapstruct          : "1.5.5.Final",
             postgres           : "42.6.0",
-            oracle             : "12.2.0.1",
             mysql              : "8.0.33",
             twilio             : "9.14.1",
             micrometer         : "1.2.2",   // new spring sleuth
@@ -26,7 +25,7 @@ ext {
             springBootElasticSearch        : "org.springframework.boot:spring-boot-starter-data-elasticsearch:$versions.springBoot",
             springBootSecurity             : "org.springframework.boot:spring-boot-starter-security:$versions.springBoot",
 
-            swagger                        : "org.springdoc:springdoc-openapi-ui:$versions.swagger",
+            swagger                        : "org.springdoc:springdoc-openapi-starter-webmvc-ui:$versions.swagger",
 
             springCloudOpenFeign           : "org.springframework.cloud:spring-cloud-starter-openfeign:$versions.springCloud",
             springCloudConfigServer        : "org.springframework.cloud:spring-cloud-config-server:$versions.springCloud",
@@ -45,7 +44,6 @@ ext {
             mapstructProcessor             : "org.mapstruct:mapstruct-processor:$versions.mapstruct",
 
             postgres                       : "org.postgresql:postgresql:$versions.postgres",
-            oracle                         : "com.oracle.jdbc:ojdbc8:$versions.oracle",
             mysql                          : "mysql:mysql-connector-java:$versions.mysql",
 
             twilio                         : "com.twilio.sdk:twilio:$versions.twilio",
