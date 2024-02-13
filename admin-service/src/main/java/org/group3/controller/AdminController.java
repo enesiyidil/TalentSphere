@@ -24,13 +24,13 @@ public class AdminController {
     public ResponseEntity<String> save(@RequestBody SaveRequestDto dto){
         return ResponseEntity.ok(adminService.saveDto(dto));
     }
-    @GetMapping(FIND_BY_ID + "/{id}")
-    public ResponseEntity<FindByIdResponseDto> findById(@PathVariable Long id){
+    @GetMapping(FIND_BY_ID)
+    public ResponseEntity<FindByIdResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(adminService.findByIdDto(id));
     }
 
-    @GetMapping(FIND_BY_AUTH_ID + "/{authid}")
-    public ResponseEntity<FindByIdResponseDto> findByAuthId(@PathVariable Long authid){
+    @GetMapping(FIND_BY_AUTH_ID)
+    public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authid){
         return ResponseEntity.ok(adminService.findByAuthIdDto(authid));
     }
 
