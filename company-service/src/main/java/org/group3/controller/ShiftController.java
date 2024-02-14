@@ -44,4 +44,10 @@ public class ShiftController {
     public ResponseEntity<ShiftResponseDto> update(@RequestBody ShiftUpdateRequestDto dto){
         return ResponseEntity.ok(service.update(dto));
     }
+
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<ShiftResponseDto>> findAll(){
+        return ResponseEntity.ok(service.findAllDto());
+    }
+
 }

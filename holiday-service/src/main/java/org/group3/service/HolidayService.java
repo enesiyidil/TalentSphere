@@ -133,4 +133,8 @@ public class HolidayService {
         }
         throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
     }
+
+    public List<HolidayResponseDto> findAllDto() {
+        return repository.findAll().stream().map(HolidayMapper.INSTANCE::holidayToResponseDto).collect(Collectors.toList());
+    }
 }

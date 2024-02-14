@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.BreakSaveRequestDto;
 import org.group3.dto.request.BreakUpdateRequestDto;
 import org.group3.dto.response.BreakResponseDto;
+import org.group3.dto.response.ShiftResponseDto;
 import org.group3.service.BreakService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,10 @@ public class BreakController {
     @PatchMapping(UPDATE)
     public ResponseEntity<BreakResponseDto> update(@RequestBody BreakUpdateRequestDto dto){
         return ResponseEntity.ok(service.update(dto));
+    }
+
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<BreakResponseDto>> findAll(){
+        return ResponseEntity.ok(service.findAllDto());
     }
 }

@@ -7,7 +7,10 @@ import org.group3.service.ManagerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.EndPoints.FIND_ALL;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -36,4 +39,14 @@ public class ManagerController {
     public ResponseEntity<Boolean> deleteById(@PathVariable Long id){
         return ResponseEntity.ok(service.deleteById(id));
     }
+
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<ManagerResponseDto>> findAll(){
+        return ResponseEntity.ok(service.findAllDto());
+    }
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<Integer>> getInfoForVisitor(Long id){
+        return ResponseEntity.ok(service.getInfoForVisitor(id));
+    }
+
 }

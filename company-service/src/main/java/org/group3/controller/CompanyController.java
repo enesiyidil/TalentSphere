@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.EndPoints.FIND_ALL;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -43,5 +44,15 @@ public class CompanyController {
     @PatchMapping(UPDATE)
     public ResponseEntity<Company> update(@RequestBody CompanyUpdateRequestDto dto){
         return ResponseEntity.ok(service.update(dto));
+    }
+
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<Company>> findAll(){
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping(FIND_BY_PERSONAL_ID)
+    public ResponseEntity<List<Company>> findByPersonalId(@RequestParam Long personalId){
+        return ResponseEntity.ok(service.findByPersonalId(personalId));
     }
 }
