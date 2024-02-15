@@ -1,0 +1,129 @@
+version: '0.0.1'
+
+networks:
+  talent-sphere-network:
+    driver: bridge
+
+services:
+  talent-sphere-manager-db:
+    image: mysql
+    container_name: talent-sphere-mysql-manager-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - talent-sphere-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ts123456
+      MYSQL_USER: talent-sphere
+      MYSQL_PASSWORD: ts123456
+      MYSQL_DATABASE: talent-sphere-manager-db
+    ports:
+      - 3306:3306
+
+  talent-sphere-company-db:
+    image: mysql
+    container_name: talent-sphere-mysql-company-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - talent-sphere-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ts123456
+      MYSQL_USER: talent-sphere
+      MYSQL_PASSWORD: ts123456
+      MYSQL_DATABASE: talent-sphere-company-db
+    ports:
+      - 3307:3306
+
+  talent-sphere-holiday-db:
+    image: mysql
+    container_name: talent-sphere-mysql-holiday-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - talent-sphere-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ts123456
+      MYSQL_USER: talent-sphere
+      MYSQL_PASSWORD: ts123456
+      MYSQL_DATABASE: talent-sphere-holiday-db
+    ports:
+      - 3308:3306
+
+  talent-sphere-personal-db:
+    image: mysql
+    container_name: talent-sphere-mysql-personal-db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - talent-sphere-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ts123456
+      MYSQL_USER: talent-sphere
+      MYSQL_PASSWORD: ts123456
+      MYSQL_DATABASE: talent-sphere-personal-db
+    ports:
+      - 3309:3306
+
+  talent-sphere-auth-db:
+    image: postgres:latest
+    container_name: talent-sphere-postgres-auth-db
+    networks:
+      - talent-sphere-network
+    environment:
+      POSTGRES_DB: TalentSphereAuth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+
+  talent-sphere-admin-db:
+    image: postgres:latest
+    container_name: talent-sphere-postgres-admin-db
+    networks:
+      - talent-sphere-network
+    environment:
+      POSTGRES_DB: TalentSphereAdmin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+
+  talent-sphere-visitor-db:
+    image: postgres:latest
+    container_name: talent-sphere-postgres-visitor-db
+    networks:
+      - talent-sphere-network
+    environment:
+      POSTGRES_DB: TalentSphereVisitor
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+
+# Sadece rabbit için hemen soldaki play butonuna basınız
+  RabbitMQ:
+    image: rabbitmq:3-management
+    container_name: talent-sphere-rabbit
+    networks:
+      - talent-sphere-network
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+    mem_limit: 128m
+
+  ElasticSearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: talent-sphere-elasticsearch
+    networks:
+      - talent-sphere-network
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    mem_limit: 1GB
+

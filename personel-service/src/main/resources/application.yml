@@ -1,0 +1,19 @@
+server:
+  port: 9095
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3309/talent-sphere-personal-db
+    username: talent-sphere
+    password: ts123456
+
+  jpa:
+    hibernate:
+      ddl-auto: update

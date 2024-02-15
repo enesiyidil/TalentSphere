@@ -1,0 +1,31 @@
+package org.group3.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.group3.entity.enums.EStatus;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+@Entity
+@Table(name = "tbl_communication")
+public class Communication implements IStatus{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    Long companyId;
+
+    String name;
+
+    String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    EStatus status = EStatus.ACTIVE;
+}
