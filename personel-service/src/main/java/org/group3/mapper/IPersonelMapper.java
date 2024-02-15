@@ -2,6 +2,7 @@ package org.group3.mapper;
 
 import org.group3.dto.request.PersonelSaveRequestDto;
 import org.group3.dto.request.PersonelUpdateRequestDto;
+import org.group3.dto.request.RegisterRequestDto;
 import org.group3.dto.response.PersonelResponseDto;
 import org.group3.repository.entity.Personel;
 import org.mapstruct.Mapper;
@@ -25,6 +26,10 @@ public interface IPersonelMapper {
 //    @Mapping(target = "photo", source = "dto.photo")
 //    @Mapping(target = "salary", source = "dto.salary")
 //    Personel updatePersonelFromDto(Long id, PersonelUpdateRequestDto dto);
+
+
+    RegisterRequestDto personalToRegisterRequestDto(Personel personel);
+
 
     void updatePersonelFromDto(PersonelUpdateRequestDto dto, @MappingTarget Personel existingPersonel);
 }

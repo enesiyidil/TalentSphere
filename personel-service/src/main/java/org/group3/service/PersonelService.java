@@ -5,6 +5,7 @@ import org.group3.dto.request.PersonelUpdateRequestDto;
 import org.group3.dto.response.PersonelResponseDto;
 import org.group3.exception.ErrorType;
 import org.group3.exception.PersonelServiceException;
+import org.group3.manager.IAuthManager;
 import org.group3.mapper.IPersonelMapper;
 import org.group3.repository.IPersonelRepository;
 import org.group3.repository.entity.Personel;
@@ -18,12 +19,18 @@ import java.util.stream.Collectors;
 public class PersonelService {
     private final IPersonelRepository personelRepository;
 
-    public PersonelService(IPersonelRepository personelRepository) {
+    private final IAuthManager authManager;
+
+    public PersonelService(IPersonelRepository personelRepository, IAuthManager authManager) {
         this.personelRepository = personelRepository;
+        this.authManager = authManager;
     }
 
     public PersonelResponseDto save(PersonelSaveRequestDto dto){
-        return IPersonelMapper.INSTANCE.personelToResponseDto(personelRepository.save(IPersonelMapper.INSTANCE.saveRequestDtoToPersonel(dto)));
+        Personel personel = IPersonelMapper.INSTANCE.saveRequestDtoToPersonel(dto);
+        authManager.personalSave(IPersonelMapper.INSTANCE.personalToRegisterRequestDto(personel));
+        return IPersonelMapper.INSTANCE.personelToResponseDto(personelRepository.save(personel));
+
     }
 
 //    public PersonelResponseDto findById(Long id){
