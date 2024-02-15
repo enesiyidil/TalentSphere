@@ -89,4 +89,8 @@ public class ShiftService {
         }
         throw new CompanyServiceException(ErrorType.SHIFT_NOT_FOUND);
     }
+
+    public List<ShiftResponseDto> findAllDto() {
+        return repository.findAll().stream().map(ShiftMapper.INSTANCE::shiftToResponseDto).collect(Collectors.toList());
+    }
 }

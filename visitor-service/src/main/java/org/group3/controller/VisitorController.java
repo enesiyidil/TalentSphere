@@ -26,6 +26,7 @@ public class VisitorController {
         return ResponseEntity.ok(visitorService.findByIdDto(id));
     }
 
+
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<FindAllResponseDto>> findAll(){
         return ResponseEntity.ok(visitorService.findAllDto());

@@ -2,6 +2,7 @@ package org.group3.service;
 
 import org.group3.dto.request.PhoneRequestDto;
 import org.group3.dto.response.PhoneResponseDto;
+import org.group3.dto.response.ShiftResponseDto;
 import org.group3.entity.Communication;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
@@ -72,5 +73,10 @@ public class CommunicationService {
             return CommunicationMapper.INSTANCE.communicationToResponseDto(repository.save(existingCommunication));
         }
         throw new CompanyServiceException(ErrorType.COMMUNICATION_NOT_FOUND);
+    }
+
+    public List<PhoneResponseDto> findAllDto() {
+        return repository.findAll().stream().map(CommunicationMapper.INSTANCE::communicationToResponseDto).collect(Collectors.toList());
+
     }
 }

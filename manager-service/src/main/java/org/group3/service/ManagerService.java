@@ -17,7 +17,10 @@ import org.group3.repository.ManagerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ManagerService {
@@ -179,5 +182,17 @@ public class ManagerService {
         optionalExistingManager.orElseThrow(
                 () -> new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND)
         );
+    }
+
+    public List<ManagerResponseDto> findAllDto() {
+        return repository.findAll().stream().map(ManagerMapper.INSTANCE::ManagerToResponseDto).collect(Collectors.toList());
+    }
+
+    public List<Integer> getInfoForVisitor(Long id) {
+        Optional<Manager> optionalManager = repository.findById(id);
+        List<Integer> info=new ArrayList<>();
+        info.add(optionalManager.get().getCompanies().size());
+        info.add(optionalManager.get().getPersonals().size());
+        return info;
     }
 }

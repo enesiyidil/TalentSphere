@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.EndPoints.FIND_ALL;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -53,6 +54,11 @@ public class HolidayController {
     @PostMapping(SET_STATUS)
     public ResponseEntity<HolidayResponseDto> setStatus(@RequestParam Long id, @RequestBody EStatus status){
         return ResponseEntity.ok(service.setStatus(id, status));
+    }
+
+    @GetMapping(FIND_ALL)
+    public ResponseEntity<List<HolidayResponseDto>> findAll(){
+        return ResponseEntity.ok(service.findAllDto());
     }
 
 }

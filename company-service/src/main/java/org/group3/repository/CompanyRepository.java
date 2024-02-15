@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
     List<Company> findAllByManagerId(Long managerId);
+
+    List<Company> findByPersonalsContains(Long personalId);
+
+
 }

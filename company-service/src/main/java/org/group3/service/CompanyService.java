@@ -127,4 +127,13 @@ public class CompanyService {
         existingCompany.getShifts().add(model.getHolidayId());
         repository.save(existingCompany);
     }
+
+    public List<Company> findAll() {
+        return repository.findAll();
+    }
+
+
+    public List<Company> findByPersonalId(Long personalId) {
+        return repository.findByPersonalsContains(personalId);
+    }
 }
