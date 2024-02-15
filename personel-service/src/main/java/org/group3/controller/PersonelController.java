@@ -70,7 +70,7 @@ public class PersonelController {
     }
 
     @GetMapping(FIND_ALL_BY_MANAGER_ID)
-    public ResponseEntity<List<PersonelResponseDto>> findAllByManagerId(@RequestParam("id") Long managerId) {
+    public ResponseEntity<List<PersonelResponseDto>> findAllByManagerId(@RequestParam Long managerId) {
         return ResponseEntity.ok(personelService.findAllByManagerId(managerId));
     }
 

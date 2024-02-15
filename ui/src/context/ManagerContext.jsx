@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {ApiContext} from "./ApiContext";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,7 +9,8 @@ import {
     deleteCompany,
     deleteHoliday,
     deletePersonal,
-    setData
+    setData,
+    setUserProfile
 } from "../redux/actions.js";
 import {
     API_GATEWAY_URL,
@@ -70,17 +71,20 @@ export const ManagerContextProvider = ({children}) => {
             companies: prevState.companies || [],
             personals: prevState.personals || [],
             payments: prevState.payments || [],
-            holidays: prevState.companies.map(company =>
-                apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_URL}?companyId=${company.id}`, token).then(responseData => responseData.data).error(err => err // todo: error message
-                ))
+            holidays: prevState.companies.map(async company => {
+                const responseDataHoliday = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_URL}?companyId=${company.id}`, token)
+                return responseDataHoliday.data
+            })
         }));
-        if (manager.companies || manager.personals || manager.companies) {
-            dispatch(setData(manager))
-        } else {
-            // todo: error message and navigate to add company page
-        }
+
         setIsLoading(false);
     }
+
+    useEffect(() => {
+        console.log("Manager context set data =>", manager);
+        dispatch(setData(manager))
+        dispatch(setUserProfile({...userProfile, companies: manager.companies.map(company => company.id)}))
+    }, [manager]);
 
     async function handleAddPersonal(personal) {
         setIsLoading(true);
