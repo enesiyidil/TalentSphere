@@ -1,0 +1,18 @@
+.adminbackground {
+    background-color: #f85454; 
+    padding: 10px;
+  }
+  
+  .admin-login-button {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .admin-login-button:hover {
+    background-color: #45a049; 
+  }

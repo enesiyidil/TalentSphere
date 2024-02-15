@@ -1,0 +1,13 @@
+{
+    "user": {
+        "id":1,
+        "role": "manager",
+        "name": "Ahmet",
+        "surname": "Kara",
+        "email":"asd@dasdas.com",
+        "title":"Human Resoruce Manager",
+        "company name":"3EN Savunma Sanayi"
+    }
+   
+       
+}
