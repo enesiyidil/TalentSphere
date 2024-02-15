@@ -3,6 +3,7 @@ package org.group3.service;
 import org.group3.dto.request.BreakSaveRequestDto;
 import org.group3.dto.request.BreakUpdateRequestDto;
 import org.group3.dto.response.BreakResponseDto;
+import org.group3.dto.response.ShiftResponseDto;
 import org.group3.entity.Break;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
@@ -76,5 +77,9 @@ public class BreakService {
             return BreakMapper.INSTANCE.breakToResponseDto(repository.save(existingBreak));
         }
         throw new CompanyServiceException(ErrorType.BREAK_NOT_FOUND);
+    }
+
+    public List<BreakResponseDto> findAllDto() {
+        return repository.findAll().stream().map(BreakMapper.INSTANCE::breakToResponseDto).collect(Collectors.toList());
     }
 }
