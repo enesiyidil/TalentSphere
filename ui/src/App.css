@@ -15,3 +15,12 @@
         transform: rotate(360deg);
     }
 }
+
+.rbc-toolbar{
+    width: 75%;
+    color: #0e2feb;
+}
+
+.rbc-btn-group{
+    width: 100px;
+}

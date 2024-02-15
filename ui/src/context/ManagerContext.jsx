@@ -71,10 +71,9 @@ export const ManagerContextProvider = ({children}) => {
             companies: prevState.companies || [],
             personals: prevState.personals || [],
             payments: prevState.payments || [],
-            holidays: prevState.companies.map(async company => {
-                const responseDataHoliday = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_URL}?companyId=${company.id}`, token)
-                return responseDataHoliday.data
-            })
+            holidays: prevState.companies.map( company =>
+                apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_URL}?companyId=${company.id}`, token).then(response => response.data)
+            )
         }));
 
         setIsLoading(false);

@@ -17,7 +17,7 @@ public class ShiftSaveRequestDto {
 
     String name;
 
-    LocalTime startTime;
+    String  startTime;
 
-    LocalTime endTime;
+    String  endTime;
 }

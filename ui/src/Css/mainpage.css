@@ -38,19 +38,26 @@ main {
     left: 0;
     top: 10%; /* Ekranın üst tarafında kalacak şekilde */
     bottom: 0; /* Ekranın alt tarafına kadar uzanacak şekilde */
-    border: 1px solid #0e2feb;
+    border: 1px solid #333;
     width: 28%;
-    background-color: #471a47;
+    background-color: #1e5e58;
     padding: 20px;
     box-sizing: border-box;
+    margin: 10px;
+    border-radius: 10px;
+    height: 88%;
 }
 
 .right-area {
     position: fixed;
     top: 10%;
     right: 0;
-    border: 1px solid #0e2feb;
+    border: 1px solid #333;
     width: 70%;
     padding: 20px;
+    background-color: #1e5e58;
     box-sizing: border-box;
+    margin: 10px;
+    border-radius: 10px;
+    height: 88%;
 }
