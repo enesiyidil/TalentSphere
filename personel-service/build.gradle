@@ -2,4 +2,5 @@ dependencies {
     implementation libs.springBootDataJpa
     implementation libs.mysql
     implementation libs.swagger
+    implementation libs.springCloudOpenFeign
 }
