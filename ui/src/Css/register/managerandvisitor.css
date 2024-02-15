@@ -1,0 +1,15 @@
+
+.left-area {
+    float: left; 
+    width: 30%; 
+    background-color: #f2f2f2; 
+    padding: 20px; 
+    box-sizing: border-box; 
+}
+
+.right-area {
+    float: left; 
+    width: 70%; 
+    padding: 20px; 
+    box-sizing: border-box; 
+}
