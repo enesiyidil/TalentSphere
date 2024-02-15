@@ -1,87 +1,157 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { ApiContext } from "./ApiContext";
+import {createContext, useContext, useState} from "react";
+import {ApiContext} from "./ApiContext";
 import PropTypes from "prop-types";
 import {useDispatch, useSelector} from "react-redux";
-import {setData, addPersonal, addCompany, addHoliday, deletePersonal, deleteCompany, deleteHoliday} from "../redux/actions.js";
+import {
+    addCompany,
+    addHoliday,
+    addPersonal,
+    deleteCompany,
+    deleteHoliday,
+    deletePersonal,
+    setData
+} from "../redux/actions.js";
+import {
+    API_GATEWAY_URL,
+    COMPANY_URL,
+    DELETE_URL,
+    FIND_ALL_BY_COMPANY_ID_URL,
+    FIND_ALL_BY_MANAGER_ID_URL,
+    HOLIDAY_URL,
+    PERSONAL_URL,
+    SAVE_URL
+} from "../constant/Endpoints.js";
 
 export const ManagerContext = createContext();
 
-export const ManagerContextProvider = ({ children }) => {
+export const ManagerContextProvider = ({children}) => {
     const userProfile = useSelector((state) => state.userProfile);
-    const data = useSelector((state) => state.data);
     const token = useSelector((state) => state.token);
-    const authId = useSelector((state) => state.authId);
     const dispatch = useDispatch();
-    const { apiGet, apiPost, apiPatch, apiDelete } = useContext(ApiContext);
+    const {apiGet, apiPost, apiPatch, apiDelete} = useContext(ApiContext);
     const [isLoading, setIsLoading] = useState(false);
     const [manager, setManager] = useState({
         companies: [],
         personals: [],
-        holidays: []
+        holidays: [],
+        payments: []
     });
 
-    async function getData() {
+    async function handleSetData() {
         setIsLoading(true);
-        const responseDataCompanies = await apiGet(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_COMPANY_URL}${process.env.REACT_APP_FIND_ALL_BY_MANAGER_ID_URL}?managerId=${userProfile.id}`, token);
-        setManager(prevState => ({...prevState, companies: responseDataCompanies.data}));
+        const responseDataCompanies = await apiGet(`${API_GATEWAY_URL}${COMPANY_URL}${FIND_ALL_BY_MANAGER_ID_URL}?managerId=${userProfile.id}`, token);
+        if (responseDataCompanies.status === 200) {
+            setManager(prevState => ({
+                ...prevState,
+                companies: responseDataCompanies.data,
+                holidays: prevState.holidays || [],
+                personals: prevState.personals || [],
+                payments: prevState.payments || [],
+            }));
+        } else {
+            // todo: error message and navigate to home page
+        }
 
-        const responseDataPersonals = await apiGet(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_PERSONAL_URL}${process.env.REACT_APP_FIND_ALL_BY_MANAGER_ID_URL}?managerId=${userProfile.id}`, token);
-        setManager(prevState => ({...prevState, personals: responseDataPersonals.data}));
+        const responseDataPersonals = await apiGet(`${API_GATEWAY_URL}${PERSONAL_URL}${FIND_ALL_BY_MANAGER_ID_URL}?managerId=${userProfile.id}`, token);
+        if (responseDataCompanies.status === 200) {
+            setManager(prevState => ({
+                ...prevState,
+                personals: responseDataPersonals.data,
+                holidays: prevState.holidays || [],
+                companies: prevState.companies || [],
+                payments: prevState.payments || [],
+            }));
+        } else {
+            // todo: error message and navigate to home page
+        }
 
-        setManager(prevState => ({...prevState, holidays: prevState.companies.map(company =>
-                apiGet(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_HOLIDAY_URL}${process.env.REACT_APP_FIND_ALL_BY_MANAGER_ID_URL}?companyId=${company.id}`, token).then(responseData => responseData.data)
-            )}));
-        // todo: data başarılı mı değil mi kontrol et ona göre setleme yap
-        dispatch(setData(manager))
+        setManager(prevState => ({
+            ...prevState,
+            companies: prevState.companies || [],
+            personals: prevState.personals || [],
+            payments: prevState.payments || [],
+            holidays: prevState.companies.map(company =>
+                apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_URL}?companyId=${company.id}`, token).then(responseData => responseData.data).error(err => err // todo: error message
+                ))
+        }));
+        if (manager.companies || manager.personals || manager.companies) {
+            dispatch(setData(manager))
+        } else {
+            // todo: error message and navigate to add company page
+        }
         setIsLoading(false);
     }
 
-    async function handleAddPersonal(personal){
+    async function handleAddPersonal(personal) {
         setIsLoading(true);
-        const responseData = await apiPost(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_PERSONAL_URL}${process.env.REACT_APP_SAVE_URL}`, personal, token);
-        dispatch(addPersonal(responseData.data));
+        const responseData = await apiPost(`${API_GATEWAY_URL}${PERSONAL_URL}${SAVE_URL}`, personal, token);
+        if (responseData.status === 200) {
+            dispatch(addPersonal(responseData.data));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
-    async function handleDeletePersonal(id){
+    async function handleDeletePersonal(id) {
         setIsLoading(true);
-        const responseData = await apiDelete(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_PERSONAL_URL}${process.env.REACT_APP_DELETE_BY_ID_URL}?id=${id}\``, token);
-        dispatch(deletePersonal(id));
+        const responseData = await apiDelete(`${API_GATEWAY_URL}${PERSONAL_URL}${DELETE_URL}?id=${id}\``, token);
+        if (responseData.status === 200) {
+            dispatch(deletePersonal(id));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
-    async function handleAddCompany(company){
+    async function handleAddCompany(company) {
         setIsLoading(true);
-        const responseData = await apiPost(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_COMPANY_URL}${process.env.REACT_APP_SAVE_URL}`, company, token);
-        dispatch(addCompany(responseData.data));
+        const responseData = await apiPost(`${API_GATEWAY_URL}${COMPANY_URL}${SAVE_URL}`, company, token);
+        if (responseData.status === 200) {
+            dispatch(addCompany(responseData.data));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
-    async function handleDeleteCompany(id){
+    async function handleDeleteCompany(id) {
         setIsLoading(true);
-        const responseData = await apiDelete(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_COMPANY_URL}${process.env.REACT_APP_DELETE_BY_ID_URL}?id=${id}\``, token);
-        dispatch(deleteCompany(id));
+        const responseData = await apiDelete(`${API_GATEWAY_URL}${COMPANY_URL}${DELETE_URL}?id=${id}\``, token);
+        if (responseData.status === 200) {
+            dispatch(deleteCompany(id));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
-    async function handleAddHoliday(holiday){
+    async function handleAddHoliday(holiday) {
         setIsLoading(true);
-        const responseData = await apiPost(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_HOLIDAY_URL}${process.env.REACT_APP_SAVE_URL}`, holiday, token);
-        dispatch(addHoliday(responseData.data));
+        const responseData = await apiPost(`${API_GATEWAY_URL}${HOLIDAY_URL}${SAVE_URL}`, holiday, token);
+        if (responseData.status === 200) {
+            dispatch(addHoliday(responseData.data));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
-    async function handleDeleteHoliday(id){
+    async function handleDeleteHoliday(id) {
         setIsLoading(true);
-        const responseData = await apiDelete(`${process.env.REACT_APP_API_GATEWAY_URL}${process.env.REACT_APP_HOLIDAY_URL}${process.env.REACT_APP_DELETE_BY_ID_URL}?id=${id}\``, token);
-        dispatch(deleteHoliday(id));
+        const responseData = await apiDelete(`${API_GATEWAY_URL}${HOLIDAY_URL}${DELETE_URL}?id=${id}\``, token);
+        if (responseData.status === 200) {
+            dispatch(deleteHoliday(id));
+        } else {
+            // todo: error message and navigate to home page
+        }
         setIsLoading(false);
     }
 
     return (
         <ManagerContext.Provider
             value={{
-                getData,
+                handleSetData,
                 handleAddPersonal,
                 handleDeletePersonal,
                 handleAddCompany,

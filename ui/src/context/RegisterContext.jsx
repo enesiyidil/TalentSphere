@@ -1,6 +1,7 @@
 import {createContext, useContext, useState} from "react";
 import {ApiContext} from "./ApiContext";
 import PropTypes from "prop-types";
+import {API_GATEWAY_URL, AUTH_URL, REGISTER_URL} from "../constant/Endpoints.js";
 
 export const RegisterContext = createContext();
 
@@ -8,18 +9,21 @@ export const RegisterContextProvider = ({children}) => {
     const {apiPost} = useContext(ApiContext);
     const [isLoading, setIsLoading] = useState(false);
 
-    async function doRegister(payload) {
+    async function handleRegister(payload) {
         setIsLoading(true);
-        const responseData = await apiPost(`http://localhost:9092/auth/register`, payload);
-        console.log(responseData)
-        // todo: kayıt başarılımı değil mi kontrol edip çıktı ver
+        const responseData = await apiPost(`${API_GATEWAY_URL}${AUTH_URL}${REGISTER_URL}`, payload);
+        if (responseData.status === 200) {
+            // todo: navigate homepage and success message
+        } else {
+            // todo: navigate homepage and error message
+        }
         setIsLoading(false);
     }
 
     return (
         <RegisterContext.Provider
             value={{
-                doRegister,
+                handleRegister,
                 isLoading,
             }}
         >

@@ -1,0 +1,20 @@
+export const API_GATEWAY_URL = "" //'http://localhost:9091'
+export const AUTH_URL = 'http://localhost:9092' + '/auth'
+export const ADMIN_URL = 'http://localhost:9093' + '/admin'
+export const MANAGER_URL = 'http://localhost:9094' + '/manager'
+export const PERSONAL_URL = 'http://localhost:9095' + '/personal'
+export const VISITOR_URL = 'http://localhost:9096' + '/visitor'
+export const COMPANY_URL = 'http://localhost:9097' + '/company'
+export const PAYMENT_URL = 'http://localhost:9098' + '/payment'
+export const HOLIDAY_URL = 'http://localhost:9101' + '/holiday'
+
+export const UPDATE_URL = '/update'
+export const DELETE_URL = '/deleteById'
+export const SAVE_URL = '/save'
+export const LOGIN_URL = '/login'
+export const REGISTER_URL = '/register'
+
+export const FIND_BY_AUTH_ID_URL = '/findByAuthId'
+
+export const FIND_ALL_BY_MANAGER_ID_URL = '/findAllByManagerId'
+export const FIND_ALL_BY_COMPANY_ID_URL = '/findAllByCompanyId'

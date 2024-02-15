@@ -2,8 +2,6 @@ import {createContext} from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-// axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
 export const ApiContext = createContext();
 
 export const ApiContextProvider = ({children}) => {
