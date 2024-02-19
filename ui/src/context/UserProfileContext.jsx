@@ -40,6 +40,7 @@ export const UserProfileContextProvider = ({children}) => {
 
     async function handleSetUserProfile() {
         setIsLoading(true);
+        console.log(`${url}${FIND_BY_AUTH_ID_URL}?authId=${authId}`)
         const responseData = await apiGet(`${url}${FIND_BY_AUTH_ID_URL}?authId=${authId}`);
         if (responseData.status === 200) {
             dispatch(setUserProfile(responseData.data))

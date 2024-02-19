@@ -3,6 +3,7 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
+import org.group3.dto.response.CompanyResponseDto;
 import org.group3.entity.Company;
 import org.group3.service.CompanyService;
 import org.springframework.http.ResponseEntity;

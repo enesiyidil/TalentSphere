@@ -41,8 +41,8 @@ public class Company implements IStatus{
     @ElementCollection
     List<Long> holidays;
 
-    @ElementCollection
-    List<Long> shifts;
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Shift> shifts;
 
     @Builder.Default
     LocalDateTime createdDateTime = LocalDateTime.now();

@@ -12,7 +12,14 @@ export const UserProfile = () => {
 
     return (<>
         <div>
-            User Profile: {}
+            <div className="user-profile-img">
+                <img src={userProfile.photo} alt={userProfile.photo}/>
+            </div>
+            <div>
+                {Object.entries(userProfile).map(([key, value]) => (
+                    <p key={key}>{key}: {value}</p>
+                ))}
+            </div>
         </div>
     </>);
 };

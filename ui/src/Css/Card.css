@@ -1,0 +1,68 @@
+.recipe-card{
+    border: 3px solid #33333366;
+    padding:  10px;
+    border-radius: 8px;
+    width: 300px;
+    background-color: #33333366;
+    position: relative;
+    display: inline-block;
+
+}
+
+
+.recipe-card img{
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+}
+
+.recipe-card h3{
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.delete-button{
+    background-color: #333;
+    color: #fff;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+
+}
+.delete-button:hover{
+    cursor: pointer;
+}
+.update-button{
+    background-color: #333;
+    color: #fff;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 30px;
+
+}
+.update-button:hover{
+    cursor: pointer;
+}
+
+/* Güncelleme tarafı */
+
+.update-recipe-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.update-recipe-form > textarea{
+    height: 150px;
+
+}
+
+.update-recipe-form > button{
+    background-color: #333;
+    color: #fff;
+}

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +29,7 @@ public class CompanyService {
     private final ServiceUtility serviceUtility;
 
     private final ManagerProducer managerProducer;
+
 
     private final MessageSource messageSource;
 
@@ -66,7 +66,10 @@ public class CompanyService {
     }
 
     public List<Company> findAllByManagerId(Long managerId) {
-        return repository.findAllByManagerId(managerId).stream().filter(company -> company.getStatus() == EStatus.ACTIVE).collect(Collectors.toList());
+        return repository.findAllByManagerId(managerId).stream()
+                .filter(company -> company.getStatus() == EStatus.ACTIVE)
+                .collect(Collectors.toList());
+
     }
 
     public Boolean deleteById(Long id) {
@@ -113,18 +116,18 @@ public class CompanyService {
     }
 
     public void addShift(Long id, Long shiftId) {
-        Company existingCompany = this.findById(id);
-        if (existingCompany.getShifts().contains(shiftId))
-            throw new CompanyServiceException(ErrorType.SHIFT_ALREADY_EXISTS);
-        existingCompany.getShifts().add(shiftId);
-        repository.save(existingCompany);
+//        Company existingCompany = this.findById(id);
+//        if (existingCompany.getShifts().contains(shiftId))
+//            throw new CompanyServiceException(ErrorType.SHIFT_ALREADY_EXISTS);
+//        existingCompany.getShifts().add(shiftId);
+//        repository.save(existingCompany);
     }
 
     public void addHoliday(HolidayModel model) {
         Company existingCompany = this.findById(model.getCompanyId());
         if (existingCompany.getHolidays().contains(model.getHolidayId()))
             throw new CompanyServiceException(ErrorType.HOLIDAY_ALREADY_EXISTS);
-        existingCompany.getShifts().add(model.getHolidayId());
+        existingCompany.getHolidays().add(model.getHolidayId());
         repository.save(existingCompany);
     }
 

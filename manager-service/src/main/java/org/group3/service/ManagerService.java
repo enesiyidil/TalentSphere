@@ -41,6 +41,10 @@ public class ManagerService {
         repository.save(Manager.builder()
                         .authId(model.getAuthId())
                         .email(model.getEmail())
+                        .phone(model.getPhone())
+                        .name(model.getName())
+                        .surname(model.getSurname())
+                        .title(model.getTitle())
                 .build());
     }
 

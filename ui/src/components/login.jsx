@@ -1,49 +1,32 @@
 
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as data from './user.json';
 import '../Css/login/login.css';
 import NavigationBar from '../components/NavigationBar';
+import {LoginContext} from "../context/LoginContext.jsx";
 
 export default function UserLoginForm() {
   const {
     register,
     formState: { errors, isSubmitting },
+      getValues
   } = useForm();
+  const {handleLogin} = useContext(LoginContext);
 
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
-
-  const handleLoginSubmit = () => {
-    const userRole = data.user.role;
-
-    switch (userRole) {
-      case 'manager':
-        navigate('/managerpage', { replace: true });
-        setIsLoggedIn(true);
-        break;
-
-      case 'visitor':
-        navigate('/visitorpage', { replace: true });
-        setIsLoggedIn(true);
-        break;
-    }
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+    handleLogin(getValues());
+    navigate('/mainpage');
   };
 
   return (
     <div>
-      <NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-        
-      {isLoggedIn ? (
-        <button className="logout-button" onClick={handleLogout}>
-          Logout
-        </button>
-      ) : (
+      {/*<NavigationBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />*/}
+
         <form className="form UserLoginForm">
           <input
             {...register('email', {
@@ -81,7 +64,6 @@ export default function UserLoginForm() {
             Submit
           </button>
         </form>
-      )}
     </div>
   );
   }

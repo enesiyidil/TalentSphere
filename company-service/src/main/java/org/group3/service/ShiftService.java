@@ -12,6 +12,8 @@ import org.group3.repository.ShiftRepository;
 import org.group3.utility.ServiceUtility;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,8 @@ public class ShiftService {
 
     private final ServiceUtility serviceUtility;
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
     public ShiftService(ShiftRepository repository, CompanyService companyService, ServiceUtility serviceUtility) {
         this.repository = repository;
         this.companyService = companyService;
@@ -32,7 +36,12 @@ public class ShiftService {
     }
 
     public ShiftResponseDto save(ShiftSaveRequestDto dto) {
-        Shift shift = repository.save(ShiftMapper.INSTANCE.saveRequestDtoToShift(dto));
+        Shift shift = repository.save(Shift.builder()
+                        .name(dto.getName())
+                        .companyId(dto.getCompanyId())
+                        .startTime(LocalTime.parse(dto.getStartTime(), formatter))
+                        .endTime(LocalTime.parse(dto.getEndTime(), formatter))
+                .build());
         companyService.addShift(shift.getCompanyId(), shift.getId());
         return ShiftMapper.INSTANCE.shiftToResponseDto(shift);
     }

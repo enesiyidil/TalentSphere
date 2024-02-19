@@ -44,7 +44,8 @@ public class ManagerController {
     public ResponseEntity<List<ManagerResponseDto>> findAll(){
         return ResponseEntity.ok(service.findAllDto());
     }
-    @GetMapping(FIND_ALL)
+
+    @GetMapping(GET_INFO_FOR_VISITOR)
     public ResponseEntity<List<Integer>> getInfoForVisitor(Long id){
         return ResponseEntity.ok(service.getInfoForVisitor(id));
     }
