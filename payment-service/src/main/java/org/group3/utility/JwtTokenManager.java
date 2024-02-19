@@ -4,8 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import org.group3.exception.AdminManagerException;
 import org.group3.exception.ErrorType;
+
+import org.group3.exception.PaymentServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,9 @@ import java.util.Optional;
 @Service
 public class JwtTokenManager {
 
-    @Value("${adminservice.secrets.secret-key}")
+    @Value("${paymentservice.secrets.secret-key}")
     String secretKey;
-    @Value("${adminservice.secrets.issuer}")
+    @Value("${paymentservice.secrets.issuer}")
     String issuer;
 
     private final Long expirationTime=1000L*60*5;
@@ -86,7 +87,7 @@ public class JwtTokenManager {
         JWTVerifier verifier= JWT.require(algorithm).withIssuer(issuer).build();
         DecodedJWT decodedJWT= verifier.verify(token);
         if (decodedJWT==null){
-            throw new AdminManagerException(ErrorType.INVALID_TOKEN);
+            throw new PaymentServiceException(ErrorType.INVALID_TOKEN);
         }
         Long id=decodedJWT.getClaim("id").asLong();
         return Optional.of(id);
@@ -97,7 +98,7 @@ public class JwtTokenManager {
         JWTVerifier verifier= JWT.require(algorithm).withIssuer(issuer).build();
         DecodedJWT decodedJWT= verifier.verify(token);
         if (decodedJWT==null){
-            throw new AdminManagerException(ErrorType.INVALID_TOKEN);
+            throw new PaymentServiceException(ErrorType.INVALID_TOKEN);
         }
         String  role=decodedJWT.getClaim("role").asString();
         return Optional.of(role);

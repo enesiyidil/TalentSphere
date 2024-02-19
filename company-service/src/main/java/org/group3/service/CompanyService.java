@@ -31,13 +31,13 @@ public class CompanyService {
     private final ManagerProducer managerProducer;
 
 
-    private final MessageSource messageSource;
+    //private final MessageSource messageSource;
 
-    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer, MessageSource messageSource) {
+    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer) {
         this.repository = repository;
         this.serviceUtility = serviceUtility;
         this.managerProducer = managerProducer;
-        this.messageSource = messageSource;
+        //this.messageSource = messageSource;
 //        this.greet();
     }
 

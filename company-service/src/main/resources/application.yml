@@ -12,6 +12,9 @@ server:
   port: 9097
 
 spring:
+  cloud:
+    config:
+      enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/talent-sphere-company-db
@@ -30,6 +33,11 @@ spring:
 
 #  messages:
 #    basename: messages
+
+companyservice:
+  secrets:
+    secret-key: ${TALENTSPHERE_SECRETKEY}
+    issuer: ${TALENTSPHERE_ISSUER}
 
 rabbitmq:
   exchange:

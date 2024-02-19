@@ -29,6 +29,11 @@ spring:
     hibernate:
       ddl-auto: update
 
+holidayservice:
+  secrets:
+    secret-key: ${TALENTSPHERE_SECRETKEY}
+    issuer: ${TALENTSPHERE_ISSUER}
+
 rabbitmq:
   exchange:
     auth: authExchange

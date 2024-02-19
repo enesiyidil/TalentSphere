@@ -17,3 +17,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+
+personalservice:
+  secrets:
+    secret-key: ${TALENTSPHERE_SECRETKEY}
+    issuer: ${TALENTSPHERE_ISSUER}
