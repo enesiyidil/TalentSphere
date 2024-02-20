@@ -4,6 +4,8 @@ public class EndPoints {
 
     public static final String COMMENT = "/comment";
     public static final String SAVE = "/save";
+    public static final String FIND_ALL_BY_APPROVE = "/findAllByNotApprove";
+    public static final String ACCEPT_OR_REJECT_COMMENT_BY_ID = "/acceptOrRejectedCommentById";
     public static final String UPDATE = "/update";
     public static final String DELETE = "/deleteById";
     public static final String FIND_ALL = "/findAll";

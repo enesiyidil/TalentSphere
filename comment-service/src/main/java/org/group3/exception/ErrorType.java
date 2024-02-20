@@ -19,6 +19,7 @@ public enum ErrorType {
     INVALID_TOKEN(6000,"geçersiz token",HttpStatus.BAD_REQUEST),
     TOKEN_NOT_CREATED(6001,"token oluşturulamadı",HttpStatus.BAD_REQUEST),
     EMAIL_OR_PHONE_EXITS(2100,"Email veya telefon kullanılıyor",HttpStatus.BAD_REQUEST),
+    COMMENT_NOT_PENDING(7100,"Yorum zaten reddedilmiş ya da onaylanmıştır",HttpStatus.BAD_REQUEST),
     ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND);
 
 

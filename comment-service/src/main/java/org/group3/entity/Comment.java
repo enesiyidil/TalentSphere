@@ -22,7 +22,7 @@ public class Comment {
     private String comment;
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private EStatus status=EStatus.PANDING;
+    private EStatus status=EStatus.PENDING;
 
     @Builder.Default
     private Long createdDate=System.currentTimeMillis();

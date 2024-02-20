@@ -9,6 +9,7 @@ public class EndPoints {
     public static final String FIND_ALL = "/findAll";
     public static final String FIND_BY_ID = "/findById";
     public static final String PERSONAL_SAVE = "/personalSave";
+    public static final String MANAGER_SAVE = "/managerSave";
     public static final String ACTIVATE = "/activate";
     public static final String UPDATE_PASSWORD = "/updatePassword";
 }

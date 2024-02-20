@@ -47,13 +47,21 @@ public class CompanyService {
 //    }
 
     public Company save(CompanySaveRequestDto dto) {
-        Company company = repository.save(CompanyMapper.INSTANCE.saveRequestDtoToCompany(dto));
-        managerProducer.addCompany(CompanyModel.builder()
-                        .companyId(company.getId())
-                        .managerId(company.getManagerId())
+        //Company company = repository.save(CompanyMapper.INSTANCE.saveRequestDtoToCompany(dto));
+//        managerProducer.addCompany(CompanyModel.builder()
+//                        .companyId(company.getId())
+//                        .managerId(company.getManagerId())
+//                .build());
+
+        Company company = repository.save(Company.builder()
+                        .name(dto.getName())
+                        .address(dto.getAddress())
                 .build());
+        company.getCommunications().add(dto.getPhone());
         return company;
     }
+
+
 
     public Company findById(Long id) {
         Optional<Company> optionalCompany = repository.findById(id);
@@ -138,5 +146,9 @@ public class CompanyService {
 
     public List<Company> findByPersonalId(Long personalId) {
         return repository.findByPersonalsContains(personalId);
+    }
+
+    public List<Company> findAllWithoutManager() {
+        return repository.findAllByManagerIdIsNull();
     }
 }

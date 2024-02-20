@@ -56,4 +56,8 @@ public class CompanyController {
     public ResponseEntity<List<Company>> findByPersonalId(@RequestParam Long personalId){
         return ResponseEntity.ok(service.findByPersonalId(personalId));
     }
+
+    public ResponseEntity<List<Company>> findAllWithoutManager(){
+        return ResponseEntity.ok(service.findAllWithoutManager());
+    }
 }

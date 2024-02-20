@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.group3.entity.Communication;
 
 @Getter
 @Builder
@@ -11,7 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanySaveRequestDto {
 
-    Long managerId;
+    //Long managerId;
 
     String name;
+
+    String address;
+
+    Communication phone;
 }
