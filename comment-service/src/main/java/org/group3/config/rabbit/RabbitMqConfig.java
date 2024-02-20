@@ -46,9 +46,6 @@ public class RabbitMqConfig {
     @Value("${rabbitmq.exchange.holiday}")
     private String holidayExchange;
 
-    @Value("${rabbitmq.exchange.comment}")
-    private String commentExchange;
-
     // Queues ----------------------------------------------------------------
     // auth
     @Value("${rabbitmq.queue.auth.update}")

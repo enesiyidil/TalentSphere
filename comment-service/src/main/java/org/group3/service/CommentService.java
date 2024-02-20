@@ -4,7 +4,7 @@ import org.group3.dto.request.CommentRequestDto;
 import org.group3.dto.response.CommentResponseDto;
 import org.group3.entity.Comment;
 import org.group3.entity.enums.EStatus;
-import org.group3.exception.CommentManagerException;
+import org.group3.exception.CommentServiceException;
 import org.group3.exception.ErrorType;
 import org.group3.mapper.CommentMapper;
 import org.group3.repository.CommentRepository;
@@ -44,8 +44,17 @@ public class CommentService {
                 repository.save(optionalComment.get());
                 return optionalComment.get();
             }
-            throw new CommentManagerException(ErrorType.COMMENT_NOT_PENDING);
+            throw new CommentServiceException(ErrorType.COMMENT_NOT_PENDING);
         }
-        throw new CommentManagerException(ErrorType.USER_NOT_FOUND);
+        throw new CommentServiceException(ErrorType.USER_NOT_FOUND);
+    }
+
+    public Comment findById(Long id) {
+        Optional<Comment> optionalComment = repository.findById(id);
+        if (optionalComment.isPresent()) {
+
+            return optionalComment.get();
+        }
+        throw new CommentServiceException(ErrorType.COMMENT_NOT_FOUND);
     }
 }

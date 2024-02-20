@@ -18,10 +18,10 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
-#adminservice:
-#  secrets:
-#    secret-key: ${TALENTSPHERE_SECRETKEY}
-#    issuer: ${TALENTSPHERE_ISSUER}
+commentservice:
+  secrets:
+    secret-key: ${TALENTSPHERE_SECRETKEY}
+    issuer: ${TALENTSPHERE_ISSUER}
 
 rabbitmq:
   exchange:
