@@ -19,7 +19,8 @@ public class Communication implements IStatus{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long companyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Company company;
 
     String name;
 

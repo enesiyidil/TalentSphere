@@ -42,6 +42,26 @@ public class JwtTokenManager {
 
     }
 
+    public Optional<Long> decodeToken(String token){
+        try {
+            Algorithm algorithm=Algorithm.HMAC512(secretKey);
+            JWTVerifier verifier=JWT.require(algorithm).withIssuer(issuer).build();
+            DecodedJWT decodedJWT = verifier.verify(token);
+
+            if (decodedJWT==null){
+                return Optional.empty();
+            }
+
+            Long id = decodedJWT.getClaim("id").asLong();
+            //String service = decodedJWT.getClaim("service").asString();
+            //System.out.println("tokenin oluşturduğu service : "+service);
+            return Optional.of(id);
+
+        }catch (Exception e){
+            return Optional.empty();
+        }
+    }
+
 //    public Optional<String> createToken(Long id, ERole role){
 //        String token=null;
 //        Date date=new Date(System.currentTimeMillis()+expirationTime);

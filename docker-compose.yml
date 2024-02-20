@@ -114,16 +114,3 @@ services:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: user
     mem_limit: 128m
-
-  ElasticSearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
-    container_name: talent-sphere-elasticsearch
-    networks:
-      - talent-sphere-network
-    ports:
-      - "9200:9200"
-    environment:
-      - "discovery.type=single-node"
-      - "xpack.security.enabled=false"
-    mem_limit: 1GB
-

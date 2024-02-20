@@ -31,13 +31,13 @@ public class CompanyService {
     private final ManagerProducer managerProducer;
 
 
-    private final MessageSource messageSource;
+    //private final MessageSource messageSource;
 
-    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer, MessageSource messageSource) {
+    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer) {
         this.repository = repository;
         this.serviceUtility = serviceUtility;
         this.managerProducer = managerProducer;
-        this.messageSource = messageSource;
+        //this.messageSource = messageSource;
 //        this.greet();
     }
 
@@ -91,13 +91,13 @@ public class CompanyService {
         return repository.save(existingCompany);
     }
 
-    public void addCommunication(Long id, Long phoneId) {
-        Company existingCompany = this.findById(id);
-        if (existingCompany.getCommunications().contains(phoneId))
-            throw new CompanyServiceException(ErrorType.COMMUNICATION_ALREADY_EXISTS);
-        existingCompany.getCommunications().add(phoneId);
-        repository.save(existingCompany);
-    }
+//    public void addCommunication(Long id, Long phoneId) {
+//        Company existingCompany = this.findById(id);
+//        if (existingCompany.getCommunications().contains(phoneId))
+//            throw new CompanyServiceException(ErrorType.COMMUNICATION_ALREADY_EXISTS);
+//        existingCompany.getCommunications().add(phoneId);
+//        repository.save(existingCompany);
+//    }
 
     public void addPayment(PaymentModel model) {
         Company existingCompany = this.findById(model.getCompanyId());

@@ -37,6 +37,8 @@ public class Personel {
     private String title;
     private String photo;
     private Double salary;
+    @ElementCollection
+    List<Long> comment;
     @Builder.Default
     private LocalDateTime createdDate=LocalDateTime.now();
     @Builder.Default

@@ -21,7 +21,8 @@ public class Break implements IStatus{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long shiftId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Shift shift;
 
     String name;
 

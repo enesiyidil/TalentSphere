@@ -35,8 +35,8 @@ public class Company implements IStatus{
     @ElementCollection
     List<Long> personals;
 
-    @ElementCollection
-    List<Long> communications;
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Communication> communications;
 
     @ElementCollection
     List<Long> holidays;

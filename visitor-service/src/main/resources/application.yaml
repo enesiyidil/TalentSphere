@@ -23,6 +23,11 @@ spring:
 #    secret-key: ${TALENTSPHERE_SECRETKEY}
 #    issuer: ${TALENTSPHERE_ISSUER}
 
+visitorservice:
+  secrets:
+    secret-key: ${TALENTSPHERE_SECRETKEY}
+    issuer: ${TALENTSPHERE_ISSUER}
+
 rabbitmq:
   exchange:
     auth: authExchange
