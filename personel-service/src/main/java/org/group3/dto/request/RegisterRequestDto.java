@@ -26,8 +26,6 @@ public class RegisterRequestDto {
     private String password;
     @NotBlank(message = "Password cannot be empty.")
     private String rePassword;
-//    @Enumerated(EnumType.STRING)
-//    private ERole role;
     private String name;
     private String surname;
     private String title;
