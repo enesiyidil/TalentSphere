@@ -2,6 +2,8 @@ package org.group3.service;
 
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
+import org.group3.dto.response.CompanyFindByNameResponseDto;
+import org.group3.dto.response.CompanyResponseDto;
 import org.group3.entity.Company;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
@@ -15,6 +17,7 @@ import org.group3.repository.CompanyRepository;
 import org.group3.utility.ServiceUtility;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -150,5 +153,19 @@ public class CompanyService {
 
     public List<Company> findAllWithoutManager() {
         return repository.findAllByManagerIdIsNull();
+    }
+
+    public CompanyFindByNameResponseDto findByName(String name) {
+        Company company=repository.findByName(name);
+        CompanyFindByNameResponseDto dto = CompanyFindByNameResponseDto.builder()
+                .name(company.getName())
+                .address(company.getAddress())
+                .gallery(company.getGallery())
+                .personals(company.getPersonals())
+                .managerId(company.getManagerId())
+                .id(company.getId())
+                .build();
+        //return CompanyMapper.INSTANCE.companyToCompanyResponseDto(company);
+        return dto;
     }
 }

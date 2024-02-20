@@ -10,14 +10,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
-public class PersonalSecurityConfig {
+public class VisitorSecurityConfig {
 
    @Bean
    public JwtTokenFilter getJwtTokenFilter(){
        return new JwtTokenFilter();
    }
 
-    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/visitor/findAll","/visitor/update"};
+    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/visitor/findAll","/visitor/update","/visitor/findByCompanyName"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

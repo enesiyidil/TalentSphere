@@ -2,6 +2,7 @@ package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.ManagerUpdateRequestDto;
+import org.group3.dto.response.GetInformationResponseDto;
 import org.group3.dto.response.ManagerResponseDto;
 import org.group3.service.ManagerService;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
-import static org.group3.constant.EndPoints.FIND_ALL;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -48,6 +48,12 @@ public class ManagerController {
     @GetMapping(GET_INFO_FOR_VISITOR)
     public ResponseEntity<List<Integer>> getInfoForVisitor(Long id){
         return ResponseEntity.ok(service.getInfoForVisitor(id));
+    }
+
+    @GetMapping(GET_INFORMATION)
+    public ResponseEntity<GetInformationResponseDto> getInformation (){
+        return ResponseEntity.ok(service.getInformation());
+
     }
 
 }

@@ -1,12 +1,15 @@
 package org.group3.service;
 
 import org.group3.dto.request.ManagerUpdateRequestDto;
+import org.group3.dto.response.GetInformationResponseDto;
 import org.group3.dto.response.ManagerResponseDto;
+import org.group3.dto.response.PersonelResponseDto;
 import org.group3.entity.Manager;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
 import org.group3.exception.ManagerServiceException;
 import org.group3.manager.IAuthManager;
+import org.group3.manager.IPersonelManager;
 import org.group3.mapper.ManagerMapper;
 import org.group3.rabbit.model.AuthUpdateModel;
 import org.group3.rabbit.model.CompanyModel;
@@ -15,6 +18,7 @@ import org.group3.rabbit.model.PersonalModel;
 import org.group3.rabbit.producer.AuthDeleteProducer;
 import org.group3.rabbit.producer.AuthUpdateProducer;
 import org.group3.repository.ManagerRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,11 +38,14 @@ public class ManagerService {
 
     private final IAuthManager authManager;
 
-    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer, IAuthManager authManager) {
+    private final IPersonelManager personelManager;
+
+    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer, IAuthManager authManager, IPersonelManager personelManager) {
         this.repository = repository;
         this.authDeleteProducer = authDeleteProducer;
         this.authUpdateProducer = authUpdateProducer;
         this.authManager = authManager;
+        this.personelManager = personelManager;
     }
 
     public void save(ManagerSaveModel model) {
@@ -206,5 +213,15 @@ public class ManagerService {
         //info.add(optionalManager.get().getCompanies().size());
         info.add(optionalManager.get().getPersonals().size());
         return info;
+    }
+
+    public GetInformationResponseDto getInformation() {
+
+        ResponseEntity<List<PersonelResponseDto>> listPersonel=personelManager.findAll();
+
+        GetInformationResponseDto dto= GetInformationResponseDto.builder()
+                .personalSize(listPersonel.getBody().size())
+                .build();
+        return dto;
     }
 }

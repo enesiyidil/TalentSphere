@@ -17,7 +17,7 @@ public class AdminSecurityConfig {
        return new JwtTokenFilter();
    }
 
-    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/admin/findAll","/admin/findById","/admin/findByAuthId","/admin/update"};
+    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/admin/findAll","/admin/findById","/admin/findByAuthId","/admin/update","/admin/getInformation"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

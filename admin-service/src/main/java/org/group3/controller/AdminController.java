@@ -5,6 +5,7 @@ import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
+import org.group3.dto.response.GetInformationResponseDto;
 import org.group3.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,11 @@ public class AdminController {
     @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(adminService.softDelete(id));
+    }
+    @GetMapping(GET_INFORMATION)
+    public ResponseEntity<GetInformationResponseDto> getInformation (){
+        return ResponseEntity.ok(adminService.getInformation());
+
     }
 
 

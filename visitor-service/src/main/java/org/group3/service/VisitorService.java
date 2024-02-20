@@ -2,12 +2,15 @@ package org.group3.service;
 
 import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.request.UpdateRequestDto;
+import org.group3.dto.response.CompanyFindByNameResponseDto;
+import org.group3.dto.response.CompanyResponseDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.entity.Visitor;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
 import org.group3.exception.VisitorManagerException;
+import org.group3.manager.ICompanyManager;
 import org.group3.mapper.IVisitorMapper;
 import org.group3.rabbitMq.model.DeleteAuthModel;
 import org.group3.rabbitMq.model.UpdateAuthModel;
@@ -29,12 +32,15 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
     private final AuthUpdateProduce authUpdateProduce;
 
     private final AuthDeleteProducer authDeleteProducer;
-    public VisitorService(VisitorRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer) {
+
+    private final ICompanyManager companyManager;
+    public VisitorService(VisitorRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, ICompanyManager companyManager) {
         super(repository);
         this.repository = repository;
 
         this.authUpdateProduce = authUpdateProduce;
         this.authDeleteProducer = authDeleteProducer;
+        this.companyManager = companyManager;
     }
 
     public String saveDto(SaveRequestDto dto) {
@@ -101,5 +107,9 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
                 .eStatus(optionalVisitor.get().getStatus())
                 .build());
         return "Named " + optionalVisitor.get().getName() + " has been deleted";
+    }
+
+    public CompanyFindByNameResponseDto findByCompanyName(String companyName) {
+        return companyManager.findByName(companyName).getBody();
     }
 }

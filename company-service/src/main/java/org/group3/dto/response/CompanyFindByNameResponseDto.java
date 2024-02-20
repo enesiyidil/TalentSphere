@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyResponseDto {
-
+public class CompanyFindByNameResponseDto {
     Long id;
 
     Long managerId;
@@ -28,13 +26,4 @@ public class CompanyResponseDto {
 
     List<Long> personals;
 
-    List<Long> communications;
-
-    List<Long> holidays;
-
-    List<ShiftResponseDto> shifts;
-
-    LocalDateTime createdDateTime;
-
-    LocalDateTime updatedDateTime;
 }

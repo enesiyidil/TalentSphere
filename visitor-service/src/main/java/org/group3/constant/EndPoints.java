@@ -7,4 +7,6 @@ public class EndPoints {
     public static final String DELETE = "/deleteById";
     public static final String FIND_ALL = "/findAll";
     public static final String FIND_BY_ID = "/findById";
+    public static final String FIND_BY_NAME = "/findByName";
+    public static final String FIND_BY_COMPANY_NAME = "/findByCompanyName";
 }

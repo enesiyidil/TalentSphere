@@ -2,6 +2,8 @@ package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.UpdateRequestDto;
+import org.group3.dto.response.CompanyFindByNameResponseDto;
+import org.group3.dto.response.CompanyResponseDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.service.VisitorService;
@@ -40,5 +42,10 @@ public class VisitorController {
     @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(visitorService.softDelete(id));
+    }
+
+    @GetMapping(FIND_BY_COMPANY_NAME)
+    public ResponseEntity<CompanyFindByNameResponseDto> findByCompanyName(String companyName){
+        return ResponseEntity.ok(visitorService.findByCompanyName(companyName));
     }
 }

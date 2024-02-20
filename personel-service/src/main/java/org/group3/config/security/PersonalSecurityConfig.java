@@ -17,7 +17,7 @@ public class PersonalSecurityConfig {
        return new JwtTokenFilter();
    }
 
-    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**"};
+    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/personal/findAll","/personal/save"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

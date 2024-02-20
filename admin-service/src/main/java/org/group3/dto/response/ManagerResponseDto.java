@@ -12,29 +12,25 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyResponseDto {
+public class ManagerResponseDto {
 
     Long id;
 
-    Long managerId;
-
     String name;
 
-    String address;
+    String surname;
 
-    List<String> gallery;
+    String email;
 
-    List<String> payments;
+    String photo;
+
+    List<Long> companies;
+
+    String title;
 
     List<Long> personals;
 
-    List<Long> communications;
-
-    List<Long> holidays;
-
-    List<ShiftResponseDto> shifts;
-
-    LocalDateTime createdDateTime;
-
     LocalDateTime updatedDateTime;
+
+    String phone;
 }
