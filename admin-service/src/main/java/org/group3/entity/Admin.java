@@ -26,6 +26,7 @@ public class Admin {
     @Column(unique = true)
     private String email;
     private String phone;
+    private String photo;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private EStatus status=EStatus.ACTIVE;

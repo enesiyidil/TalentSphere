@@ -15,22 +15,16 @@ import java.util.List;
 public class ManagerResponseDto {
 
     Long id;
-
     String name;
-
     String surname;
-
     String email;
-
-    String photo;
-
-    List<Long> companies;
-
-    String title;
-
-    List<Long> personals;
-
-    LocalDateTime updatedDateTime;
-
     String phone;
+    String photo;
+    Long companyId;
+    String title;
+    List<Long> personals;
+    LocalDateTime updatedDateTime;
+    @Builder.Default
+    LocalDateTime createdDateTime = LocalDateTime.now();
+
 }

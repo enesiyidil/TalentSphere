@@ -37,15 +37,15 @@ public class PersonelController {
     }
 
     @DeleteMapping(DELETE + "/{id}")
-    public ResponseEntity<String> deletePersonelById(@PathVariable Long id) {
+    public ResponseEntity<Boolean> deletePersonelById(@PathVariable Long id) {
         try {
             personelService.deletePersonelById(id);
-            return ResponseEntity.ok("Personel with ID " + id + " has been deleted.");
+            return ResponseEntity.ok(true);
         } catch (PersonelServiceException e) {
             if (e.getErrorTypes().contains(ErrorType.USER_NOT_FOUND)) {
                 return ResponseEntity.notFound().build();
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while deleting the personel.");
+                return ResponseEntity.ok(false);
             }
         }
     }
