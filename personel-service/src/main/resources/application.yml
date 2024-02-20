@@ -2,6 +2,9 @@ server:
   port: 9095
 
 spring:
+  cloud:
+    config:
+      enabled: false
   rabbitmq:
     host: localhost
     port: 5672

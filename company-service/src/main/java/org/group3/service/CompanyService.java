@@ -91,13 +91,13 @@ public class CompanyService {
         return repository.save(existingCompany);
     }
 
-    public void addCommunication(Long id, Long phoneId) {
-        Company existingCompany = this.findById(id);
-        if (existingCompany.getCommunications().contains(phoneId))
-            throw new CompanyServiceException(ErrorType.COMMUNICATION_ALREADY_EXISTS);
-        existingCompany.getCommunications().add(phoneId);
-        repository.save(existingCompany);
-    }
+//    public void addCommunication(Long id, Long phoneId) {
+//        Company existingCompany = this.findById(id);
+//        if (existingCompany.getCommunications().contains(phoneId))
+//            throw new CompanyServiceException(ErrorType.COMMUNICATION_ALREADY_EXISTS);
+//        existingCompany.getCommunications().add(phoneId);
+//        repository.save(existingCompany);
+//    }
 
     public void addPayment(PaymentModel model) {
         Company existingCompany = this.findById(model.getCompanyId());

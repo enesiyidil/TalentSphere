@@ -32,8 +32,13 @@ public class CommunicationService {
     }
 
     public PhoneResponseDto save(PhoneRequestDto dto) {
-        Communication communication = repository.save(CommunicationMapper.INSTANCE.saveRequestDtoToCommunication(dto));
-        companyService.addCommunication(communication.getCompanyId(), communication.getId());
+        //mapper yerine builder
+        Communication communication = repository.save(Communication.builder()
+                        .company(companyService.findById(dto.getCompanyId()))
+                        .name(dto.getName())
+                        .phoneNumber(dto.getPhoneNumber())
+                .build());
+        //companyService.addCommunication(communication.getCompanyId(), communication.getId());
         return CommunicationMapper.INSTANCE.communicationToResponseDto(communication);
     }
 

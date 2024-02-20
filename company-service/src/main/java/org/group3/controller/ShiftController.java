@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.ShiftSaveRequestDto;
 import org.group3.dto.request.ShiftUpdateRequestDto;
 import org.group3.dto.response.ShiftResponseDto;
+import org.group3.entity.Shift;
 import org.group3.service.ShiftService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class ShiftController {
     }
 
     @GetMapping(FIND_BY_ID)
-    public ResponseEntity<ShiftResponseDto> findById(@RequestParam Long id){
+    public ResponseEntity<Shift> findById(@RequestParam Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 

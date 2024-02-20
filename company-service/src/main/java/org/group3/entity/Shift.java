@@ -22,7 +22,8 @@ public class Shift implements IStatus{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long companyId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Company company;
 
     String name;
 
@@ -30,8 +31,8 @@ public class Shift implements IStatus{
 
     LocalTime endTime;
 
-    @ElementCollection
-    List<Long> breaks;
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Break> breaks;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

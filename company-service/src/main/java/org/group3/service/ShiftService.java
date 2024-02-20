@@ -38,20 +38,20 @@ public class ShiftService {
     public ShiftResponseDto save(ShiftSaveRequestDto dto) {
         Shift shift = repository.save(Shift.builder()
                         .name(dto.getName())
-                        .companyId(dto.getCompanyId())
+                        .company(companyService.findById(dto.getCompanyId()))
                         .startTime(LocalTime.parse(dto.getStartTime(), formatter))
                         .endTime(LocalTime.parse(dto.getEndTime(), formatter))
                 .build());
-        companyService.addShift(shift.getCompanyId(), shift.getId());
+        //companyService.addShift(shift.getCompanyId(), shift.getId());
         return ShiftMapper.INSTANCE.shiftToResponseDto(shift);
     }
 
-    public ShiftResponseDto findById(Long id) {
+    public Shift findById(Long id) {
         Optional<Shift> optionalShift = repository.findById(id);
         if (optionalShift.isPresent()) {
             if (optionalShift.get().getStatus() == EStatus.DELETED)
                 throw new CompanyServiceException(ErrorType.SHIFT_NOT_ACTIVE);
-            return ShiftMapper.INSTANCE.shiftToResponseDto(optionalShift.get());
+            return optionalShift.get();
         }
         throw new CompanyServiceException(ErrorType.SHIFT_NOT_FOUND);
     }
@@ -87,17 +87,17 @@ public class ShiftService {
         throw new CompanyServiceException(ErrorType.SHIFT_NOT_FOUND);
     }
 
-    public void addBreak(Long id, Long breakId) {
-        Optional<Shift> optionalExistingShift = repository.findById(id);
-        if ((optionalExistingShift.isPresent())) {
-            Shift existingShift = optionalExistingShift.get();
-            if (existingShift.getBreaks().contains(breakId))
-                throw new CompanyServiceException(ErrorType.BREAK_ALREADY_EXISTS);
-            existingShift.getBreaks().add(breakId);
-            repository.save(existingShift);
-        }
-        throw new CompanyServiceException(ErrorType.SHIFT_NOT_FOUND);
-    }
+//    public void addBreak(Long id, Long breakId) {
+//        Optional<Shift> optionalExistingShift = repository.findById(id);
+//        if ((optionalExistingShift.isPresent())) {
+//            Shift existingShift = optionalExistingShift.get();
+//            if (existingShift.getBreaks().contains(breakId))
+//                throw new CompanyServiceException(ErrorType.BREAK_ALREADY_EXISTS);
+//            existingShift.getBreaks().add(breakId);
+//            repository.save(existingShift);
+//        }
+//        throw new CompanyServiceException(ErrorType.SHIFT_NOT_FOUND);
+//    }
 
     public List<ShiftResponseDto> findAllDto() {
         return repository.findAll().stream().map(ShiftMapper.INSTANCE::shiftToResponseDto).collect(Collectors.toList());

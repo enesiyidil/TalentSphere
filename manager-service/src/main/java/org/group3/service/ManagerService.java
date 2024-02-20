@@ -124,10 +124,12 @@ public class ManagerService {
                 manager -> {
                     if (optionalExistingManager.get().getStatus() == EStatus.DELETED)
                         throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
-                    if (manager.getCompanies().contains(model.getCompanyId())) {
+                    if (manager.getCompanyId()!=null && manager.getCompanyId().equals(model.getCompanyId())) {
                         throw new ManagerServiceException(ErrorType.COMPANY_ALREADY_EXISTS);
                     }
-                    manager.getCompanies().add(model.getCompanyId());
+                    //manager.getCompanies().add(model.getCompanyId());
+                    manager.setCompanyId(model.getCompanyId());
+                    repository.save(manager);
                 }
         );
         optionalExistingManager.orElseThrow(
@@ -141,8 +143,8 @@ public class ManagerService {
                 manager -> {
                     if (optionalExistingManager.get().getStatus() == EStatus.DELETED)
                         throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
-                    if (manager.getCompanies().contains(model.getCompanyId())) {
-                        manager.getCompanies().remove(model.getCompanyId());
+                    if (manager.getCompanyId().equals(model.getCompanyId())) {
+                        //manager.setCompanyId(manager.getCompanyId().(model.getCompanyId()));
                     } else {
                         throw new ManagerServiceException(ErrorType.COMPANY_NOT_REGISTERED);
                     }
@@ -195,7 +197,7 @@ public class ManagerService {
     public List<Integer> getInfoForVisitor(Long id) {
         Optional<Manager> optionalManager = repository.findById(id);
         List<Integer> info=new ArrayList<>();
-        info.add(optionalManager.get().getCompanies().size());
+        //info.add(optionalManager.get().getCompanies().size());
         info.add(optionalManager.get().getPersonals().size());
         return info;
     }

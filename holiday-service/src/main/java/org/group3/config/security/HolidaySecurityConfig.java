@@ -17,7 +17,7 @@ public class HolidaySecurityConfig {
        return new JwtTokenFilter();
    }
 
-    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**"};
+    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/holiday/save"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

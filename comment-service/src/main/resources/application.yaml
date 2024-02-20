@@ -1,41 +1,27 @@
-#spring:
-#  cloud:
-#    config:
-#      uri: ${CONFIG_SERVER_URL}
-#      # http://localhost:8888
-#  config:
-#    import: "configserver:"
-#  application:
-#    name:
-
 server:
-  port: 9101
-
-
+  port: 9102
 spring:
-  cloud:
-    config:
-      enabled: false
   rabbitmq:
     host: localhost
     port: 5672
     username: user
     password: user
-
+  cloud:
+    config:
+      enabled: false
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/talent-sphere-holiday-db
-    username: talent-sphere
-    password: ts123456
-
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5435/TalentSphereComment
+    username: postgres
+    password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 
-holidayservice:
-  secrets:
-    secret-key: ${TALENTSPHERE_SECRETKEY}
-    issuer: ${TALENTSPHERE_ISSUER}
+#adminservice:
+#  secrets:
+#    secret-key: ${TALENTSPHERE_SECRETKEY}
+#    issuer: ${TALENTSPHERE_ISSUER}
 
 rabbitmq:
   exchange:
@@ -107,3 +93,6 @@ rabbitmq:
       sender: smsSenderBindingKey
     holiday:
       save: holidaySaveBindingKey
+
+
+

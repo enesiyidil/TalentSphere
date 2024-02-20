@@ -43,7 +43,7 @@ public class HolidayService {
                             .holidayId(holiday.getId())
                             .companyId(holiday.getCompanyId())
                     .build());
-        }else if (dto.getRole().equals("PHolidayModelERSONAL")){
+        }else if (dto.getRole().equals("HolidayModelPERSONAL")){
             personalProducer.addHoliday(HolidayModel.builder()
                     .holidayId(holiday.getId())
                     .personalId(holiday.getPersonals().get(0))

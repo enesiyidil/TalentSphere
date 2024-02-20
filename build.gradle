@@ -10,7 +10,7 @@ allprojects {
     /*
     tüm projelerde (root+sub) gerekli ayarları belirlemek için:
      */
-    apply from: "${rootDir}/dependencies.gradle"
+    apply from: "${rootDir}/Dependencies.gradle"
     apply plugin: 'application'
     group = 'org.group3'
     version = 'v0.0.1'
@@ -43,7 +43,7 @@ allprojects {
 //        implementation libs.springBootValidation
 //
 //        implementation libs.springCloudOpenFeign
-//        implementation libs.springCloudConfigClient
+        implementation libs.springCloudConfigClient
 //
         compileOnly libs.lombok
         annotationProcessor libs.lombok
@@ -54,6 +54,7 @@ allprojects {
         implementation libs.swagger
 
         implementation libs.jwt
+        implementation libs.springBootSecurity
     }
 }
 

@@ -13,6 +13,8 @@ import org.group3.repository.BreakRepository;
 import org.group3.utility.ServiceUtility;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class BreakService {
     private final ShiftService shiftService;
 
     private final ServiceUtility serviceUtility;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     public BreakService(BreakRepository repository, ShiftService shiftService, ServiceUtility serviceUtility) {
         this.repository = repository;
@@ -33,8 +36,15 @@ public class BreakService {
     }
 
     public BreakResponseDto save(BreakSaveRequestDto dto) {
-        Break breakEntity = repository.save(BreakMapper.INSTANCE.saveRequestDtoToBreak(dto));
-        shiftService.addBreak(breakEntity.getShiftId(), breakEntity.getId());
+        //mapper olmadan builder build yap
+        //Break breakEntity = repository.save(BreakMapper.INSTANCE.saveRequestDtoToBreak(dto));
+        Break breakEntity = repository.save(Break.builder()
+                        .name(dto.getName())
+                        .shift(shiftService.findById(dto.getShiftId()))
+                        .startTime(LocalTime.parse(dto.getStartTime(), formatter))
+                        .endTime(LocalTime.parse(dto.getEndTime(), formatter))
+                .build());
+        //shiftService.addBreak(breakEntity.getShiftId(), breakEntity.getId());
         return BreakMapper.INSTANCE.breakToResponseDto(breakEntity);
     }
 

@@ -38,8 +38,8 @@ public class Manager {
 
     String photo;
 
-    @ElementCollection
-    List<Long> companies;
+    @Column(unique = true)
+    Long companyId;
 
     String title;
 

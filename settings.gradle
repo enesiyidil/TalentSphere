@@ -11,4 +11,5 @@ include 'personel-service'
 include 'company-service'
 include 'payment-service'
 include 'holiday-service'
+include 'comment-service'
 
