@@ -64,7 +64,7 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         return findAll().stream().map(IVisitorMapper.INSTANCE::visitorToFindAllResponseDto).collect(Collectors.toList());
     }
 
-    public String softUpdate(UpdateRequestDto dto) {
+    public FindByIdResponseDto softUpdate(UpdateRequestDto dto) {
 
         Optional<Visitor> optionalVisitor = findById(dto.getId());
         Visitor visitor = optionalVisitor.orElseThrow(() -> new VisitorManagerException(ErrorType.USER_NOT_FOUND));
@@ -89,10 +89,10 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
                 .email(visitor.getEmail())
                 .build());
 
-        return "başarılı";
+        return IVisitorMapper.INSTANCE.visitorToFindByIdResponseDto(visitor);
     }
 
-    public String softDelete(Long id) {
+    public Boolean softDelete(Long id) {
         Optional<Visitor> optionalVisitor = findById(id);
         if (optionalVisitor.isEmpty()) {
             throw new VisitorManagerException(ErrorType.USER_NOT_FOUND);
@@ -106,10 +106,17 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
                 .authid(optionalVisitor.get().getAuthId())
                 .eStatus(optionalVisitor.get().getStatus())
                 .build());
-        return "Named " + optionalVisitor.get().getName() + " has been deleted";
+        return true;
     }
 
     public CompanyFindByNameResponseDto findByCompanyName(String companyName) {
         return companyManager.findByName(companyName).getBody();
+    }
+
+    public List<FindByIdResponseDto> findByAuthId(Long authId) {
+        List<Visitor> visitorList= repository.findByAuthId(authId);
+        return visitorList.stream()
+                .map(IVisitorMapper.INSTANCE::visitorToFindByIdResponseDto)
+                .collect(Collectors.toList());
     }
 }

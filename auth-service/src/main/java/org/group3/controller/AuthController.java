@@ -27,7 +27,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(REGISTER)
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto){
+    public ResponseEntity<Boolean> register(@RequestBody @Valid RegisterRequestDto dto){
         if (!dto.getPassword().equals(dto.getRePassword())){
             throw new AuthManagerException(ErrorType.REGISTER_PASSWORD_MISMATCH);
         }

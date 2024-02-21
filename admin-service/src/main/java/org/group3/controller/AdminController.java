@@ -6,6 +6,7 @@ import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.dto.response.GetInformationResponseDto;
+import org.group3.dto.response.UpdateResponseDto;
 import org.group3.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,12 +43,12 @@ public class AdminController {
     }
 
     @PutMapping(UPDATE)
-    public ResponseEntity<String> update(@RequestBody UpdateRequestDto dto){
+    public ResponseEntity<UpdateResponseDto> update(@RequestBody UpdateRequestDto dto){
         return ResponseEntity.ok(adminService.softUpdate(dto));
     }
 
     @DeleteMapping(DELETE + "/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(adminService.softDelete(id));
     }
     @GetMapping(GET_INFORMATION)

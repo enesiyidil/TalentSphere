@@ -9,4 +9,5 @@ public class EndPoints {
     public static final String FIND_BY_ID = "/findById";
     public static final String FIND_BY_NAME = "/findByName";
     public static final String FIND_BY_COMPANY_NAME = "/findByCompanyName";
+    public static final String FIND_BY_AUTH_ID = "/findByAuthId";
 }

@@ -77,7 +77,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
         return findAll().stream().map(IAdminMapper.INSTANCE::adminToFindAllResponseDto).collect(Collectors.toList());
     }
 
-    public String softUpdate(UpdateRequestDto dto) {
+    public UpdateResponseDto softUpdate(UpdateRequestDto dto) {
         Optional<Admin> optionalAdmin = findById(dto.getId());
         Admin admin = optionalAdmin.orElseThrow(() -> new AdminManagerException(ErrorType.USER_NOT_FOUND));
         if (optionalAdmin.get().getStatus().equals(EStatus.DELETED)) {
@@ -86,6 +86,12 @@ public class AdminService extends ServiceManager<Admin, Long> {
         if (repository.existsByEmail(dto.getEmail()) || repository.existsByPhone(dto.getPhone())) {
             throw new AdminManagerException(ErrorType.EMAIL_OR_PHONE_EXITS);
         }
+        if (dto.getName() != null) {
+            admin.setPhone(dto.getName());
+        }
+        if (dto.getSurname() != null) {
+            admin.setPhone(dto.getSurname());
+        }
 
         if (dto.getEmail() != null) {
             admin.setEmail(dto.getEmail());
@@ -93,18 +99,32 @@ public class AdminService extends ServiceManager<Admin, Long> {
         if (dto.getPhone() != null) {
             admin.setPhone(dto.getPhone());
         }
+        if (dto.getPhoto() != null) {
+            admin.setPhone(dto.getPhoto());
+        }
+
         admin.setUpdatedDate(System.currentTimeMillis());
 
         update(admin);
         authUpdateProduce.convertAndSend(UpdateAuthModel.builder()
                 .authid(admin.getAuthId())
                 .email(admin.getEmail())
+                .phone(admin.getPhone())
                 .build());
+        UpdateResponseDto updateResponseDto=UpdateResponseDto.builder()
+                .name(admin.getName())
+                .surname(admin.getSurname())
+                .email(admin.getEmail())
+                .phone(admin.getPhone())
+                .photo(admin.getPhoto())
+                .createdDate(admin.getCreatedDate())
+                .updatedDate(admin.getUpdatedDate())
+                .build();
 
-        return "başarılı";
+        return updateResponseDto;
     }
 
-    public String softDelete(Long id) {
+    public Boolean softDelete(Long id) {
         Optional<Admin> optionalAdmin = findById(id);
         if (optionalAdmin.isEmpty()) {
             throw new AdminManagerException(ErrorType.USER_NOT_FOUND);
@@ -118,7 +138,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .authid(optionalAdmin.get().getAuthId())
                 .eStatus(optionalAdmin.get().getStatus())
                 .build());
-        return "Named " + optionalAdmin.get().getName() + " has been deleted";
+        return true;
     }
 
 

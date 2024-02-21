@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.EndPoints.FIND_BY_AUTH_ID;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -35,17 +36,22 @@ public class VisitorController {
     }
 
     @PutMapping(UPDATE)
-    public ResponseEntity<String> update(@RequestBody UpdateRequestDto dto){
+    public ResponseEntity<FindByIdResponseDto> update(@RequestBody UpdateRequestDto dto){
         return ResponseEntity.ok(visitorService.softUpdate(dto));
     }
 
     @DeleteMapping(DELETE + "/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(visitorService.softDelete(id));
     }
 
     @GetMapping(FIND_BY_COMPANY_NAME)
     public ResponseEntity<CompanyFindByNameResponseDto> findByCompanyName(String companyName){
         return ResponseEntity.ok(visitorService.findByCompanyName(companyName));
+    }
+
+    @GetMapping(FIND_BY_AUTH_ID)
+    public ResponseEntity<List<FindByIdResponseDto>> findByAuthId(@RequestParam Long authId) {
+        return ResponseEntity.ok(visitorService.findByAuthId(authId));
     }
 }

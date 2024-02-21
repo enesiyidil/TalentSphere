@@ -30,8 +30,8 @@ public class RegisterRequestDto {
 //    private ERole role;
     private String name;
     private String surname;
-    private String title;
-    private String phone;
+//    private String title;
+//    private String phone;
 
 
 }

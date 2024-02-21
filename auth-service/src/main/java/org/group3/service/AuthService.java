@@ -57,7 +57,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.smsSenderProduce = smsSenderProduce;
     }
 
-    public RegisterResponseDto register(RegisterRequestDto dto) {
+    public Boolean register(RegisterRequestDto dto) {
         //personelse hata fırlat
         if (repository.existsByEmail(dto.getEmail())) {
             throw new AuthManagerException(ErrorType.REGISTER_EMAIL_ALREADY_EXISTS);
@@ -72,7 +72,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
                     .email(auth.getEmail())
                     .name(dto.getName())
                     .surname(dto.getSurname())
-                    .phone(dto.getPhone())
+//                    .phone(dto.getPhone())
                     .build());
         }
 
@@ -111,7 +111,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
 
 
-        return IAuthMapper.INSTANCE.authToRegisterResponseDto(auth);
+//        return IAuthMapper.INSTANCE.authToRegisterResponseDto(auth);
+        return true;
     }
 
     public Long personalSave(RegisterRequestDto dto) {
@@ -203,6 +204,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
 
         auth.setEmail(model.getEmail());
+        auth.setPhone(model.getPhone());
         auth.setUpdatedDate(System.currentTimeMillis());
         update(auth);
 
