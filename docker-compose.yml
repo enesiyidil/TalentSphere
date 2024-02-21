@@ -101,6 +101,18 @@ services:
     ports:
       - "5434:5432"
 
+  talent-sphere-comment-db:
+    image: postgres:latest
+    container_name: talent-sphere-postgres-comment-db
+    networks:
+      - talent-sphere-network
+    environment:
+      POSTGRES_DB: TalentSphereComment
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5435:5432"
+
 # Sadece rabbit için hemen soldaki play butonuna basınız
   RabbitMQ:
     image: rabbitmq:3-management

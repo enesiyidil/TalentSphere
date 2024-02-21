@@ -13,9 +13,9 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(CommentManagerException.class)
+    @ExceptionHandler(CommentServiceException.class)
     @ResponseBody
-    public ResponseEntity<ErrorMessage> handleManagerException(CommentManagerException ex){
+    public ResponseEntity<ErrorMessage> handleManagerException(CommentServiceException ex){
         HttpStatus httpStatus=ex.getErrorType().getHttpStatus();
 
         ErrorType errorType=ex.getErrorType();

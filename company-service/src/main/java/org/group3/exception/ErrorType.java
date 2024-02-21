@@ -45,6 +45,8 @@ public enum ErrorType {
 
     PARAMETER_NOT_VALID(6001, "Token oluşturulmadı", HttpStatus.BAD_REQUEST);
 
+
+
     private final int code;
     private final String message;
     final HttpStatus httpStatus;

@@ -20,7 +20,8 @@ public enum ErrorType {
     TOKEN_NOT_CREATED(6001,"token oluşturulamadı",HttpStatus.BAD_REQUEST),
     EMAIL_OR_PHONE_EXITS(2100,"Email veya telefon kullanılıyor",HttpStatus.BAD_REQUEST),
     COMMENT_NOT_PENDING(7100,"Yorum zaten reddedilmiş ya da onaylanmıştır",HttpStatus.BAD_REQUEST),
-    ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND);
+    ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND),
+    COMMENT_NOT_FOUND(6001, "Comment bulunamadı", HttpStatus.BAD_REQUEST);
 
 
 
