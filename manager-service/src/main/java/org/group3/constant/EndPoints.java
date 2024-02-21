@@ -8,6 +8,7 @@ public class EndPoints {
     public static final String FIND_BY_ID = "/findById";
     public static final String FIND_BY_AUTH_ID = "/findByAuthId";
     public static final String FIND_ALL = "/findAll";
-    public static final String GET_INFO_FOR_VISITOR = "/getInfoForVısıtor";
+    public static final String GET_INFO_FOR_VISITOR = "/getInfoForVisitor";
     public static final String MANAGER_SAVE = "/managerSave";
+    public static final String GET_INFORMATION = "/getInformation";
 }

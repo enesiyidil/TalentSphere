@@ -17,7 +17,7 @@ public class CompanySecurityConfig {
        return new JwtTokenFilter();
    }
 
-    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/company/save","/company/findAll","/shift/save","/shift/findAll","/communication/save","/communication/findAll","/break/save","/break/findAll"};
+    private final String[] WHITELIST={"/swagger-ui/**","/v3/api-docs/**","/company/save","/company/findAll","/company/findByName","/shift/save","/shift/findAll","/communication/save","/communication/findAll","/break/save","/break/findAll",};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

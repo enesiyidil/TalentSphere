@@ -3,6 +3,7 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
+import org.group3.dto.response.CompanyFindByNameResponseDto;
 import org.group3.dto.response.CompanyResponseDto;
 import org.group3.entity.Company;
 import org.group3.service.CompanyService;
@@ -56,8 +57,15 @@ public class CompanyController {
     public ResponseEntity<List<Company>> findByPersonalId(@RequestParam Long personalId){
         return ResponseEntity.ok(service.findByPersonalId(personalId));
     }
-
+    @GetMapping(FIND_ALL_WITHOUT_MANAGER)
     public ResponseEntity<List<Company>> findAllWithoutManager(){
         return ResponseEntity.ok(service.findAllWithoutManager());
     }
+
+    @GetMapping(FIND_BY_NAME)
+    public ResponseEntity<CompanyFindByNameResponseDto> findByName(@RequestParam String name){
+        return ResponseEntity.ok(service.findByName(name));
+    }
+
+
 }

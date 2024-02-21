@@ -2,12 +2,13 @@ package org.group3.service;
 
 import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.request.UpdateRequestDto;
-import org.group3.dto.response.FindAllResponseDto;
-import org.group3.dto.response.FindByIdResponseDto;
+import org.group3.dto.response.*;
 import org.group3.entity.Admin;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.AdminManagerException;
 import org.group3.exception.ErrorType;
+import org.group3.manager.IManagerServiceManager;
+import org.group3.manager.IPersonelManager;
 import org.group3.mapper.IAdminMapper;
 import org.group3.rabbitMq.model.DeleteAuthModel;
 import org.group3.rabbitMq.model.UpdateAuthModel;
@@ -15,6 +16,7 @@ import org.group3.rabbitMq.producer.AuthDeleteProducer;
 import org.group3.rabbitMq.producer.AuthUpdateProduce;
 import org.group3.repository.AdminRepository;
 import org.group3.utility.ServiceManager;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,11 +32,17 @@ public class AdminService extends ServiceManager<Admin, Long> {
 
     private final AuthDeleteProducer authDeleteProducer;
 
-    public AdminService(AdminRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer) {
+    private final IManagerServiceManager managerServiceManager;
+
+    private final IPersonelManager personelManager;
+
+    public AdminService(AdminRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, IManagerServiceManager managerServiceManager, IPersonelManager personelManager) {
         super(repository);
         this.repository = repository;
         this.authUpdateProduce = authUpdateProduce;
         this.authDeleteProducer = authDeleteProducer;
+        this.managerServiceManager = managerServiceManager;
+        this.personelManager = personelManager;
     }
 
     public String saveDto(SaveRequestDto dto) {
@@ -114,4 +122,16 @@ public class AdminService extends ServiceManager<Admin, Long> {
     }
 
 
+    public GetInformationResponseDto getInformation() {
+        ResponseEntity<List<ManagerResponseDto>> listManager=managerServiceManager.findAll();
+        ResponseEntity<List<PersonelResponseDto>> listPersonel=personelManager.findAll();
+
+        GetInformationResponseDto dto= GetInformationResponseDto.builder()
+                .managerSize(listManager.getBody().size())
+                .personalSize(listPersonel.getBody().size())
+                .build();
+        return dto;
+
+
+    }
 }
