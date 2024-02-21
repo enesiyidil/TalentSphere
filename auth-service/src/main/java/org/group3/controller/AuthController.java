@@ -33,6 +33,16 @@ public class AuthController {
         }
         return ResponseEntity.ok(authService.register(dto));
     }
+
+    @PostMapping(PERSONAL_SAVE)
+    public ResponseEntity<Long> personalSave(@RequestBody @Valid RegisterRequestDto dto){
+        return ResponseEntity.ok(authService.personalSave(dto));
+    }
+
+    @PostMapping(MANAGER_SAVE)
+    public ResponseEntity<Long> managerSave(@RequestBody @Valid RegisterRequestDto dto){
+        return ResponseEntity.ok(authService.managerSave(dto));
+    }
     @PostMapping(LOGIN)
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
@@ -52,10 +62,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.softDelete(id));
     }
 
-    @PostMapping(PERSONAL_SAVE)
-    public ResponseEntity<Long> personalSave(@RequestBody @Valid RegisterRequestDto dto){
-        return ResponseEntity.ok(authService.personalSave(dto));
-    }
+
     @GetMapping(ACTIVATE)
     public ResponseEntity<String> activate(@RequestParam String t){
         return ResponseEntity.ok(authService.activateCode(t));

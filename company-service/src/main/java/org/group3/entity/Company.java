@@ -26,6 +26,8 @@ public class Company implements IStatus{
 
     String name;
 
+    String address;
+
     @ElementCollection
     List<String> gallery;
 

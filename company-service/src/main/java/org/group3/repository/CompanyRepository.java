@@ -12,5 +12,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
 
     List<Company> findByPersonalsContains(Long personalId);
 
+    List<Company> findAllByManagerIdIsNull();
+
 
 }

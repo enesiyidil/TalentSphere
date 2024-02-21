@@ -6,6 +6,7 @@ import org.group3.entity.Manager;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
 import org.group3.exception.ManagerServiceException;
+import org.group3.manager.IAuthManager;
 import org.group3.mapper.ManagerMapper;
 import org.group3.rabbit.model.AuthUpdateModel;
 import org.group3.rabbit.model.CompanyModel;
@@ -31,21 +32,26 @@ public class ManagerService {
 
     private final AuthUpdateProducer authUpdateProducer;
 
-    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer) {
+    private final IAuthManager authManager;
+
+    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer, IAuthManager authManager) {
         this.repository = repository;
         this.authDeleteProducer = authDeleteProducer;
         this.authUpdateProducer = authUpdateProducer;
+        this.authManager = authManager;
     }
 
     public void save(ManagerSaveModel model) {
-        repository.save(Manager.builder()
-                        .authId(model.getAuthId())
-                        .email(model.getEmail())
-                        .phone(model.getPhone())
-                        .name(model.getName())
-                        .surname(model.getSurname())
-                        .title(model.getTitle())
-                .build());
+        Manager manager = Manager.builder()
+                .authId(model.getAuthId())
+                .email(model.getEmail())
+                .phone(model.getPhone())
+                .name(model.getName())
+                .surname(model.getSurname())
+                .title(model.getTitle())
+                .build();
+        authManager.managerSave(ManagerMapper.INSTANCE.managerToRegisterRequestDto(manager));
+        repository.save(manager);
     }
 
     public ManagerResponseDto findById(Long id) {

@@ -64,20 +64,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
         Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
         //auth.setCreatedDate(System.currentTimeMillis());
+        auth.setRole(ERole.VISITOR);
         save(auth);
-
-
-        if (auth.getRole().equals(ERole.ADMIN)) {
-            adminSave.convertAndSend(SaveAuthModel.builder()
-                    .authId(auth.getId())
-                    .email(auth.getEmail())
-                    .name(dto.getName())
-                    .surname(dto.getSurname())
-                    .phone(dto.getPhone())
-                    .build());
-            auth.setStatus(EStatus.ACTIVE);
-            update(auth);
-        }
         if (auth.getRole().equals(ERole.VISITOR)) {
             visitorSaveProduce.convertAndSend(SaveAuthModel.builder()
                     .authId(auth.getId())
@@ -87,19 +75,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
                     .phone(dto.getPhone())
                     .build());
         }
-        if (auth.getRole().equals(ERole.MANAGER)) {
-            managerSaveProducer.convertAndSend(SaveAuthModel.builder()
-                    .authId(auth.getId())
-                    .email(auth.getEmail())
-                    .name(dto.getName())
-                    .surname(dto.getSurname())
-                    .phone(dto.getPhone())
-                    .title(dto.getTitle())
-                    .build());
-        }
 
-
-        String url = "http://localhost:9092/auth/activate?t=" + tokenManager.createToken(auth.getId(), dto.getRole()).get();
+        String url = "http://localhost:9092/auth/activate?t=" + tokenManager.createToken(auth.getId(), auth.getRole()).get();
         mailSenderProduce.convertAndSend(SendMailModel.builder()
                 .email(auth.getEmail())
                 .subject("Aktivasyon")
@@ -107,7 +84,48 @@ public class AuthService extends ServiceManager<Auth, Long> {
                 .build());
         System.out.println(url);
 
+
+//        if (auth.getRole().equals(ERole.ADMIN)) {
+//            adminSave.convertAndSend(SaveAuthModel.builder()
+//                    .authId(auth.getId())
+//                    .email(auth.getEmail())
+//                    .name(dto.getName())
+//                    .surname(dto.getSurname())
+//                    .phone(dto.getPhone())
+//                    .build());
+//            auth.setStatus(EStatus.ACTIVE);
+//            update(auth);
+//        }
+
+//        if (auth.getRole().equals(ERole.MANAGER)) {
+//            managerSaveProducer.convertAndSend(SaveAuthModel.builder()
+//                    .authId(auth.getId())
+//                    .email(auth.getEmail())
+//                    .name(dto.getName())
+//                    .surname(dto.getSurname())
+//                    .phone(dto.getPhone())
+//                    .title(dto.getTitle())
+//                    .build());
+//        }
+
+
+
+
         return IAuthMapper.INSTANCE.authToRegisterResponseDto(auth);
+    }
+
+    public Long personalSave(RegisterRequestDto dto) {
+        Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
+        auth.setRole(ERole.PERSONAL);
+        save(auth);
+        return auth.getId();
+    }
+
+    public Long managerSave(RegisterRequestDto dto) {
+        Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
+        auth.setRole(ERole.MANAGER);
+        save(auth);
+        return auth.getId();
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
@@ -191,11 +209,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
 
-    public Long personalSave(RegisterRequestDto dto) {
-        Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
-        save(auth);
-        return auth.getId();
-    }
+
 
     public String activateCode(String t) {
         Optional<Auth> optionalAuth = findById(tokenManager.decodeToken(t).get());
@@ -244,4 +258,6 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return "Başarılı";
 
     }
+
+
 }
