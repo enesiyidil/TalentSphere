@@ -1,0 +1,22 @@
+.img-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-div {
+    border-radius: 150px;
+    border: 1px solid red;
+    width: 20vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img {
+    color: aqua;
+    width: 15vw;
+}
