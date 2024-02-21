@@ -1,0 +1,23 @@
+.manager-wrapper {
+    width: 75vw;
+    height: 84vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-wrapper {
+    width: 75vw;
+    height: 40vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vh;
+    border: 1px solid purple;
+}
+
+.information-wrapper {
+
+}

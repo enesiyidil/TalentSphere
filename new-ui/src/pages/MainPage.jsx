@@ -1,6 +1,6 @@
 import styles from "../Css/MainPages.module.css";
 import NavigationBar from "../components/NavigationBar.jsx";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import ShowRoomPage from "./ShowRoomPage.jsx";
 import RegisterPage from "./RegisterPage.jsx";
 import LoginPage from "./LoginPage.jsx";
@@ -23,7 +23,15 @@ const MainPage = () => {
                                element={<RegisterContextProvider><RegisterPage/></RegisterContextProvider>}/>
                         <Route path="/login" element={<LoginContextProvider><LoginPage/></LoginContextProvider>}/>
                         <Route path="/admin" element={<LoginContextProvider><LoginPage/></LoginContextProvider>}/>
-                        <Route path="/home" element={<HomePage/>}/>
+                        <Route path="/home" element={<HomePage page="home"/>}/>
+                        <Route path="/home/addCompany" element={<HomePage page="addCompany"/>}/>
+                        <Route path="/home/addManager" element={<HomePage page="addManager"/>}/>
+                        <Route path="/home/approveComment" element={<HomePage page="approveComment"/>}/>
+                        <Route path="/home/calendar" element={<HomePage page="calendar"/>}/>
+                        <Route path="/home/approveHoliday" element={<HomePage page="approveHoliday"/>}/>
+                        <Route path="/home/payment" element={<HomePage page="payment"/>}/>
+                        <Route path="/home/comment" element={<HomePage page="comment"/>}/>
+                        <Route exact path="*" element={<HomePage page="home"/>}/>
                     </Routes>
                 </main>
             </BrowserRouter>

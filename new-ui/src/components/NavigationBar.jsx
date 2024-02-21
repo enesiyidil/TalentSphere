@@ -1,12 +1,16 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import styles from "../Css/NavigationBar.module.css";
 import {useContext} from "react";
 import {LoginContext} from "../context/LoginContext.jsx";
+import TextField from '@mui/material/TextField';
+import {setSearch} from "../redux/actions.js";
 
 const NavigationBar = () => {
 
     const role = useSelector((state) => state.role);
+    const search = useSelector((state) => state.search);
+    const dispatch = useDispatch();
     const {handleLogout} = useContext(LoginContext);
 
     return (
@@ -24,63 +28,50 @@ const NavigationBar = () => {
                         </li>
                         {role === 'ADMIN' && (
                             <>
-                                {/* admin-service findByAuthID */}
-                                {/* admin-service getInformation */}
-                                {/* admin-service update */}
-                                {/* admin-service delete */}
                                 <li>
-                                    <Link to="/addCompany">Add Company</Link>
-                                    {/* company-service save*/}
+                                    <Link to="/home/addCompany">Add Company</Link>
                                 </li>
                                 <li>
-                                    <Link to="/addPersonal">Add Personal</Link>
-                                    {/*  company-service findAllWithoutManager  */}
-                                    {/*  manager-service save  */}
+                                    <Link to="/home/addManager">Add Manager</Link>
                                 </li>
                                 <li>
-                                    <Link to="/approveComment">Approve Comment</Link>
-                                    {/*  comment-service findAllByNotApprove  */}
-                                    {/*  comment-service approveCommentById  */}
+                                    <Link to="/home/approveComment">Approve Comment</Link>
                                 </li>
                             </>
 
                         )}
                         {role === 'MANAGER' && (
                             <>
-                                {/* manager-service findByAuthID */}
-                                {/* manager-service getInformation */}
-                                {/* manager-service update */}
-                                {/* manager-service delete */}
                                 <li>
-                                    <Link to="/"></Link>
+                                    <Link to="/home/personals">Personals</Link>
+                                </li>
+                                <li>
+                                    <Link to="/home/calendar">Calendar</Link>
+                                </li>
+                                <li>
+                                    <Link to="/home/approveHoliday">Approve Holiday</Link>
+                                </li>
+                                <li>
+                                    <Link to="/home/payment">Payment</Link>
                                 </li>
                             </>
                         )}
                         {role === 'PERSONAL' && (
                             <>
-                                {/* personal-service findByAuthID */}
-                                {/* personal-service getInformation */}
-                                {/* personal-service update */}
-                                {/* personal-service delete */}
                                 <li>
-                                    <Link to="/calendar">Calendar</Link>
-                                    {/*  holiday-service saveByPersonal  */}
+                                    <Link to="/home/calendar">Calendar</Link>
                                 </li>
                                 <li>
-                                    <Link to="/comment">Comment</Link>
-                                    {/*  comment-service saveByPersonal  */}
+                                    <Link to="/home/comment">Comment</Link>
                                 </li>
                             </>
                         )}
                         {role === 'VISITOR' && (
                             <>
-                                {/* visitor-service findByAuthID */}
                                 {/* visitor-service getInformation (pageable) */}
                                 {/* visitor-service getInformationByCompanyName */}
-                                {/* visitor-service update */}
-                                {/* visitor-service delete */}
                                 <li>
-                                    {/*  search  */}
+                                    <TextField id="search" label="Search" variant="outlined" value={search} onChange={e => dispatch(setSearch(e.target.value))} />
                                 </li>
                             </>
                         )}
@@ -92,7 +83,7 @@ const NavigationBar = () => {
                         {!role && <Link to="/register">Register</Link>}
                     </li>
                     <li>
-                        {role ? <button onClick={() => handleLogout}>Logout</button> : <Link to="/login">Login</Link>}
+                        {role ? <button onClick={() => handleLogout()}>Logout</button> : <Link to="/login">Login</Link>}
                     </li>
                     <li>
                         {!role && <Link to="/admin">Admin</Link>}

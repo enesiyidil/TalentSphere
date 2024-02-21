@@ -21,6 +21,16 @@ export const userReducer = (state, action) => {
                 ...state,
                 authId: action.payload
             };
+        case 'SET_SWITCH_ACCOUNT':
+            return {
+                ...state,
+                switchAccount: action.payload
+            };
+        case 'SET_SEARCH':
+            return {
+                ...state,
+                search: action.payload
+            };
         case 'SET_USER_PROFILE':
             return {
                 ...state,

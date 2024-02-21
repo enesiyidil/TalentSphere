@@ -8,3 +8,34 @@
     align-items: center;
     margin-top: 10vh;
 }
+
+.container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.circle1,
+.circle2 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #007bff;
+    animation: spin 2s linear infinite;
+}
+
+.circle2 {
+    animation-delay: 1s; /* İkinci dairenin animasyona başlama gecikmesi */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        box-shadow: 0px 0px 10px 5px rgba(0, 123, 255, 0.7);
+    }
+    100% {
+        transform: rotate(360deg);
+        box-shadow: 0px 0px 10px 5px rgba(0, 123, 255, 0.1);
+    }
+}

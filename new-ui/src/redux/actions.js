@@ -17,6 +17,16 @@ export const setAuthId = (payload) => ({
     payload
 })
 
+export const setSwitchAccount = (payload) => ({
+    type: 'SET_SWITCH_ACCOUNT',
+    payload
+})
+
+export const setSearch = (payload) => ({
+    type: 'SET_SEARCH',
+    payload
+})
+
 export const setUserProfile = (payload) => ({
     type: 'SET_USER_PROFILE',
     payload
