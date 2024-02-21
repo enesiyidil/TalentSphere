@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -122,7 +123,8 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .email(admin.getEmail())
                 .phone(admin.getPhone())
                 .build());
-        UpdateResponseDto updateResponseDto=UpdateResponseDto.builder()
+
+        return UpdateResponseDto.builder()
                 .name(admin.getName())
                 .surname(admin.getSurname())
                 .email(admin.getEmail())
@@ -131,8 +133,6 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .createdDate(admin.getCreatedDate())
                 .updatedDate(admin.getUpdatedDate())
                 .build();
-
-        return updateResponseDto;
     }
 
     public Boolean softDelete(Long id) {
@@ -161,17 +161,14 @@ public class AdminService extends ServiceManager<Admin, Long> {
         ResponseEntity<List<CommentFindAllResponseDto>> listComment=commentManager.findAll();
         ResponseEntity<List<CompanyFindAllInfoResponseDto>> listCompany=companyManager.findAllInfo();
 
-
-
-        GetInformationResponseDto dto= GetInformationResponseDto.builder()
-                .managerSize(listManager.getBody().size())
-                .personalSize(listPersonel.getBody().size())
-                .visitorSize(listVisitor.getBody().size())
-                .paymentSize(listPayment.getBody().size())
-                .commentSize(listComment.getBody().size())
-                .companySize(listCompany.getBody().size())
+        return GetInformationResponseDto.builder()
+                .managerSize(Objects.requireNonNull(listManager.getBody()).size())
+                .personalSize(Objects.requireNonNull(listPersonel.getBody()).size())
+                .visitorSize(Objects.requireNonNull(listVisitor.getBody()).size())
+                .paymentSize(Objects.requireNonNull(listPayment.getBody()).size())
+                .commentSize(Objects.requireNonNull(listComment.getBody()).size())
+                .companySize(Objects.requireNonNull(listCompany.getBody()).size())
                 .build();
-        return dto;
 
 
     }

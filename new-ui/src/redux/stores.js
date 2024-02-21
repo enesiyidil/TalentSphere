@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userReducer } from './reducers'
 
 const defaultState = {
-    role: "VISITOR",
+    role: "MANAGER",
     token: "",
     authId: 0,
     switchAccount: false,

@@ -139,6 +139,7 @@ public class HolidayService {
         return repository.findAll().stream().map(HolidayMapper.INSTANCE::holidayToResponseDto).collect(Collectors.toList());
     }
 
+    // todo: open feign findNameByPersonalId
     public List<HolidayfFindAllByCompanyIdAndStatusPendingResponseDto> findAllByCompanyIdAndStatusPending(Long companyId) {
         List<Holiday> holidayList = repository.findAllByCompanyIdAndStatus(companyId, EStatus.PENDING);
         return holidayList.stream().map(HolidayMapper.INSTANCE::holidayToHolidayfFindAllByCompanyIdAndStatusPendingResponseDto)

@@ -18,5 +18,7 @@ public class CompanySaveRequestDto {
 
     String address;
 
-    Communication phone;
+    String communicationPhone;
+
+    String communicationName;
 }

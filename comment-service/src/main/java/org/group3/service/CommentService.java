@@ -13,6 +13,7 @@ import org.group3.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,17 +36,18 @@ public class CommentService {
 
     }
 
+    // todo: openfeign findNameByPersonalId and findNameByCompanyId
     public List<CommentFindAllByNotApproveResponse> findAllByNotApprove() {
         List<Comment> commentList = repository.findAllByStatusEquals(EStatus.PENDING);
         return commentList.stream().map(CommentMapper.INSTANCE::commentToCommentFindAllByNotApproveResponse)
                 .collect(Collectors.toList());
     }
 
-    public Boolean acceptOrRejectCommentById(Long id, EStatus status) {
+    public Boolean acceptOrRejectCommentById(Long id, String confirm) {
         Optional<Comment> optionalComment = repository.findById(id);
         if (optionalComment.isPresent()){
             if ((optionalComment.get().getStatus().equals(EStatus.PENDING))){
-                optionalComment.get().setStatus(status);
+                optionalComment.get().setStatus(Objects.equals(confirm, "accept") ? EStatus.ACCEPT : EStatus.REJECTED);
                 repository.save(optionalComment.get());
                 return true;
             }

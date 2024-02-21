@@ -19,8 +19,6 @@ public class Comment {
     private Long id;
     private Long personalId;
     private Long companyId;
-    private String personalName;
-    private String companyName;
     private String content;
     @Builder.Default
     @Enumerated(EnumType.STRING)

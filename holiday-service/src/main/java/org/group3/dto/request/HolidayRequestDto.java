@@ -14,13 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 public class HolidayRequestDto {
 
-    Long id;
+    Long companyId;
 
     String name;
 
-    LocalDate startDate;
+    String startDate;
 
-    LocalDate endDate;
+    String endDate;
 
     String description;
 

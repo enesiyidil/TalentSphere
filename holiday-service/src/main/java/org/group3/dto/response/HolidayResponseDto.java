@@ -19,9 +19,9 @@ public class HolidayResponseDto {
 
     String name;
 
-    LocalDate startDate;
+    String startDate;
 
-    LocalDate endDate;
+    String endDate;
 
     String description;
 

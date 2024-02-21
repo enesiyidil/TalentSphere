@@ -23,34 +23,43 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    // swagger
     @PostMapping (SAVE)
     public ResponseEntity<String> save(@RequestBody SaveRequestDto dto){
         return ResponseEntity.ok(adminService.saveDto(dto));
     }
+
+    // delete
     @GetMapping(FIND_BY_ID)
     public ResponseEntity<FindByIdResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(adminService.findByIdDto(id));
     }
 
+    // checked
     @GetMapping(FIND_BY_AUTH_ID)
     public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authid){
         return ResponseEntity.ok(adminService.findByAuthIdDto(authid));
     }
 
+    // delete
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<FindAllResponseDto>> findAll(){
         return ResponseEntity.ok(adminService.findAllDto());
     }
 
+    // checked
     @PutMapping(UPDATE)
     public ResponseEntity<UpdateResponseDto> update(@RequestBody UpdateRequestDto dto){
         return ResponseEntity.ok(adminService.softUpdate(dto));
     }
 
+    // checked
     @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(adminService.softDelete(id));
     }
+
+    // checked
     @GetMapping(GET_INFORMATION)
     public ResponseEntity<GetInformationResponseDto> getInformation (){
         return ResponseEntity.ok(adminService.getInformation());

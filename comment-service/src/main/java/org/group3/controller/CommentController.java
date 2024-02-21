@@ -24,20 +24,25 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping(SAVE)
+    // checked
+    @PostMapping(SAVE_BY_PERSONAL)
     public ResponseEntity<CommentResponseDto> save(@RequestBody CommentRequestDto dto){
         return ResponseEntity.ok(commentService.save(dto));
     }
 
+    // half - checked
     @GetMapping (FIND_ALL_BY_APPROVE)
     public ResponseEntity<List<CommentFindAllByNotApproveResponse>> findAllByNotApprove(){
         return ResponseEntity.ok(commentService.findAllByNotApprove());
     }
 
+    // checked
     @GetMapping (ACCEPT_OR_REJECT_COMMENT_BY_ID)
-    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestParam Long id, EStatus status){
-        return ResponseEntity.ok(commentService.acceptOrRejectCommentById(id, status));
+    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestParam Long id, String confirm){
+        return ResponseEntity.ok(commentService.acceptOrRejectCommentById(id, confirm));
     }
+
+    // checked
     @GetMapping (FIND_ALL)
     public  ResponseEntity<List<CommentFindAllResponseDto>> findAll(){
         return ResponseEntity.ok(commentService.findAll());

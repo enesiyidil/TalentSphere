@@ -118,14 +118,26 @@ public class AuthService extends ServiceManager<Auth, Long> {
     public Long personalSave(RegisterRequestDto dto) {
         Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
         auth.setRole(ERole.PERSONAL);
+        auth.setPassword(codeGenerator.generateCode());
         save(auth);
+        mailSenderProduce.convertAndSend(SendMailModel.builder()
+                .email(auth.getEmail())
+                .subject("Şifresi")
+                .content(auth.getPassword())
+                .build());
         return auth.getId();
     }
 
     public Long managerSave(RegisterRequestDto dto) {
         Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
         auth.setRole(ERole.MANAGER);
+        auth.setPassword(codeGenerator.generateCode());
         save(auth);
+        mailSenderProduce.convertAndSend(SendMailModel.builder()
+                .email(auth.getEmail())
+                .subject("Şifresi")
+                .content(auth.getPassword())
+                .build());
         return auth.getId();
     }
 
@@ -248,7 +260,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
     }
 
-    public String updatePassword(UpdatePasswordRequestDto dto) {
+    public Boolean updatePassword(UpdatePasswordRequestDto dto) {
 
         Optional<Auth> optionalAdmin = findById(dto.getId());
         Auth auth = optionalAdmin.orElseThrow(() -> new AuthManagerException(ErrorType.USER_NOT_FOUND));
@@ -257,7 +269,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
         auth.setPassword(dto.getPassword());
         update(auth);
-        return "Başarılı";
+        return true;
 
     }
 

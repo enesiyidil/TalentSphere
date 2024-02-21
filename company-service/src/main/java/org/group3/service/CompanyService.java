@@ -6,6 +6,7 @@ import org.group3.dto.response.CompanyFindAllInfoResponseDto;
 import org.group3.dto.response.CompanyFindAllWithoutManagerResponseDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
 import org.group3.dto.response.CompanyResponseDto;
+import org.group3.entity.Communication;
 import org.group3.entity.Company;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
@@ -52,17 +53,16 @@ public class CompanyService {
 //    }
 
     public Boolean save(CompanySaveRequestDto dto) {
-        //Company company = repository.save(CompanyMapper.INSTANCE.saveRequestDtoToCompany(dto));
-//        managerProducer.addCompany(CompanyModel.builder()
-//                        .companyId(company.getId())
-//                        .managerId(company.getManagerId())
-//                .build());
-
         Company company = repository.save(Company.builder()
                         .name(dto.getName())
                         .address(dto.getAddress())
                 .build());
-        company.getCommunications().add(dto.getPhone());
+        company.getCommunications().add(Communication.builder()
+                        .company(company)
+                        .phoneNumber(dto.getCommunicationPhone())
+                        .name(dto.getCommunicationName())
+                .build());
+        repository.save(company);
         return true;
     }
 

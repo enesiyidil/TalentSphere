@@ -19,5 +19,7 @@ public class CompanyUpdateRequestDto {
 
     String name;
 
+    String address;
+
     List<String> gallery;
 }

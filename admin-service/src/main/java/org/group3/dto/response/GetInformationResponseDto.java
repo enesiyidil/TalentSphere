@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class GetInformationResponseDto {
-    int managerSize;
-    int personalSize;
-    int visitorSize;
-    int paymentSize;
-    int commentSize;
-    int companySize;
-
+    Integer managerSize;
+    Integer personalSize;
+    Integer visitorSize;
+    Integer paymentSize;
+    Integer commentSize;
+    Integer companySize;
 }

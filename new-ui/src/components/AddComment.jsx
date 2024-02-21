@@ -23,7 +23,7 @@ export default function AddComment() {
 
     const handleSaveClick = () => {
         apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${SAVE_BY_PERSONAL}`, {
-            comment,
+            content: comment,
             personalId: userProfile.id,
             companyId: userProfile.companyId
         }, token);
