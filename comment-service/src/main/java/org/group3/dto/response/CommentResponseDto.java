@@ -13,6 +13,6 @@ import org.group3.entity.enums.EStatus;
 public class CommentResponseDto {
     Long companyId;
     Long personalId;
-    String comment;
+    String content;
     EStatus eStatus;
 }

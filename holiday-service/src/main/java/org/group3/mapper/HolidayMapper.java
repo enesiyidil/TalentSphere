@@ -2,6 +2,7 @@ package org.group3.mapper;
 
 import org.group3.dto.request.HolidayRequestDto;
 import org.group3.dto.response.HolidayResponseDto;
+import org.group3.dto.response.HolidayfFindAllByCompanyIdAndStatusPendingResponseDto;
 import org.group3.entity.Holiday;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -15,4 +16,6 @@ public interface HolidayMapper {
     Holiday saveRequestDtoToHoliday(HolidayRequestDto dto);
 
     HolidayResponseDto holidayToResponseDto(Holiday holiday);
+
+    HolidayfFindAllByCompanyIdAndStatusPendingResponseDto holidayToHolidayfFindAllByCompanyIdAndStatusPendingResponseDto(Holiday holiday);
 }

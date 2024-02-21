@@ -7,8 +7,7 @@ import org.group3.entity.Admin;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.AdminManagerException;
 import org.group3.exception.ErrorType;
-import org.group3.manager.IManagerServiceManager;
-import org.group3.manager.IPersonelManager;
+import org.group3.manager.*;
 import org.group3.mapper.IAdminMapper;
 import org.group3.rabbitMq.model.DeleteAuthModel;
 import org.group3.rabbitMq.model.UpdateAuthModel;
@@ -36,13 +35,25 @@ public class AdminService extends ServiceManager<Admin, Long> {
 
     private final IPersonelManager personelManager;
 
-    public AdminService(AdminRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, IManagerServiceManager managerServiceManager, IPersonelManager personelManager) {
+    private final IVisitorManager visitorManager;
+
+    private final IPaymentManager paymentManager;
+
+    private final ICommentManager commentManager;
+
+    private final ICompanyManager companyManager;
+
+    public AdminService(AdminRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, IManagerServiceManager managerServiceManager, IPersonelManager personelManager, IVisitorManager visitorManager, IPaymentManager paymentManager, ICommentManager commentManager, ICompanyManager companyManager) {
         super(repository);
         this.repository = repository;
         this.authUpdateProduce = authUpdateProduce;
         this.authDeleteProducer = authDeleteProducer;
         this.managerServiceManager = managerServiceManager;
         this.personelManager = personelManager;
+        this.visitorManager = visitorManager;
+        this.paymentManager = paymentManager;
+        this.commentManager = commentManager;
+        this.companyManager = companyManager;
     }
 
     public String saveDto(SaveRequestDto dto) {
@@ -145,10 +156,20 @@ public class AdminService extends ServiceManager<Admin, Long> {
     public GetInformationResponseDto getInformation() {
         ResponseEntity<List<ManagerResponseDto>> listManager=managerServiceManager.findAll();
         ResponseEntity<List<PersonelResponseDto>> listPersonel=personelManager.findAll();
+        ResponseEntity<List<VisitorFindAllResponseDto>> listVisitor=visitorManager.findAll();
+        ResponseEntity<List<PaymentFindAllInfoResponseDto>> listPayment=paymentManager.findAllInfo();
+        ResponseEntity<List<CommentFindAllResponseDto>> listComment=commentManager.findAll();
+        ResponseEntity<List<CompanyFindAllInfoResponseDto>> listCompany=companyManager.findAllInfo();
+
+
 
         GetInformationResponseDto dto= GetInformationResponseDto.builder()
                 .managerSize(listManager.getBody().size())
                 .personalSize(listPersonel.getBody().size())
+                .visitorSize(listVisitor.getBody().size())
+                .paymentSize(listPayment.getBody().size())
+                .commentSize(listComment.getBody().size())
+                .companySize(listCompany.getBody().size())
                 .build();
         return dto;
 

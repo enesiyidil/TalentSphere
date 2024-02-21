@@ -3,8 +3,7 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
-import org.group3.dto.response.CompanyResponseDto;
-import org.group3.dto.response.FindAllResponseDto;
+import org.group3.dto.response.VisitorFindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.service.VisitorService;
 
@@ -31,7 +30,7 @@ public class VisitorController {
 
 
     @GetMapping(FIND_ALL)
-    public ResponseEntity<List<FindAllResponseDto>> findAll(){
+    public ResponseEntity<List<VisitorFindAllResponseDto>> findAll(){
         return ResponseEntity.ok(visitorService.findAllDto());
     }
 

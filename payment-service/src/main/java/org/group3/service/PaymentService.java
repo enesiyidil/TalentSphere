@@ -1,6 +1,7 @@
 package org.group3.service;
 
 import org.group3.dto.request.PaymentRequestDto;
+import org.group3.dto.response.PaymentFindAllInfoResponseDto;
 import org.group3.entity.Payment;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
@@ -16,6 +17,7 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -57,6 +59,15 @@ public class PaymentService {
 
     public Iterable<Payment> findAll() {
         return repository.findAll();
+    }
+
+    public List<PaymentFindAllInfoResponseDto> findAllInfo() {
+        Iterable<Payment> payments=repository.findAll();
+        List<Payment> paymentList=new ArrayList<>();
+        payments.forEach(paymentList::add);
+        return paymentList.stream().map(PaymentMapper.INSTANCE::paymentToPaymentFindAllInfoResponseDto)
+                .collect(Collectors.toList());
+
     }
 
     public Boolean deleteById(String id) {
@@ -135,4 +146,6 @@ public class PaymentService {
         SearchHits<Payment> searchHits = elasticsearchTemplate.search(criteriaQuery, Payment.class);
         return searchHits.stream().map(SearchHit::getContent).collect(Collectors.toList());
     }
+
+
 }

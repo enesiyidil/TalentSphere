@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetInformationResponseDto {
-    int managerSize;
-    int personalSize;
-    int visitorSize;
-    int paymentSize;
-    int commentSize;
-    int companySize;
-
+public class VisitorFindAllResponseDto {
+    private Long id;
+    private String name;
+    private String surname;
+    private String email;
+    private String phone;
 }

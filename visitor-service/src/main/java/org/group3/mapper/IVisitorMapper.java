@@ -1,7 +1,7 @@
 package org.group3.mapper;
 
 import org.group3.dto.request.SaveRequestDto;
-import org.group3.dto.response.FindAllResponseDto;
+import org.group3.dto.response.VisitorFindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.entity.Visitor;
 import org.mapstruct.Mapper;
@@ -17,5 +17,5 @@ public interface IVisitorMapper {
 
     FindByIdResponseDto visitorToFindByIdResponseDto(Visitor visitor);
 
-    FindAllResponseDto visitorToFindAllResponseDto(Visitor visitor);
+    VisitorFindAllResponseDto visitorToFindAllResponseDto(Visitor visitor);
 }

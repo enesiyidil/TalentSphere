@@ -19,7 +19,9 @@ public class Comment {
     private Long id;
     private Long personalId;
     private Long companyId;
-    private String comment;
+    private String personalName;
+    private String companyName;
+    private String content;
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private EStatus status=EStatus.PENDING;
