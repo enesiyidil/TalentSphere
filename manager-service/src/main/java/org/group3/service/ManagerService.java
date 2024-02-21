@@ -48,7 +48,7 @@ public class ManagerService {
         this.personelManager = personelManager;
     }
 
-    public void save(ManagerSaveModel model) {
+    public Boolean save(ManagerSaveModel model) {
         Manager manager = Manager.builder()
                 .authId(model.getAuthId())
                 .email(model.getEmail())
@@ -59,6 +59,7 @@ public class ManagerService {
                 .build();
         authManager.managerSave(ManagerMapper.INSTANCE.managerToRegisterRequestDto(manager));
         repository.save(manager);
+        return true;
     }
 
     public ManagerResponseDto findById(Long id) {

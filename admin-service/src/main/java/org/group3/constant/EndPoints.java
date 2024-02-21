@@ -10,4 +10,5 @@ public class EndPoints {
     public static final String FIND_ALL = "/findAll";
     public static final String FIND_BY_ID = "/findById";
     public static final String FIND_BY_AUTH_ID = "/findByAuthId";
+    public static final String FIND_ALL_INFO = "/findAllInfo";
 }

@@ -2,6 +2,8 @@ package org.group3.service;
 
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
+import org.group3.dto.response.CompanyFindAllInfoResponseDto;
+import org.group3.dto.response.CompanyFindAllWithoutManagerResponseDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
 import org.group3.dto.response.CompanyResponseDto;
 import org.group3.entity.Company;
@@ -49,7 +51,7 @@ public class CompanyService {
 //        System.out.println(greeting); // Hello (eğer varsayılan dil İngilizce ise)
 //    }
 
-    public Company save(CompanySaveRequestDto dto) {
+    public Boolean save(CompanySaveRequestDto dto) {
         //Company company = repository.save(CompanyMapper.INSTANCE.saveRequestDtoToCompany(dto));
 //        managerProducer.addCompany(CompanyModel.builder()
 //                        .companyId(company.getId())
@@ -61,7 +63,7 @@ public class CompanyService {
                         .address(dto.getAddress())
                 .build());
         company.getCommunications().add(dto.getPhone());
-        return company;
+        return true;
     }
 
 
@@ -151,8 +153,11 @@ public class CompanyService {
         return repository.findByPersonalsContains(personalId);
     }
 
-    public List<Company> findAllWithoutManager() {
-        return repository.findAllByManagerIdIsNull();
+    public List<CompanyFindAllWithoutManagerResponseDto> findAllWithoutManager() {
+        List<Company> companyList = repository.findAllByManagerIdIsNull();
+        return companyList.stream()
+                .map(CompanyMapper.INSTANCE::companyToCompanyFindAllWithoutManagerResponseDto)
+                .collect(Collectors.toList());
     }
 
     public CompanyFindByNameResponseDto findByName(String name) {
@@ -167,5 +172,11 @@ public class CompanyService {
                 .build();
         //return CompanyMapper.INSTANCE.companyToCompanyResponseDto(company);
         return dto;
+    }
+
+    public List<CompanyFindAllInfoResponseDto> findAllInfo() {
+        List<Company> companyList=repository.findAll();
+        return companyList.stream().map(CompanyMapper.INSTANCE::companyToCompanyFindAllInfoResponseDto)
+                .collect(Collectors.toList());
     }
 }

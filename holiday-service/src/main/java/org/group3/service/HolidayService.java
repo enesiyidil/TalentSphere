@@ -2,6 +2,7 @@ package org.group3.service;
 
 import org.group3.dto.request.HolidayRequestDto;
 import org.group3.dto.response.HolidayResponseDto;
+import org.group3.dto.response.HolidayfFindAllByCompanyIdAndStatusPendingResponseDto;
 import org.group3.entity.Holiday;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
@@ -136,5 +137,25 @@ public class HolidayService {
 
     public List<HolidayResponseDto> findAllDto() {
         return repository.findAll().stream().map(HolidayMapper.INSTANCE::holidayToResponseDto).collect(Collectors.toList());
+    }
+
+    public List<HolidayfFindAllByCompanyIdAndStatusPendingResponseDto> findAllByCompanyIdAndStatusPending(Long companyId) {
+        List<Holiday> holidayList = repository.findAllByCompanyIdAndStatus(companyId, EStatus.PENDING);
+        return holidayList.stream().map(HolidayMapper.INSTANCE::holidayToHolidayfFindAllByCompanyIdAndStatusPendingResponseDto)
+                .collect(Collectors.toList());
+
+    }
+
+    public Boolean acceptOrRejectHolidayById(Long id, EStatus status) {
+        Optional<Holiday> optionalHoliday = repository.findById(id);
+        if (optionalHoliday.isPresent()){
+            if ((optionalHoliday.get().getStatus().equals(EStatus.PENDING))){
+                optionalHoliday.get().setStatus(status);
+                repository.save(optionalHoliday.get());
+                return true;
+            }
+            throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_PENDING);
+        }
+        throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
     }
 }

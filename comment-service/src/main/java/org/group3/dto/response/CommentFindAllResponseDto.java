@@ -1,4 +1,4 @@
-package org.group3.dto.request;
+package org.group3.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentRequestDto {
-    Long personalId;
-    Long companyId;
-    String content;
+public class CommentFindAllResponseDto {
+    Long id;
 }

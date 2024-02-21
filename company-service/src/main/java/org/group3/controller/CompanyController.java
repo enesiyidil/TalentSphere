@@ -3,6 +3,8 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
+import org.group3.dto.response.CompanyFindAllInfoResponseDto;
+import org.group3.dto.response.CompanyFindAllWithoutManagerResponseDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
 import org.group3.dto.response.CompanyResponseDto;
 import org.group3.entity.Company;
@@ -24,7 +26,7 @@ public class CompanyController {
     private final CompanyService service;
 
     @PostMapping(SAVE)
-    public ResponseEntity<Company> save(@RequestBody CompanySaveRequestDto dto){
+    public ResponseEntity<Boolean> save(@RequestBody CompanySaveRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
 
@@ -53,12 +55,17 @@ public class CompanyController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @GetMapping(FIND_ALL_INFO)
+    public ResponseEntity<List<CompanyFindAllInfoResponseDto>> findAllInfo(){
+        return ResponseEntity.ok(service.findAllInfo());
+    }
+
     @GetMapping(FIND_BY_PERSONAL_ID)
     public ResponseEntity<List<Company>> findByPersonalId(@RequestParam Long personalId){
         return ResponseEntity.ok(service.findByPersonalId(personalId));
     }
     @GetMapping(FIND_ALL_WITHOUT_MANAGER)
-    public ResponseEntity<List<Company>> findAllWithoutManager(){
+    public ResponseEntity<List<CompanyFindAllWithoutManagerResponseDto>> findAllWithoutManager(){
         return ResponseEntity.ok(service.findAllWithoutManager());
     }
 

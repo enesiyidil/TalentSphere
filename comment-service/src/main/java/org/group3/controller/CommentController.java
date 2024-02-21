@@ -2,6 +2,8 @@ package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.CommentRequestDto;
+import org.group3.dto.response.CommentFindAllByNotApproveResponse;
+import org.group3.dto.response.CommentFindAllResponseDto;
 import org.group3.dto.response.CommentResponseDto;
 import org.group3.entity.Comment;
 import org.group3.entity.enums.EStatus;
@@ -28,13 +30,17 @@ public class CommentController {
     }
 
     @GetMapping (FIND_ALL_BY_APPROVE)
-    public ResponseEntity<List<Comment>> findAllByNotApprove(){
+    public ResponseEntity<List<CommentFindAllByNotApproveResponse>> findAllByNotApprove(){
         return ResponseEntity.ok(commentService.findAllByNotApprove());
     }
 
     @GetMapping (ACCEPT_OR_REJECT_COMMENT_BY_ID)
-    public ResponseEntity<Comment> acceptOrRejectCommentById(@RequestParam Long id, EStatus status){
+    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestParam Long id, EStatus status){
         return ResponseEntity.ok(commentService.acceptOrRejectCommentById(id, status));
+    }
+    @GetMapping (FIND_ALL)
+    public  ResponseEntity<List<CommentFindAllResponseDto>> findAll(){
+        return ResponseEntity.ok(commentService.findAll());
     }
 
 

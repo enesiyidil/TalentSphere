@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.enums.EStatus;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FindAllResponseDto {
-    private Long id;
-    private String name;
-    private String surname;
-    private String email;
-    private String phone;
+public class CommentFindAllByNotApproveResponse {
+    Long id;
+    String companyName;
+    String personalName;
+    String content;
+
 }

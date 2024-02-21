@@ -2,6 +2,7 @@ package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.PaymentRequestDto;
+import org.group3.dto.response.PaymentFindAllInfoResponseDto;
 import org.group3.entity.Payment;
 import org.group3.service.PaymentService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class PaymentController {
     @GetMapping(FIND_ALL)
     public ResponseEntity<Iterable<Payment>> findAll(){
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping(FIND_ALL_INFO)
+    public ResponseEntity<List<PaymentFindAllInfoResponseDto>> findAllInfo(){
+        return ResponseEntity.ok(service.findAllInfo());
     }
 
     @DeleteMapping(DELETE + "/{id}")

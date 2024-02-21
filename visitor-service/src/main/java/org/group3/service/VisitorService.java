@@ -3,8 +3,7 @@ package org.group3.service;
 import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
-import org.group3.dto.response.CompanyResponseDto;
-import org.group3.dto.response.FindAllResponseDto;
+import org.group3.dto.response.VisitorFindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.entity.Visitor;
 import org.group3.entity.enums.EStatus;
@@ -60,7 +59,7 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         return IVisitorMapper.INSTANCE.visitorToFindByIdResponseDto(optionalVisitor.get());
     }
 
-    public List<FindAllResponseDto> findAllDto() {
+    public List<VisitorFindAllResponseDto> findAllDto() {
         return findAll().stream().map(IVisitorMapper.INSTANCE::visitorToFindAllResponseDto).collect(Collectors.toList());
     }
 
