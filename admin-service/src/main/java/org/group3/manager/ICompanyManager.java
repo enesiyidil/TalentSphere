@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.FIND_ALL_INFO;
 
-@FeignClient(name = "company-manager", url = "http://localhost:9102/company" )
+@FeignClient(name = "company-manager", url = "http://localhost:9097/company" )
 public interface ICompanyManager {
 
     @GetMapping(FIND_ALL_INFO)

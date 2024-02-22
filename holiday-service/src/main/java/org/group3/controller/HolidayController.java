@@ -78,7 +78,7 @@ public class HolidayController {
     // Post request and dto
     @GetMapping (ACCEPT_OR_REJECT_HOLIDAY_BY_ID)
     public ResponseEntity<Boolean> acceptOrRejectHolidayById(@RequestParam Long id, String confirm){
-        return ResponseEntity.ok(service.acceptOrRejectHolidayById(id, status));
+        return ResponseEntity.ok(service.acceptOrRejectHolidayById(id, confirm));
     }
 
 }

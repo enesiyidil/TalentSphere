@@ -73,6 +73,7 @@ rabbitmq:
       addPayment: companyAddPaymentQueue
       deleteHoliday: companyDeleteHolidayQueue
       deletePayment: companyDeletePaymentQueue
+      assignManager: companyAssignManagerQueue
     mail:
       sender: mailSenderQueue
     sms:
@@ -102,6 +103,7 @@ rabbitmq:
       addPayment: companyAddPaymentBindingKey
       deleteHoliday: companyDeleteHolidayBindingKey
       deletePayment: companyDeletePaymentBindingKey
+      assignManager: companyAssignManagerBindingKey
     mail:
       sender: mailSenderBindingKey
     sms:

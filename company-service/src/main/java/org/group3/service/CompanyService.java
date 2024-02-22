@@ -2,16 +2,14 @@ package org.group3.service;
 
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
-import org.group3.dto.response.CompanyFindAllInfoResponseDto;
-import org.group3.dto.response.CompanyFindAllWithoutManagerResponseDto;
-import org.group3.dto.response.CompanyFindByNameResponseDto;
-import org.group3.dto.response.CompanyResponseDto;
+import org.group3.dto.response.*;
 import org.group3.entity.Communication;
 import org.group3.entity.Company;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
 import org.group3.exception.ErrorType;
 import org.group3.mapper.CompanyMapper;
+import org.group3.rabbit.model.AssignManagerModel;
 import org.group3.rabbit.model.CompanyModel;
 import org.group3.rabbit.model.HolidayModel;
 import org.group3.rabbit.model.PaymentModel;
@@ -23,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +35,10 @@ public class CompanyService {
     private final ServiceUtility serviceUtility;
 
     private final ManagerProducer managerProducer;
+
+
+
+
 
 
     //private final MessageSource messageSource;
@@ -57,11 +61,13 @@ public class CompanyService {
                         .name(dto.getName())
                         .address(dto.getAddress())
                 .build());
-        company.getCommunications().add(Communication.builder()
+        List<Communication> communicationList = new ArrayList<>();
+        communicationList.add(Communication.builder()
                         .company(company)
                         .phoneNumber(dto.getCommunicationPhone())
                         .name(dto.getCommunicationName())
                 .build());
+        company.setCommunications(communicationList);
         repository.save(company);
         return true;
     }
@@ -78,10 +84,9 @@ public class CompanyService {
         throw new CompanyServiceException(ErrorType.COMPANY_NOT_FOUND);
     }
 
-    public List<Company> findAllByManagerId(Long managerId) {
-        return repository.findAllByManagerId(managerId).stream()
-                .filter(company -> company.getStatus() == EStatus.ACTIVE)
-                .collect(Collectors.toList());
+    public Company findByManagerId(Long managerId) {
+        return repository.findByManagerId(managerId);
+
 
     }
 
@@ -178,5 +183,52 @@ public class CompanyService {
         List<Company> companyList=repository.findAll();
         return companyList.stream().map(CompanyMapper.INSTANCE::companyToCompanyFindAllInfoResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    public void assignManager(AssignManagerModel model) {
+        Optional<Company> companyOptional = repository.findById(model.getCompanyId());
+        if(companyOptional.isPresent()){
+            companyOptional.get().setManagerId(model.getManagerId());
+            repository.save(companyOptional.get());
+        }else {
+            throw new CompanyServiceException(ErrorType.COMPANY_NOT_FOUND);
+        }
+    }
+
+    public String findNameByCompanyId(Long id) {
+        Optional<Company> companyOptional = repository.findById(id);
+        if(companyOptional.isPresent()){
+            return companyOptional.get().getName();
+        }else {
+            throw new CompanyServiceException(ErrorType.COMPANY_NOT_FOUND);
+        }
+    }
+
+    public GetInformationResponseDto findByPersonalIdGetInfo(Long personalId) {
+        Optional<Company> companyOptional = repository.findByPersonalsContains(personalId).stream().findFirst();
+        if(companyOptional.isPresent()){
+            return GetInformationResponseDto.builder()
+                    .id(companyOptional.get().getId())
+                    .name(companyOptional.get().getName())
+                    .address(companyOptional.get().getAddress())
+                    .gallery(companyOptional.get().getGallery())
+                    .personalNumber(companyOptional.get().getPersonals().size())
+                    .shifts(companyOptional.get().getShifts().stream()
+                            .map(shift -> ShiftGetInformationResponseDto.builder()
+                                    .id(shift.getId())
+                                    .name(shift.getName())
+                                    .startTime(shift.getStartTime().toString())
+                                    .endTime(shift.getEndTime().toString())
+                                    .build()).collect(Collectors.toList()))
+                    .communications(companyOptional.get().getCommunications().stream()
+                            .map(communication -> CommunicationGetInformationResponseDto.builder()
+                                    .name(communication.getName())
+                                    .phoneNumber(communication.getPhoneNumber())
+                                    .build()).collect(Collectors.toList()))
+                    .build();
+        }else {
+            throw new CompanyServiceException(ErrorType.COMPANY_NOT_FOUND);
+        }
+
     }
 }

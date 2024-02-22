@@ -69,30 +69,42 @@ export function ApproveComment() {
     const [comments, setComments] = useState([{personalName: "", id: 0, content: "", companyName: ""}]);
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${COMMENT_URL}${FIND_ALL_BY_NOT_APPROVE}`, token);
-        if (response.status === 200) {
-            setComments(response.data);
-        } else {
+        const request = async () =>{
+            const response =await apiGet(`${API_GATEWAY_URL}${COMMENT_URL}${FIND_ALL_BY_NOT_APPROVE}`, token);
+            if (response.status === 200) {
+                setComments(response.data);
+            } else {
 
+            }
         }
+        request()
+
     }, []);
 
     const handleApprove = (id) => {
-        const response = apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'accept'}, token);
-        if(response.status === 200 && response.data === true) {
-            setComments(prevState => prevState.filter(item => item.id !== id))
-        }else {
+        const request = async () => {
+            const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'accept'}, token);
+            if(response.status === 200 && response.data === true) {
+                setComments(prevState => prevState.filter(item => item.id !== id))
+            }else {
 
+            }
         }
+        request()
+
     }
 
     const handleReject = (id) => {
-        const response = apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'reject'}, token);
-        if(response.status === 200 && response.data === true) {
-            setComments(prevState => prevState.filter(item => item.id !== id))
-        }else {
+        const request = async () => {
+            const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'reject'}, token);
+            if(response.status === 200 && response.data === true) {
+                setComments(prevState => prevState.filter(item => item.id !== id))
+            }else {
 
+            }
         }
+        request()
+
     }
 
     return (

@@ -14,10 +14,12 @@ import AddComment from "../components/AddComment.jsx";
 import {VisitorHome} from "../components/ViaitorHome.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
+import Personal from "../components/Personal.jsx";
 
 const HomePage = ({page}) => {
 
     const role = useSelector((state) => state.role);
+    const userProfile = useSelector((state) => state.userProfile);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,13 +44,14 @@ const HomePage = ({page}) => {
 
     return (
         <>
+            {role &&
             <div className={styles["home-page-wrapper"]}>
                 <div className={styles["user-profile-wrapper"]}>
                     <UserProfileContextProvider>
                         <UserProfile/>
                     </UserProfileContextProvider>
                 </div>
-
+                {userProfile.id &&
                 <div className={styles["content-wrapper"]}>
                     {role === 'ADMIN' && <>
                         {page === 'home' && <AdminHome/>}
@@ -58,7 +61,7 @@ const HomePage = ({page}) => {
                     </>}
                     {role === 'MANAGER' && <>
                         {page === 'home' && <ManagerHome/>}
-                        {page === 'personals' && <div>Soon</div>}
+                        {page === 'personals' && <Personal/>}
                         {page === 'calendar' && <MyCalendar/>}
                         {page === 'approveHoliday' && <ApproveHoliday/>}
                         {page === 'payment' && <div>Soon</div>}
@@ -73,7 +76,9 @@ const HomePage = ({page}) => {
                     </>}
 
                 </div>
+                }
             </div>
+            }
         </>
     )
 }

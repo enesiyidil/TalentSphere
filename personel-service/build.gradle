@@ -3,4 +3,5 @@ dependencies {
     implementation libs.mysql
     implementation libs.swagger
     implementation libs.springCloudOpenFeign
+    implementation libs.springBootAmqp
 }

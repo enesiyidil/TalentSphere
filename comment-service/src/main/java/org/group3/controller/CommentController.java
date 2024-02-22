@@ -1,10 +1,9 @@
 package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.group3.dto.request.AcceptOrRejectCommentByIdRequestDto;
 import org.group3.dto.request.CommentRequestDto;
-import org.group3.dto.response.CommentFindAllByNotApproveResponse;
-import org.group3.dto.response.CommentFindAllResponseDto;
-import org.group3.dto.response.CommentResponseDto;
+import org.group3.dto.response.*;
 import org.group3.entity.Comment;
 import org.group3.entity.enums.EStatus;
 import org.group3.service.CommentService;
@@ -37,15 +36,25 @@ public class CommentController {
     }
 
     // checked
-    @GetMapping (ACCEPT_OR_REJECT_COMMENT_BY_ID)
-    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestParam Long id, String confirm){
-        return ResponseEntity.ok(commentService.acceptOrRejectCommentById(id, confirm));
+    @PostMapping (ACCEPT_OR_REJECT_COMMENT_BY_ID)
+    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestBody AcceptOrRejectCommentByIdRequestDto dto){
+        return ResponseEntity.ok(commentService.acceptOrRejectCommentById(dto));
     }
 
     // checked
     @GetMapping (FIND_ALL)
     public  ResponseEntity<List<CommentFindAllResponseDto>> findAll(){
         return ResponseEntity.ok(commentService.findAll());
+    }
+
+    @GetMapping (FIND_ALL_BY_PERSONAL_ID)
+    public  ResponseEntity<List<CommentFindAllByPersonalIdResponseDto>> findAllByPersonalId(@RequestParam Long personalId){
+        return ResponseEntity.ok(commentService.findAllByPersonalId(personalId));
+    }
+
+    @GetMapping (FIND_ALL_BY_COMPANY_ID)
+    public  ResponseEntity<List<CommentFindAllByCompanyIdResponseDto>> findAllByCompanyId(@RequestParam Long companyId){
+        return ResponseEntity.ok(commentService.findAllByCompanyId(companyId));
     }
 
 

@@ -24,7 +24,7 @@ export const UserProfile = () => {
 
     useEffect(() => {
         handleSetUserProfile();
-    }, [userProfile]);
+    }, []);
 
     const handleEditIcon = () => {
         setEditing(true);
@@ -73,7 +73,7 @@ export const UserProfile = () => {
     }
 
     return (<>
-        {isLoading === false ?
+        {isLoading ?
             (<div className="loader"></div>) :
             (<div>
                 <div className={styles["button-wrapper"]}>

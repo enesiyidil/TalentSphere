@@ -1,7 +1,9 @@
 package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.group3.dto.request.ManagerSaveRequestDto;
 import org.group3.dto.request.ManagerUpdateRequestDto;
+import org.group3.dto.response.Company;
 import org.group3.dto.response.GetInformationResponseDto;
 import org.group3.dto.response.ManagerResponseDto;
 import org.group3.service.ManagerService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.EndPoints.ADD_PERSONAL;
 
 @CrossOrigin(maxAge = 3600, allowedHeaders = "*")
 @RestController
@@ -19,6 +22,11 @@ import static org.group3.constant.EndPoints.*;
 public class ManagerController {
 
     private final ManagerService service;
+
+    @PostMapping(SAVE)
+    public ResponseEntity<Boolean> save(@RequestBody ManagerSaveRequestDto dto){
+        return ResponseEntity.ok(service.save(dto));
+    }
 
     @GetMapping(FIND_BY_ID)
     public ResponseEntity<ManagerResponseDto> findById(@RequestParam Long id){
@@ -51,9 +59,18 @@ public class ManagerController {
     }
 
     @GetMapping(GET_INFORMATION)
-    public ResponseEntity<GetInformationResponseDto> getInformation (){
-        return ResponseEntity.ok(service.getInformation());
+    public ResponseEntity<GetInformationResponseDto> getInformation (@RequestParam Long id){
+        return ResponseEntity.ok(service.getInformation(id));
 
+    }
+
+    @GetMapping(ADD_PERSONAL)
+    public void addPersonal(@RequestParam Long managerId, @RequestParam Long personalId){
+        service.addPersonal(managerId, personalId);
+    }
+    @GetMapping(FIND_NAME_BY_ID)
+    public ResponseEntity<String> findNameById(@RequestParam Long id){
+        return ResponseEntity.ok(service.findNameById(id));
     }
 
 }

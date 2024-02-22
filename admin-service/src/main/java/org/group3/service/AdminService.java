@@ -84,6 +84,14 @@ public class AdminService extends ServiceManager<Admin, Long> {
         return IAdminMapper.INSTANCE.adminToFindByIdResponseDto(optionalAdmin.get());
     }
 
+    public Optional<Admin> findByAuthId(Long authId) {
+        Optional<Admin> optionalAdmin = repository.findByAuthId(authId);
+        if (optionalAdmin.isEmpty()) {
+            throw new AdminManagerException(ErrorType.ID_NOT_FOUND);
+        }
+        return optionalAdmin;
+    }
+
 
     public List<FindAllResponseDto> findAllDto() {
         return findAll().stream().map(IAdminMapper.INSTANCE::adminToFindAllResponseDto).collect(Collectors.toList());

@@ -8,7 +8,7 @@ import {useNavigate} from "react-router-dom";
 import styles from "../Css/UserProfile.module.css";
 import Select from '@mui/material/Select';
 import {MenuItem} from "@mui/material";
-import {API_GATEWAY_URL, COMPANY_URL, FIND_ALL_WITHOUT_MANAGER} from "../constant/Endpoints.js";
+import {API_GATEWAY_URL, COMPANY_URL, FIND_ALL_WITHOUT_MANAGER, MANAGER_URL, SAVE_URL} from "../constant/Endpoints.js";
 
 export default function AddManager() {
 
@@ -25,13 +25,17 @@ export default function AddManager() {
     });
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${COMPANY_URL}${FIND_ALL_WITHOUT_MANAGER}`, token);
-        if(response.status === 200){
-            setCompanies(response.data);
-        }else{
-            handleClearClick();
-            // navigate('/home');
+        const request = async () =>{
+            const response = await apiGet(`${API_GATEWAY_URL}${COMPANY_URL}${FIND_ALL_WITHOUT_MANAGER}`, token);
+            if(response.status === 200){
+                setCompanies(response.data);
+            }else{
+                handleClearClick();
+                // navigate('/home');
+            }
         }
+        request()
+
     }, []);
 
     const handleClearClick = () => {
@@ -44,8 +48,9 @@ export default function AddManager() {
     }
 
     const handleSaveClick = () => {
-        apiPost(manager, token);
-        handleClearClick();
+        apiPost(`${API_GATEWAY_URL}${MANAGER_URL}${SAVE_URL}`,manager, token);
+        console.log("manager -----",manager)
+        // handleClearClick();
         navigate('/home');
     }
 
@@ -89,7 +94,7 @@ export default function AddManager() {
                         label="Company"
                         onChange={e => setManager(prevState => ({...prevState, companyId: e.target.value}))}
                     >
-                        {companies.map(company => (<MenuItem value={company.id}>company.name</MenuItem>))}
+                        {companies.map(company => (<MenuItem value={company.id}>{company.name}</MenuItem>))}
                     </Select>
                 </div>
             </Box>

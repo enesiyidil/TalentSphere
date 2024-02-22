@@ -12,8 +12,8 @@ public class SaveConsumer {
 
     private final ManagerService service;
 
-    @RabbitListener(queues = "${rabbitmq.queue.manager.save}")
-    public void saveManager(ManagerSaveModel model){
-        service.save(model);
-    }
+//    @RabbitListener(queues = "${rabbitmq.queue.manager.save}")
+//    public void saveManager(ManagerSaveModel model){
+//        service.save(model);
+//    }
 }

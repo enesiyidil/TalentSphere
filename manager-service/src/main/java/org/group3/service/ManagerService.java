@@ -1,24 +1,26 @@
 package org.group3.service;
 
+import org.group3.dto.request.ManagerSaveRequestDto;
 import org.group3.dto.request.ManagerUpdateRequestDto;
-import org.group3.dto.response.GetInformationResponseDto;
-import org.group3.dto.response.ManagerResponseDto;
-import org.group3.dto.response.PersonelResponseDto;
+import org.group3.dto.request.PersonelSaveManagerRequestDto;
+import org.group3.dto.response.*;
 import org.group3.entity.Manager;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.ErrorType;
 import org.group3.exception.ManagerServiceException;
 import org.group3.manager.IAuthManager;
+import org.group3.manager.ICompanyManager;
+import org.group3.manager.IPaymentManager;
 import org.group3.manager.IPersonelManager;
 import org.group3.mapper.ManagerMapper;
+import org.group3.rabbit.model.AssignManagerModel;
 import org.group3.rabbit.model.AuthUpdateModel;
 import org.group3.rabbit.model.CompanyModel;
-import org.group3.rabbit.model.ManagerSaveModel;
 import org.group3.rabbit.model.PersonalModel;
 import org.group3.rabbit.producer.AuthDeleteProducer;
 import org.group3.rabbit.producer.AuthUpdateProducer;
+import org.group3.rabbit.producer.CompanyAssignManagerProducer;
 import org.group3.repository.ManagerRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -40,25 +42,50 @@ public class ManagerService {
 
     private final IPersonelManager personelManager;
 
-    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer, IAuthManager authManager, IPersonelManager personelManager) {
+    private final ICompanyManager companyManager;
+
+    private final IPaymentManager paymentManager;
+
+    private final CompanyAssignManagerProducer companyAssignManagerProducer;
+
+    public ManagerService(ManagerRepository repository, AuthDeleteProducer authDeleteProducer, AuthUpdateProducer authUpdateProducer, IAuthManager authManager, IPersonelManager personelManager, ICompanyManager companyManager, IPaymentManager paymentManager, CompanyAssignManagerProducer companyAssignManagerProducer) {
         this.repository = repository;
         this.authDeleteProducer = authDeleteProducer;
         this.authUpdateProducer = authUpdateProducer;
         this.authManager = authManager;
         this.personelManager = personelManager;
+        this.companyManager = companyManager;
+        this.paymentManager = paymentManager;
+        this.companyAssignManagerProducer = companyAssignManagerProducer;
     }
 
-    public Boolean save(ManagerSaveModel model) {
+    public Boolean save(ManagerSaveRequestDto dto) {
         Manager manager = Manager.builder()
-                .authId(model.getAuthId())
-                .email(model.getEmail())
-                .phone(model.getPhone())
-                .name(model.getName())
-                .surname(model.getSurname())
-                .title(model.getTitle())
+                .companyId(dto.getCompanyId())
+                .email(dto.getEmail())
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .authId(authManager.managerSave(dto).getBody())
                 .build();
-        authManager.managerSave(ManagerMapper.INSTANCE.managerToRegisterRequestDto(manager));
+        System.out.println(dto.getName()+dto.getSurname()+dto.getEmail()+dto.getCompanyId());
+        manager.setStatus(EStatus.ACTIVE);
+        //authManager.managerSave(dto);
+
         repository.save(manager);
+        companyAssignManagerProducer.assignManager(AssignManagerModel.builder()
+                        .managerId(manager.getId())
+                        .companyId(manager.getCompanyId())
+                .build());
+        personelManager.saveManager(PersonelSaveManagerRequestDto.builder()
+                        .companyId(manager.getCompanyId())
+                        .authId(manager.getAuthId())
+                        .name(manager.getName())
+                        .surname(manager.getSurname())
+                        .email(manager.getEmail())
+                        .phone(manager.getPhone())
+                        .title(manager.getTitle())
+                        .photo(manager.getPhoto())
+                .build());
         return true;
     }
 
@@ -115,6 +142,7 @@ public class ManagerService {
                 authUpdateProducer.update(AuthUpdateModel.builder()
                         .email(dto.getEmail())
                         .authId(existingManager.getAuthId())
+                        .phone(dto.getPhone())
                         .build());
             }
             return ManagerMapper.INSTANCE.ManagerToResponseDto(existingManager);
@@ -186,6 +214,23 @@ public class ManagerService {
         );
     }
 
+    public void addPersonal(Long id, Long personId) {
+        Optional<Manager> optionalExistingManager = repository.findById(id);
+        optionalExistingManager.ifPresent(
+                manager -> {
+                    if (optionalExistingManager.get().getStatus() == EStatus.DELETED)
+                        throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
+                    if (manager.getPersonals().contains(personId)) {
+                        throw new ManagerServiceException(ErrorType.PERSONAL_ALREADY_EXISTS);
+                    }
+                    manager.getPersonals().add(personId);
+                }
+        );
+        optionalExistingManager.orElseThrow(
+                () -> new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND)
+        );
+    }
+
     public void deletePersonal(PersonalModel model) {
         Optional<Manager> optionalExistingManager = repository.findById(model.getManagerId());
         optionalExistingManager.ifPresent(
@@ -216,13 +261,35 @@ public class ManagerService {
         return info;
     }
 
-    public GetInformationResponseDto getInformation() {
-
-        ResponseEntity<List<PersonelResponseDto>> listPersonel=personelManager.findAll();
-
-        GetInformationResponseDto dto= GetInformationResponseDto.builder()
-                .personalSize(listPersonel.getBody().size())
+    public GetInformationResponseDto getInformation(Long id) {
+        Company company = companyManager.findByManagerId(id).getBody();
+        System.out.println(company);
+        assert company != null;
+        List<Payment> payments = paymentManager.findAllByCompanyId(company.getId()).getBody();
+        List<Personel> personels =personelManager.findAllPersonalByCompanyId(company.getId()).getBody();
+        return GetInformationResponseDto.builder()
+                .id(company.getId())
+                .managerId(company.getManagerId())
+                .name(company.getName())
+                .address(company.getAddress())
+                .gallery(company.getGallery())
+                .payments(payments)
+                .personals(personels)
+                .communications(company.getCommunications())
+                .holidays(company.getHolidays())
+                .shifts(company.getShifts())
+                .createdDateTime(company.getCreatedDateTime())
+                .updatedDateTime(company.getUpdatedDateTime())
+                .status(company.getStatus())
                 .build();
-        return dto;
+    }
+
+    public String findNameById(Long id) {
+        Optional<Manager> optionalManager = repository.findById(id);
+        if (optionalManager.isPresent()){
+            return optionalManager.get().getName();
+        }else {
+            throw new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND);
+        }
     }
 }

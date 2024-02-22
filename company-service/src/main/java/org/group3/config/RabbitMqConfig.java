@@ -12,6 +12,80 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/*
+application.yml
+rabbitmq:
+  exchange:
+    auth: authExchange
+    admin: adminExchange
+    manager: managerExchange
+    personal: personalExchange
+    visitor: visitorExchange
+    company: companyExchange
+    payment: paymentExchange
+    mail: mailExchange
+    sms: smsExchange
+    holiday: holidayExchange
+
+  queue:
+    auth:
+      update: authUpdateQueue
+      delete: authDeleteQueue
+    admin:
+      save: adminSaveQueue
+    manager:
+      save: managerSaveQueue
+      addCompany: managerAddCompanyQueue
+      addPersonal: managerAddPersonalQueue
+      deleteCompany: managerDeleteCompanyQueue
+      deletePersonal: managerDeletePersonalQueue
+    personal:
+      addHoliday: personalAddHolidayQueue
+      deleteHoliday: personalDeleteHolidayQueue
+    visitor:
+      save: visitorSaveQueue
+    company:
+      addHoliday: companyAddHolidayQueue
+      addPayment: companyAddPaymentQueue
+      deleteHoliday: companyDeleteHolidayQueue
+      deletePayment: companyDeletePaymentQueue
+    mail:
+      sender: mailSenderQueue
+    sms:
+      sender: smsSenderQueue
+    holiday:
+      save: holidaySaveQueue
+
+  bindingKey:
+    auth:
+      update: authUpdateBindingKey
+      delete: authDeleteBindingKey
+    admin:
+      save: adminSaveBindingKey
+    manager:
+      save: managerSaveBindingKey
+      addCompany: managerAddCompanyBindingKey
+      addPersonal: managerAddPersonalBindingKey
+      deleteCompany: managerDeleteCompanyBindingKey
+      deletePersonal: managerDeletePersonalBindingKey
+    personal:
+      addHoliday: personalAddHolidayBindingKey
+      deleteHoliday: personalDeleteHolidayBindingKey
+    visitor:
+      save: visitorSaveBindingKey
+    company:
+      addHoliday: companyAddHolidayBindingKey
+      addPayment: companyAddPaymentBindingKey
+      deleteHoliday: companyDeleteHolidayBindingKey
+      deletePayment: companyDeletePaymentBindingKey
+    mail:
+      sender: mailSenderBindingKey
+    sms:
+      sender: smsSenderBindingKey
+    holiday:
+      save: holidaySaveBindingKey
+ */
+
 @Configuration
 public class RabbitMqConfig {
 
@@ -88,6 +162,8 @@ public class RabbitMqConfig {
     private String companyDeleteHolidayQueueName;
     @Value("${rabbitmq.queue.company.deletePayment}")
     private String companyDeletePaymentQueueName;
+    @Value("${rabbitmq.queue.company.assignManager}")
+    private String companyAssignManagerQueueName;
 
     // payment
 
@@ -145,6 +221,8 @@ public class RabbitMqConfig {
     private String companyDeleteHolidayBindingKey;
     @Value("${rabbitmq.bindingKey.company.deletePayment}")
     private String companyDeletePaymentBindingKey;
+    @Value("${rabbitmq.bindingKey.company.assignManager}")
+    private String companyAssignManagerBindingKey;
 
     // payment
 
@@ -288,6 +366,11 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    Queue companyAssignManagerQueue(){
+        return new Queue(companyAssignManagerQueueName);
+    }
+
+    @Bean
     Queue mailSenderQueue(){
         return new Queue(mailSenderQueueName);
     }
@@ -376,6 +459,11 @@ public class RabbitMqConfig {
     @Bean
     public Binding companyDeleteHolidayBinding(Queue companyDeleteHolidayQueue, DirectExchange exchangeCompany){
         return BindingBuilder.bind(companyDeleteHolidayQueue).to(exchangeCompany).with(companyDeleteHolidayBindingKey);
+    }
+
+    @Bean
+    public Binding companyAssignManagerBinding(Queue companyAssignManagerQueue, DirectExchange exchangeCompany){
+        return BindingBuilder.bind(companyAssignManagerQueue).to(exchangeCompany).with(companyAssignManagerBindingKey);
     }
 
     @Bean

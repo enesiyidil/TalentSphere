@@ -1,6 +1,7 @@
 package org.group3.manager;
 
 import jakarta.validation.Valid;
+import org.group3.dto.request.ManagerSaveRequestDto;
 import org.group3.dto.request.RegisterRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,6 @@ import static org.group3.constant.EndPoints.MANAGER_SAVE;
 public interface IAuthManager {
 
     @PostMapping(MANAGER_SAVE)
-    ResponseEntity<Long> managerSave(@RequestBody @Valid RegisterRequestDto dto);
+    ResponseEntity<Long> managerSave(@RequestBody ManagerSaveRequestDto dto);
 
 }
