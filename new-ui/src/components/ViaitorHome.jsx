@@ -68,12 +68,16 @@ export function VisitorHome() {
     ]);
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${VISITOR_URL}${GET_INFORMATION}`, token);
-        if (response.status === 200) {
-            setInformation(response.data);
-        } else {
+        const request = async () => {
+            const response =await apiGet(`${API_GATEWAY_URL}${VISITOR_URL}${GET_INFORMATION}`, token);
+            if (response.status === 200) {
+                setInformation(response.data);
+            } else {
 
+            }
         }
+        request()
+
     }, []);
 
     return (
@@ -92,7 +96,7 @@ export function VisitorHome() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {information.map((info, index) => ((info.companyName.includes(search) || search === "") &&
+                        {information.map((info, index) => ((info.companyName.includes(search) || !search ) &&
                             <Row key={index} row={info}/>))}
                     </TableBody>
                 </Table>

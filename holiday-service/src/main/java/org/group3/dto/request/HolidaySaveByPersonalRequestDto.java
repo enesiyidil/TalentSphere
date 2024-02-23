@@ -1,20 +1,18 @@
-package org.group3.dto.response;
+package org.group3.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.group3.entity.enums.EStatus;
 
-import java.time.LocalDate;
-import java.util.List;
+
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HolidayfFindAllByCompanyIdAndStatusPendingResponseDto {
-    Long id;
+public class HolidaySaveByPersonalRequestDto {
+    Long companyId;
 
     String name;
 
@@ -24,7 +22,6 @@ public class HolidayfFindAllByCompanyIdAndStatusPendingResponseDto {
 
     String description;
 
-    String personalName;
-
+    Long personalId;
 
 }

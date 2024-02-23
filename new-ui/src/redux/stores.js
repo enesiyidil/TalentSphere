@@ -20,7 +20,7 @@ const defaultState = {
         name: "",
         companyId: 0,
         address: "",
-        gallery: ["https://picsum.photos/200/300", "https://picsum.photos/300/300"],
+        gallery: [],
         payments: [{
             id: "",
             amount: 0,

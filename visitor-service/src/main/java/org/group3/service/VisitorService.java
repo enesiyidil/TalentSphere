@@ -3,6 +3,7 @@ package org.group3.service;
 import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
+import org.group3.dto.response.GetInformationForVisitorResponseDto;
 import org.group3.dto.response.VisitorFindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.entity.Visitor;
@@ -112,10 +113,27 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         return companyManager.findByName(companyName).getBody();
     }
 
-    public List<FindByIdResponseDto> findByAuthId(Long authId) {
-        List<Visitor> visitorList= repository.findByAuthId(authId);
-        return visitorList.stream()
-                .map(IVisitorMapper.INSTANCE::visitorToFindByIdResponseDto)
-                .collect(Collectors.toList());
+    public FindByIdResponseDto findByAuthId(Long authId) {
+        Optional<Visitor> optionalVisitor= repository.findByAuthId(authId);
+        if (optionalVisitor.isPresent()) {
+            return FindByIdResponseDto.builder()
+                    .id(optionalVisitor.get().getId())
+                    .name(optionalVisitor.get().getName())
+                    .surname(optionalVisitor.get().getSurname())
+                    .email(optionalVisitor.get().getEmail())
+                    .phone(optionalVisitor.get().getPhone())
+                    .photo(optionalVisitor.get().getPhoto())
+                    .createdDate(optionalVisitor.get().getCreatedDate())
+                    .updatedDate(optionalVisitor.get().getUpdatedDate())
+                    .build();
+        }else {
+            throw new VisitorManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+    }
+
+    public List<GetInformationForVisitorResponseDto> getInformation() {
+        return companyManager.getInformationForVisitor().getBody();
+
     }
 }

@@ -8,22 +8,22 @@ import org.group3.entity.Company;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
 import org.group3.exception.ErrorType;
+import org.group3.manager.ICommentManager;
+import org.group3.manager.IManagerServiceManager;
+import org.group3.manager.IPaymentManager;
 import org.group3.mapper.CompanyMapper;
 import org.group3.rabbit.model.AssignManagerModel;
-import org.group3.rabbit.model.CompanyModel;
 import org.group3.rabbit.model.HolidayModel;
 import org.group3.rabbit.model.PaymentModel;
 import org.group3.rabbit.producer.ManagerProducer;
 import org.group3.repository.CompanyRepository;
 import org.group3.utility.ServiceUtility;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,19 +36,23 @@ public class CompanyService {
 
     private final ManagerProducer managerProducer;
 
+    private final IManagerServiceManager managerServiceManager;
 
+    private final IPaymentManager paymentManager;
 
-
-
+    private final ICommentManager commentManager;
 
     //private final MessageSource messageSource;
 
-    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer) {
+    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer, IManagerServiceManager managerServiceManager, IPaymentManager paymentManager, ICommentManager commentManager) {
         this.repository = repository;
         this.serviceUtility = serviceUtility;
         this.managerProducer = managerProducer;
         //this.messageSource = messageSource;
 //        this.greet();
+        this.managerServiceManager = managerServiceManager;
+        this.paymentManager = paymentManager;
+        this.commentManager = commentManager;
     }
 
 //    public void greet() {
@@ -230,5 +234,22 @@ public class CompanyService {
             throw new CompanyServiceException(ErrorType.COMPANY_NOT_FOUND);
         }
 
+    }
+
+    public List<GetInformationForVisitorResponseDto> getInformationForVisitor() {
+
+        return repository.findAll().stream().map(company ->{
+            PaymentInformationForVisitorResponseDto payment = paymentManager.getInformationForVisitor(company.getId()).getBody();
+            return GetInformationForVisitorResponseDto.builder()
+                    .companyName(company.getName())
+                    .managerName(managerServiceManager.findNameById(company.getManagerId()).getBody())
+                    .address(company.getAddress())
+                    .createdDate(company.getCreatedDateTime().toString())
+                    .paymentNumber(payment.getPaymentNumber())
+                    .turnOver(payment.getTurnOver())
+                    .commentNumber(commentManager.findAll().getBody().stream()
+                            .filter(comment -> Objects.equals(comment.getId(), company.getId())).toList().size())
+                    .build();
+        } ).collect(Collectors.toList());
     }
 }

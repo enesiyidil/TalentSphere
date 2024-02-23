@@ -43,9 +43,9 @@ const DateRangePicker = () => {
         setEndDate(dayjs());
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = apiPost(`${API_GATEWAY_URL}${HOLIDAY_URL}${SAVE_BY_PERSONAL}`, {
+        const response =await apiPost(`${API_GATEWAY_URL}${HOLIDAY_URL}${SAVE_BY_PERSONAL}`, {
             name: name,
             description: description,
             startDate: startDate,
@@ -150,12 +150,16 @@ const MyCalendar = () => {
 
     if (role === 'PERSONAL') {
         useEffect(() => {
-            const response = apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_PERSONAL_ID_URL}?personalId=${userProfile.id}`, token);
-            if (response.status === 200) {
-                setHolidays(response.data);
-            } else {
+            const request = async () => {
+                const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_PERSONAL_ID_URL}?personalId=${userProfile.id}&companyId=${userProfile.companyId}`, token);
+                if (response.status === 200) {
+                    setHolidays(response.data);
+                } else {
 
+                }
             }
+            request()
+
         }, []);
     }
 
@@ -169,6 +173,11 @@ const MyCalendar = () => {
         return {style: {backgroundColor}};
     };
 
+    // console.log(new Date(`${data.holidays[0].endDate}`))
+    // console.log(new Date(`${data.holidays[0].endDate.substring(0,10)}`))
+    // console.log(data.holidays[0].endDate)
+    // console.log(new Date())
+    console.log(holidays)
     return (
         <div>
             <Calendar
@@ -176,14 +185,14 @@ const MyCalendar = () => {
                 localizer={myLocalizer}
                 events={role === 'MANAGER' ? (data.holidays.map(holiday => ({
                     title: holiday.name,
-                    start: holiday.startDate,
-                    end: holiday.endDate,
+                    start: new Date(`${holiday.startDate}`),
+                    end: new Date(`${holiday.endDate}`),
                     allDay: true,
                     desc: holiday.description
                 }))) : (holidays.map(holiday => ({
                     title: holiday.name,
-                    start: holiday.startDate,
-                    end: holiday.endDate,
+                    start: new Date(`${holiday.startDate}`),
+                    end: new Date(`${holiday.endDate}`),
                     allDay: true,
                     desc: holiday.description
                 })))}

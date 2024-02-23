@@ -69,33 +69,46 @@ export function ApproveHoliday() {
     const {apiPost, apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const data = useSelector((state) => state.data);
-    const [holidays, setHolidays] = useState([{name: "", id: 0, description: "", startDate: 0, endDate: 0, personalName: ""}]);
+    const userProfile = useSelector((state) => state.userProfile);
+    const [holidays, setHolidays] = useState([{name: "", id: 0, description: "", startDate: "", endDate: "", personalName: ""}]);
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING}?companyId=${data.companyId}`, token);
-        if (response.status === 200) {
-            setHolidays(response.data);
-        } else {
+        const request = async () => {
+            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING}?companyId=${userProfile.companyId}`, token);
+            if (response.status === 200) {
+                setHolidays(response.data);
+            } else {
 
+            }
         }
+        request()
+
     }, []);
 
     const handleApprove = (id) => {
-        const response = apiPost(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}`, {id: id, confirm: 'accept'}, token);
-        if(response.status === 200 && response.data === true) {
-            setHolidays(prevState => prevState.filter(item => item.id !== id))
-        }else {
+        const request = async () => {
+            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=accept`, token);
+            if(response.status === 200 && response.data === true) {
+                setHolidays(prevState => prevState.filter(item => item.id !== id))
+            }else {
 
+            }
         }
+        request()
+
     }
 
     const handleReject = (id) => {
-        const response = apiPost(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}`, {id: id, confirm: 'reject'}, token);
-        if(response.status === 200 && response.data === true) {
-            setHolidays(prevState => prevState.filter(item => item.id !== id))
-        }else {
+        const request = async  () => {
+            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=reject`, token);
+            if(response.status === 200 && response.data === true) {
+                setHolidays(prevState => prevState.filter(item => item.id !== id))
+            }else {
 
+            }
         }
+        request()
+
     }
 
     return (

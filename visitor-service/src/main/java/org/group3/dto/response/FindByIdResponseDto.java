@@ -16,8 +16,8 @@ public class FindByIdResponseDto {
     private String email;
     private String phone;
     private String photo;
-    @Builder.Default
-    private Long createdDate=System.currentTimeMillis();
+
+    private Long createdDate;
     private Long updatedDate;
 
 }

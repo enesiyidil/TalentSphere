@@ -26,9 +26,9 @@ public class Holiday {
 
     String name;
 
-    LocalDate startDate;
+    String startDate;
 
-    LocalDate endDate;
+    String endDate;
 
     String description;
 

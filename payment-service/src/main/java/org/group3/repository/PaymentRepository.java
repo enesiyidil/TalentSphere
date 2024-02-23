@@ -10,4 +10,5 @@ import java.util.List;
 public interface PaymentRepository extends ElasticsearchRepository<Payment, String> {
 
 
+    List<Payment> findAllByCompanyId(Long companyId);
 }

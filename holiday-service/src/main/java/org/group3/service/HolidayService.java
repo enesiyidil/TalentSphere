@@ -1,6 +1,7 @@
 package org.group3.service;
 
 import org.group3.dto.request.HolidayRequestDto;
+import org.group3.dto.request.HolidaySaveByPersonalRequestDto;
 import org.group3.dto.response.HolidayResponseDto;
 import org.group3.dto.response.HolidayfFindAllByCompanyIdAndStatusPendingResponseDto;
 import org.group3.entity.Holiday;
@@ -14,6 +15,7 @@ import org.group3.rabbit.producer.PersonalProducer;
 import org.group3.repository.HolidayRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +53,16 @@ public class HolidayService {
                     .build());
         }
         return HolidayMapper.INSTANCE.holidayToResponseDto(holiday);
+    }
+
+    public Boolean saveByPersonal(HolidaySaveByPersonalRequestDto dto) {
+        Holiday holiday = HolidayMapper.INSTANCE.holidaySaveByPersonalRequestDtoToHoliday(dto);
+        List<Long> personals = new ArrayList<>();
+        personals.add(dto.getPersonalId());
+        holiday.setPersonals(personals);
+        repository.save(holiday);
+        return true;
+
     }
 
     public HolidayResponseDto findById(Long id) {
@@ -161,4 +173,6 @@ public class HolidayService {
         }
         throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
     }
+
+
 }

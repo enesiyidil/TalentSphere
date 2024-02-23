@@ -2,6 +2,7 @@ package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.HolidayRequestDto;
+import org.group3.dto.request.HolidaySaveByPersonalRequestDto;
 import org.group3.dto.response.HolidayResponseDto;
 import org.group3.dto.response.HolidayfFindAllByCompanyIdAndStatusPendingResponseDto;
 import org.group3.entity.enums.EStatus;
@@ -25,6 +26,11 @@ public class HolidayController {
     @PostMapping(SAVE)
     public ResponseEntity<HolidayResponseDto> save(@RequestBody HolidayRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
+    }
+
+    @PostMapping(SAVE_BY_PERSONAL)
+    public ResponseEntity<Boolean> saveByPersonal(@RequestBody HolidaySaveByPersonalRequestDto dto){
+        return ResponseEntity.ok(service.saveByPersonal(dto));
     }
 
     // delete

@@ -3,6 +3,7 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.UpdateRequestDto;
 import org.group3.dto.response.CompanyFindByNameResponseDto;
+import org.group3.dto.response.GetInformationForVisitorResponseDto;
 import org.group3.dto.response.VisitorFindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.service.VisitorService;
@@ -50,7 +51,11 @@ public class VisitorController {
     }
 
     @GetMapping(FIND_BY_AUTH_ID)
-    public ResponseEntity<List<FindByIdResponseDto>> findByAuthId(@RequestParam Long authId) {
+    public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authId) {
         return ResponseEntity.ok(visitorService.findByAuthId(authId));
+    }
+    @GetMapping(GET_INFORMATION)
+    public ResponseEntity<List<GetInformationForVisitorResponseDto>> getInformation(){
+        return ResponseEntity.ok(visitorService.getInformation());
     }
 }

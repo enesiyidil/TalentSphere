@@ -95,6 +95,10 @@ public class CompanyController {
     public void addPersonal(@RequestParam Long companyId, @RequestParam Long personalId){
         service.addPersonal(companyId, personalId);
     }
+    @GetMapping(GET_INFORMATION_FOR_VISITOR)
+    public ResponseEntity<List<GetInformationForVisitorResponseDto>> getInformationForVisitor(){
+        return ResponseEntity.ok(service.getInformationForVisitor());
+    }
 
 
 }

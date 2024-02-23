@@ -3,6 +3,7 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.PaymentRequestDto;
 import org.group3.dto.response.PaymentFindAllInfoResponseDto;
+import org.group3.dto.response.PaymentInformationForVisitorResponseDto;
 import org.group3.entity.Payment;
 import org.group3.service.PaymentService;
 import org.springframework.http.ResponseEntity;
@@ -73,5 +74,9 @@ public class PaymentController {
     @GetMapping(COMPLETE_PAYMENT)
     public  ResponseEntity<Payment> completePayment(@RequestParam String id){
         return ResponseEntity.ok(service.completePayment(id));
+    }
+    @GetMapping(GET_INFORMATION_FOR_VISITOR)
+    public ResponseEntity<PaymentInformationForVisitorResponseDto> getInformationForVisitor(@RequestParam Long companyId){
+        return ResponseEntity.ok(service.getInformationForVisitor(companyId));
     }
 }

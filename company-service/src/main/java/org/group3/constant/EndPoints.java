@@ -6,6 +6,8 @@ public class EndPoints {
     public static final String COMMUNICATION = "/communication";
     public static final String COMPANY = "/company";
     public static final String SHIFT = "/shift";
+    public static final String GET_INFORMATION_FOR_VISITOR = "/getInformationForVisitor";
+    public static final String FIND_NAME_BY_ID = "/findNameById";
     public static final String SAVE = "/save";
     public static final String UPDATE = "/update";
     public static final String DELETE = "/deleteById";
