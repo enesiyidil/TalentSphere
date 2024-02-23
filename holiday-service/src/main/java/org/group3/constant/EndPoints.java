@@ -4,6 +4,7 @@ public class EndPoints {
 
     public static final String HOLIDAY = "/holiday";
     public static final String SAVE = "/save";
+    public static final String SAVE_BY_PERSONAL = "/saveByPersonal";
     public static final String UPDATE = "/update";
     public static final String DELETE = "/deleteById";
     public static final String FIND_ALL_BY_COMPANY_ID = "/findAllByCompanyId";

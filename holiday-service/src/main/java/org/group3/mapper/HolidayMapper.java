@@ -1,6 +1,7 @@
 package org.group3.mapper;
 
 import org.group3.dto.request.HolidayRequestDto;
+import org.group3.dto.request.HolidaySaveByPersonalRequestDto;
 import org.group3.dto.response.HolidayResponseDto;
 import org.group3.dto.response.HolidayfFindAllByCompanyIdAndStatusPendingResponseDto;
 import org.group3.entity.Holiday;
@@ -18,4 +19,6 @@ public interface HolidayMapper {
     HolidayResponseDto holidayToResponseDto(Holiday holiday);
 
     HolidayfFindAllByCompanyIdAndStatusPendingResponseDto holidayToHolidayfFindAllByCompanyIdAndStatusPendingResponseDto(Holiday holiday);
+
+    Holiday holidaySaveByPersonalRequestDtoToHoliday(HolidaySaveByPersonalRequestDto dto);
 }

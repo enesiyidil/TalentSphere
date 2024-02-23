@@ -2,8 +2,10 @@ package org.group3.service;
 
 import org.group3.dto.request.PaymentRequestDto;
 import org.group3.dto.response.PaymentFindAllInfoResponseDto;
+import org.group3.dto.response.PaymentInformationForVisitorResponseDto;
 import org.group3.entity.Payment;
 import org.group3.entity.enums.EStatus;
+import org.group3.entity.enums.EType;
 import org.group3.exception.ErrorType;
 import org.group3.exception.PaymentServiceException;
 import org.group3.mapper.PaymentMapper;
@@ -17,6 +19,7 @@ import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -148,4 +151,16 @@ public class PaymentService {
     }
 
 
+    public PaymentInformationForVisitorResponseDto getInformationForVisitor(Long companyId) {
+        List<Payment> payments = repository.findAllByCompanyId(companyId);
+        return PaymentInformationForVisitorResponseDto.builder()
+                .paymentNumber(payments.size())
+                .turnOver(payments.stream().filter(payment -> payment.getType() == EType.INCOME )
+                        .map((Payment::getAmount))
+                        .reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue() -
+                        payments.stream().filter(payment -> payment.getType() == EType.EXPENSE )
+                                .map((Payment::getAmount))
+                                .reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue())
+                .build();
+    }
 }
