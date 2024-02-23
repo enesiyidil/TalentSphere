@@ -19,25 +19,30 @@ export function ManagerHome() {
     const {apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const data = useSelector((state) => state.data);
+    const userProfile = useSelector((state) => state.userProfile);
     const dispatch = useDispatch();
     const [index, setIndex] = useState(0);
     const [progress, setProgress] = useState(0);
     const slideInterval = 5000;
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${MANAGER_URL}${GET_INFORMATION}`, token);
-        if (response.status === 200) {
-            dispatch(setData(response.data));
-        } else {
+        const request = async () =>{
+            const response =await apiGet(`${API_GATEWAY_URL}${MANAGER_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
+            if (response.status === 200) {
+                dispatch(setData(response.data));
+            } else {
 
+            }
         }
+        request()
+
     }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prevProgress) => {
                 if (prevProgress === 100) {
-                    setIndex((prevIndex) => (prevIndex + 1) % data.gallery.length);
+                    setIndex((prevIndex) => (prevIndex + 1) % (data.gallery ? data.gallery.length : 1));
                     return 0;
                 }
                 return prevProgress + (100 / slideInterval) * 100;
@@ -53,9 +58,11 @@ export function ManagerHome() {
             <div className={styles["manager-wrapper"]}>
                 <div className={styles["container-wrapper"]}>
                     <Container maxWidth="sm" style={{border: "1px solid blue"}}>
+                        {data.gallery &&
                         <Slide direction="right" in={true}>
-                            <img src={data.gallery[index]} alt={`Slide ${index}`}/>
+                             <img src={data.gallery[index]} alt={`Slide ${index}`}/>
                         </Slide>
+                        }
                         <LinearProgress variant="determinate" value={progress}/>
                     </Container>
                     <Container maxWidth="xs" style={{border: "1px solid blue"}}>
@@ -70,7 +77,7 @@ export function ManagerHome() {
                             </div>
                             <div className={styles["content-wrapper"]}>
                                 <span>Personal Number: </span>
-                                <span>{data.personals.length}</span>
+                                <span>{data.personals && data.personals.length}</span>
                             </div>
                             <div className={styles["content-wrapper"]}>
                                 <span>Communications Table: </span>
@@ -83,7 +90,7 @@ export function ManagerHome() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {data.communications.map((row) => (
+                                            {data.communications && data.communications.map((row) => (
                                                 <TableRow
                                                     key={row.id}
                                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -114,7 +121,7 @@ export function ManagerHome() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data.payments.map((row) => (
+                                    {data.payments && data.payments.map((row) => (
                                         <TableRow
                                             key={row.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}

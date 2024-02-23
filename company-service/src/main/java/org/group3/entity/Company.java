@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group3.entity.enums.EStatus;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,18 +36,20 @@ public class Company implements IStatus{
     List<String> gallery;
 
     @ElementCollection
+    @Fetch(FetchMode.JOIN)
     List<String> payments;
 
     @ElementCollection
     List<Long> personals;
 
     @OneToMany(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     List<Communication> communications;
 
     @ElementCollection
     List<Long> holidays;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "company")
     List<Shift> shifts;
 
     @Builder.Default
@@ -55,4 +61,6 @@ public class Company implements IStatus{
     @Enumerated(EnumType.STRING)
     @Builder.Default
     EStatus status = EStatus.ACTIVE;
+
+
 }

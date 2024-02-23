@@ -1,5 +1,6 @@
 package org.group3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class Communication implements IStatus{
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     Company company;
 
     String name;

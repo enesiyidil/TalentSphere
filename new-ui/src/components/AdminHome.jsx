@@ -18,13 +18,18 @@ export function AdminHome() {
         commentSize: 0
     });
 
-    useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${ADMIN_URL}${GET_INFORMATION}`, token);
-        if (response.status === 200) {
-            setInformation(response.data);
-        } else {
+    useEffect( () => {
+        const request = async () => {
+            const response = await apiGet(`${API_GATEWAY_URL}${ADMIN_URL}${GET_INFORMATION}`, token);
+            if (response.status === 200) {
+                setInformation(response.data);
+            } else {
 
+            }
         }
+
+        request()
+
     }, []);
 
     return (

@@ -36,6 +36,4 @@ public class Auth {
     @Builder.Default
     private Long createdDate=System.currentTimeMillis();
     private Long updatedDate;
-
-
 }

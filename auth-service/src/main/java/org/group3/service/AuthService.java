@@ -1,6 +1,7 @@
 package org.group3.service;
 
 import org.group3.dto.request.LoginRequestDto;
+import org.group3.dto.request.ManagerSaveRequestDto;
 import org.group3.dto.request.RegisterRequestDto;
 import org.group3.dto.request.UpdatePasswordRequestDto;
 import org.group3.dto.response.FindAllResponseDto;
@@ -118,6 +119,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
     public Long personalSave(RegisterRequestDto dto) {
         Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
         auth.setRole(ERole.PERSONAL);
+        auth.setStatus(EStatus.ACTIVE);
         auth.setPassword(codeGenerator.generateCode());
         save(auth);
         mailSenderProduce.convertAndSend(SendMailModel.builder()
@@ -128,8 +130,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return auth.getId();
     }
 
-    public Long managerSave(RegisterRequestDto dto) {
-        Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
+    public Long managerSave(ManagerSaveRequestDto dto) {
+        Auth auth = Auth.builder()
+                .email(dto.getEmail())
+                .username(dto.getName()+dto.getSurname())
+                .status(EStatus.ACTIVE)
+                .build();
         auth.setRole(ERole.MANAGER);
         auth.setPassword(codeGenerator.generateCode());
         save(auth);
@@ -206,14 +212,14 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
     public void softUpdate(UpdateAuthModel model) {
-        Optional<Auth> optionalAuth = findById(model.getAuthid());
+        Optional<Auth> optionalAuth = findById(model.getAuthId());
         Auth auth = optionalAuth.orElseThrow(() -> new AuthManagerException(ErrorType.USER_NOT_FOUND));
         if (optionalAuth.get().getStatus().equals(EStatus.DELETED)) {
             throw new AuthManagerException(ErrorType.USER_ALREADY_DELETED);
         }
-        if (repository.existsByEmail(model.getEmail())) {
-            throw new AuthManagerException(ErrorType.EMAIL_EXITS);
-        }
+//        if (repository.existsByEmail(model.getEmail())) {
+//            throw new AuthManagerException(ErrorType.EMAIL_EXITS);
+//        }
 
         auth.setEmail(model.getEmail());
         auth.setPhone(model.getPhone());

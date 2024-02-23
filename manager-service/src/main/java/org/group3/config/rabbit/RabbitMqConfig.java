@@ -162,6 +162,8 @@ public class RabbitMqConfig {
     private String companyDeleteHolidayQueueName;
     @Value("${rabbitmq.queue.company.deletePayment}")
     private String companyDeletePaymentQueueName;
+    @Value("${rabbitmq.queue.company.assignManager}")
+    private String companyAssignManagerQueueName;
 
     // payment
 
@@ -219,6 +221,8 @@ public class RabbitMqConfig {
     private String companyDeleteHolidayBindingKey;
     @Value("${rabbitmq.bindingKey.company.deletePayment}")
     private String companyDeletePaymentBindingKey;
+    @Value("${rabbitmq.bindingKey.company.assignManager}")
+    private String companyAssignManagerBindingKey;
 
     // payment
 
@@ -362,6 +366,11 @@ public class RabbitMqConfig {
     }
 
     @Bean
+    Queue companyAssignManagerQueue(){
+        return new Queue(companyAssignManagerQueueName);
+    }
+
+    @Bean
     Queue mailSenderQueue(){
         return new Queue(mailSenderQueueName);
     }
@@ -450,6 +459,11 @@ public class RabbitMqConfig {
     @Bean
     public Binding companyDeleteHolidayBinding(Queue companyDeleteHolidayQueue, DirectExchange exchangeCompany){
         return BindingBuilder.bind(companyDeleteHolidayQueue).to(exchangeCompany).with(companyDeleteHolidayBindingKey);
+    }
+
+    @Bean
+    public Binding companyAssignManagerBinding(Queue companyAssignManagerQueue, DirectExchange exchangeCompany){
+        return BindingBuilder.bind(companyAssignManagerQueue).to(exchangeCompany).with(companyAssignManagerBindingKey);
     }
 
     @Bean

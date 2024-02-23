@@ -1,12 +1,12 @@
 package org.group3.dto.response;
 
-import jakarta.persistence.Column;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,10 +15,9 @@ import java.util.List;
 
 public class PersonelResponseDto {
 
-    //private Long shiftId;
+    private Long id;
     private Long companyId;
     private Long authId;
-    //private  Long managerId;
     private String name;
     private String surname;
     private String email;
@@ -26,5 +25,10 @@ public class PersonelResponseDto {
     private String title;
     private String photo;
     private Double salary;
-    //private List<Long> annual_holiday;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+
+
+
+
 }

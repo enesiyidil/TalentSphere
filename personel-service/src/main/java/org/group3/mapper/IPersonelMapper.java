@@ -1,5 +1,6 @@
 package org.group3.mapper;
 
+import org.group3.dto.request.PersonelSaveManagerRequestDto;
 import org.group3.dto.request.PersonelSaveRequestDto;
 import org.group3.dto.request.PersonelUpdateRequestDto;
 import org.group3.dto.request.RegisterRequestDto;
@@ -16,6 +17,7 @@ public interface IPersonelMapper {
     IPersonelMapper INSTANCE = Mappers.getMapper( IPersonelMapper.class);
 
     Personel saveRequestDtoToPersonel(PersonelSaveRequestDto dto);
+    Personel saveManagerRequestDtoToPersonel(PersonelSaveManagerRequestDto dto);
 
     PersonelResponseDto personelToResponseDto(Personel personel);
 //    @Mapping(target = "name", source = "dto.name")

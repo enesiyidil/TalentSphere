@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UpdateAuthModel {
-    private Long authid;
+    private Long authId;
     private String email;
     private String phone;
 }

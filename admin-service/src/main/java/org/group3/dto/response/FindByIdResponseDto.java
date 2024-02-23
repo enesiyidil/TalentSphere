@@ -16,6 +16,6 @@ public class FindByIdResponseDto {
     private String email;
     private String phone;
     private String photo;
-    private Long createdDate;
-    private Long updatedDate;
+    private String createdDate;
+    private String updatedDate;
 }

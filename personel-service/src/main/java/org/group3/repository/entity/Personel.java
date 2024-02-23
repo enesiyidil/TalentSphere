@@ -19,18 +19,18 @@ public class Personel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
+
     private Long shiftId;
     private Long companyId;
     @Column(unique = true)
     private Long authId;
-    @Column(unique = true)
+
     private  Long managerId;
     @Column(length = 50)
     private String name;
     @Column(length = 50)
     private String surname;
-    @Column(length = 50, unique = true)
+    @Column(length = 50)
     private String email;
     @Column(length = 50)
     private String phone;

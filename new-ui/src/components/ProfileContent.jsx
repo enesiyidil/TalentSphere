@@ -76,7 +76,7 @@ const ProfileContent = ({editing, editedUserProfile, setEditedUserProfile}) => {
                 {role === 'MANAGER' && (
                         <div className={styles["content-wrapper"]}>
                             <span>Personals Number: </span>
-                            <span>{userProfile.personals.length}</span>
+                            <span>{userProfile.personals && userProfile.personals.length}</span>
                         </div>
                 )}
 

@@ -20,9 +20,9 @@ services:
     ports:
       - 3306:3306
 
-  talent-sphere-company-db:
+  talent-sphere-company2-db:
     image: mysql
-    container_name: talent-sphere-mysql-company-db
+    container_name: talent-sphere-mysql-company2-db
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     networks:
@@ -31,9 +31,9 @@ services:
       MYSQL_ROOT_PASSWORD: ts123456
       MYSQL_USER: talent-sphere
       MYSQL_PASSWORD: ts123456
-      MYSQL_DATABASE: talent-sphere-company-db
+      MYSQL_DATABASE: talent-sphere-company2-db
     ports:
-      - 3307:3306
+      - 3310:3306
 
   talent-sphere-holiday-db:
     image: mysql
@@ -126,3 +126,15 @@ services:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: user
     mem_limit: 128m
+
+  ElasticSearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: talent-sphere-elasticsearch
+    networks:
+      - talent-sphere-network
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    mem_limit: 1GB

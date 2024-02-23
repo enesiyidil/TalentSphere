@@ -26,7 +26,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // checked
     @PostMapping(REGISTER)
     public ResponseEntity<Boolean> register(@RequestBody @Valid RegisterRequestDto dto){
         if (!dto.getPassword().equals(dto.getRePassword())){
@@ -34,50 +33,38 @@ public class AuthController {
         }
         return ResponseEntity.ok(authService.register(dto));
     }
-
-    // checked
-    @PostMapping(PERSONAL_SAVE)
-    public ResponseEntity<Long> personalSave(@RequestBody @Valid RegisterRequestDto dto){
-        return ResponseEntity.ok(authService.personalSave(dto));
-    }
-
-    // checked
-    @PostMapping(MANAGER_SAVE)
-    public ResponseEntity<Long> managerSave(@RequestBody @Valid RegisterRequestDto dto){
-        return ResponseEntity.ok(authService.managerSave(dto));
-    }
-
-    // checked
     @PostMapping(LOGIN)
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto){
         return ResponseEntity.ok(authService.login(dto));
     }
 
-    // delete
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<FindAllResponseDto>> findAll(String token, @RequestParam(required = false) EStatus status){
         return ResponseEntity.ok(authService.findAll(token, status));
     }
-
-    // delete
     @GetMapping(FIND_BY_ID + "/{id}")
     public ResponseEntity<FindByIdRespoonseDto> findById(@PathVariable Long id){
         return ResponseEntity.ok(authService.findByIdDto(id));
     }
 
-    // delete
     @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(authService.softDelete(id));
     }
 
-    // checked
+    @PostMapping(PERSONAL_SAVE)
+    public ResponseEntity<Long> personalSave(@RequestBody @Valid RegisterRequestDto dto){
+        return ResponseEntity.ok(authService.personalSave(dto));
+    }
+    @PostMapping(MANAGER_SAVE)
+    public ResponseEntity<Long> managerSave(@RequestBody ManagerSaveRequestDto dto){
+        return ResponseEntity.ok(authService.managerSave(dto));
+    }
     @GetMapping(ACTIVATE)
     public ResponseEntity<String> activate(@RequestParam String t){
         return ResponseEntity.ok(authService.activateCode(t));
     }
 
-    // checked
     @PostMapping(UPDATE_PASSWORD)
     public ResponseEntity<Boolean> updatePassword(@RequestBody UpdatePasswordRequestDto dto){
         return ResponseEntity.ok(authService.updatePassword(dto));

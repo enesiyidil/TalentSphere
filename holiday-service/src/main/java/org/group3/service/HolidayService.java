@@ -93,34 +93,36 @@ public class HolidayService {
     }
 
     public HolidayResponseDto update(HolidayRequestDto dto) {
-        Optional<Holiday> optionalExistingHoliday = repository.findById(dto.getId());
-        if ((optionalExistingHoliday.isPresent())) {
-            if (optionalExistingHoliday.get().getStatus() == EStatus.DELETED)
-                throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_ACTIVE);
-            Holiday existingHoliday = getHoliday(dto, optionalExistingHoliday);
-            return HolidayMapper.INSTANCE.holidayToResponseDto(repository.save(existingHoliday));
-        }
-        throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
+//        Optional<Holiday> optionalExistingHoliday = repository.findById(dto.getId());
+//        if ((optionalExistingHoliday.isPresent())) {
+//            if (optionalExistingHoliday.get().getStatus() == EStatus.DELETED)
+//                throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_ACTIVE);
+//            Holiday existingHoliday = getHoliday(dto, optionalExistingHoliday);
+//            return HolidayMapper.INSTANCE.holidayToResponseDto(repository.save(existingHoliday));
+//        }
+//        throw new HolidayServiceException(ErrorType.HOLIDAY_NOT_FOUND);
+        return HolidayResponseDto.builder().build();
     }
 
     private static Holiday getHoliday(HolidayRequestDto dto, Optional<Holiday> optionalExistingHoliday) {
-        Holiday existingHoliday = optionalExistingHoliday.get();
-        if (dto.getName() != null) {
-            existingHoliday.setName(dto.getName());
-        }
-        if (dto.getStartDate() != null) {
-            existingHoliday.setStartDate(dto.getStartDate());
-        }
-        if (dto.getEndDate() != null) {
-            existingHoliday.setEndDate(dto.getEndDate());
-        }
-        if (dto.getDescription() != null) {
-            existingHoliday.setDescription(dto.getDescription());
-        }
-        if (dto.getPersonals() != null) {
-            existingHoliday.setPersonals(dto.getPersonals());
-        }
-        return existingHoliday;
+//        Holiday existingHoliday = optionalExistingHoliday.get();
+//        if (dto.getName() != null) {
+//            existingHoliday.setName(dto.getName());
+//        }
+//        if (dto.getStartDate() != null) {
+//            existingHoliday.setStartDate(dto.getStartDate());
+//        }
+//        if (dto.getEndDate() != null) {
+//            existingHoliday.setEndDate(dto.getEndDate());
+//        }
+//        if (dto.getDescription() != null) {
+//            existingHoliday.setDescription(dto.getDescription());
+//        }
+//        if (dto.getPersonals() != null) {
+//            existingHoliday.setPersonals(dto.getPersonals());
+//        }
+//        return existingHoliday;
+        return null;
     }
 
     public HolidayResponseDto setStatus(Long id, EStatus status){
@@ -147,11 +149,11 @@ public class HolidayService {
 
     }
 
-    public Boolean acceptOrRejectHolidayById(Long id, EStatus status) {
+    public Boolean acceptOrRejectHolidayById(Long id, String cofirm) {
         Optional<Holiday> optionalHoliday = repository.findById(id);
         if (optionalHoliday.isPresent()){
             if ((optionalHoliday.get().getStatus().equals(EStatus.PENDING))){
-                optionalHoliday.get().setStatus(status);
+                optionalHoliday.get().setStatus(cofirm.equals("accept") ? EStatus.ACTIVE : EStatus.DELETED);
                 repository.save(optionalHoliday.get());
                 return true;
             }

@@ -46,6 +46,10 @@ export const addPersonal = (payload) => ({
     type: 'ADD_PERSONAL',
     payload
 })
+export const updatePersonal = (payload) => ({
+    type: 'UPDATE_PERSONAL',
+    payload
+})
 
 export const addCompany = (payload) => ({
     type: 'ADD_COMPANY',

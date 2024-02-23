@@ -13,4 +13,5 @@ public class AuthUpdateModel {
 
     Long authId;
     String email;
+    String phone;
 }

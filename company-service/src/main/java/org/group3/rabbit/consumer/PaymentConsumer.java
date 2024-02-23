@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentConsumer {
 
-    CompanyService companyService;
+    private final CompanyService companyService;
 
     @RabbitListener(queues = "${rabbitmq.queue.company.addPayment}")
     public void addPayment(PaymentModel model) {

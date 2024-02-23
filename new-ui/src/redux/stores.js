@@ -2,19 +2,19 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userReducer } from './reducers'
 
 const defaultState = {
-    role: "MANAGER",
+    role: "",
     token: "",
     authId: 0,
     switchAccount: false,
     search: "",
     userProfile: {
-        name: "Enes",
-        photo: "https://picsum.photos/200/300",
-        surname: "İYİDİL",
-        email: "enes@gmail.com",
-        phone: "enes@gmail.com",
-        title: "yazılımcı",
-        personals: [1, 2, 3, 4, 5],
+        name: "",
+        photo: "",
+        surname: "",
+        email: "",
+        phone: "",
+        title: "",
+        personals: [],
     },
     data: {
         name: "",

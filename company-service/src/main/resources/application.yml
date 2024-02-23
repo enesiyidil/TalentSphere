@@ -17,7 +17,7 @@ spring:
       enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/talent-sphere-company-db
+    url: jdbc:mysql://localhost:3310/talent-sphere-company2-db
     username: talent-sphere
     password: ts123456
 
@@ -74,6 +74,7 @@ rabbitmq:
       addPayment: companyAddPaymentQueue
       deleteHoliday: companyDeleteHolidayQueue
       deletePayment: companyDeletePaymentQueue
+      assignManager: companyAssignManagerQueue
     mail:
       sender: mailSenderQueue
     sms:
@@ -103,6 +104,7 @@ rabbitmq:
       addPayment: companyAddPaymentBindingKey
       deleteHoliday: companyDeleteHolidayBindingKey
       deletePayment: companyDeletePaymentBindingKey
+      assignManager: companyAssignManagerBindingKey
     mail:
       sender: mailSenderBindingKey
     sms:

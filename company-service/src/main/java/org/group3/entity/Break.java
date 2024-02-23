@@ -1,5 +1,6 @@
 package org.group3.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,7 +22,8 @@ public class Break implements IStatus{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne()
     Shift shift;
 
     String name;
@@ -33,4 +35,15 @@ public class Break implements IStatus{
     @Enumerated(EnumType.STRING)
     @Builder.Default
     EStatus status = EStatus.ACTIVE;
+
+    @Override
+    public String toString() {
+        return "Break{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", status=" + status +
+                '}';
+    }
 }

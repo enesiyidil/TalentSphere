@@ -19,5 +19,5 @@ public class PersonelUpdateRequestDto {
     private String phone;
     private String title;
     private String photo;
-    // Double salary;
+    private Double salary;
 }

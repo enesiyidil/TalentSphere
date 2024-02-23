@@ -37,8 +37,8 @@ public class AdminController {
 
     // checked
     @GetMapping(FIND_BY_AUTH_ID)
-    public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authid){
-        return ResponseEntity.ok(adminService.findByAuthIdDto(authid));
+    public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authId){
+        return ResponseEntity.ok(adminService.findByAuthIdDto(authId));
     }
 
     // delete

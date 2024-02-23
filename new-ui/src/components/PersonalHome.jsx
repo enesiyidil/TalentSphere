@@ -17,6 +17,7 @@ export function PersonalHome() {
 
     const {apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
+    const userProfile = useSelector((state) => state.userProfile);
     const [index, setIndex] = useState(0);
     const [progress, setProgress] = useState(0);
     const slideInterval = 5000;
@@ -50,12 +51,16 @@ export function PersonalHome() {
     });
 
     useEffect(() => {
-        const response = apiGet(`${API_GATEWAY_URL}${PERSONAL_URL}${GET_INFORMATION}`, token);
-        if (response.status === 200) {
-            setInformation(response.data);
-        } else {
+        const request = async () => {
+            const response =await apiGet(`${API_GATEWAY_URL}${PERSONAL_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
+            if (response.status === 200) {
+                setInformation(response.data);
+            } else {
 
+            }
         }
+        request()
+
     }, []);
 
     useEffect(() => {
@@ -120,7 +125,7 @@ export function PersonalHome() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {information.company.communications.map((row) => (
+                                            {information.company.communications && information.company.communications.map((row) => (
                                                 <TableRow
                                                     key={row.id}
                                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -150,7 +155,7 @@ export function PersonalHome() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {information.comments.map((row) => (
+                                    {information.comments && information.comments.map((row) => (
                                         <TableRow
                                             key={row.id}
                                             sx={{'&:last-child td, &:last-child th': {border: 0}}}

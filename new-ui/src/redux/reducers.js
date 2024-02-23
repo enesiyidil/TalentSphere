@@ -51,6 +51,11 @@ export const userReducer = (state, action) => {
                 ...state,
                 data: {...state.data, personals: [...state.data.personals, action.payload]}
             };
+        case 'UPDATE_PERSONAL':
+            return {
+                ...state,
+                data: {...state.data, personals: state.data.personals.map(personal => action.payload.id === personal.id ? action.payload : personal )}
+            };
         case 'ADD_COMPANY':
             return {
                 ...state,

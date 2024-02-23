@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HolidayConsumer {
 
-    CompanyService companyService;
+    private final CompanyService companyService;
 
     @RabbitListener(queues = "${rabbitmq.queue.company.addHoliday}")
     public void addHoliday(HolidayModel model) {

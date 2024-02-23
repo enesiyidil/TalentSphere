@@ -31,6 +31,7 @@ const MainPage = () => {
                         <Route path="/home/approveHoliday" element={<HomePage page="approveHoliday"/>}/>
                         <Route path="/home/payment" element={<HomePage page="payment"/>}/>
                         <Route path="/home/comment" element={<HomePage page="comment"/>}/>
+                        <Route path="/home/personals" element={<HomePage page="personals"/>}/>
                         <Route exact path="*" element={<HomePage page="home"/>}/>
                     </Routes>
                 </main>
