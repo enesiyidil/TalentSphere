@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static org.group3.constant.EndPoints.FIND_BY_NAME;
-import static org.group3.constant.EndPoints.GET_INFORMATION_FOR_VISITOR;
+import static org.group3.constant.EndPoints.*;
 
-@FeignClient(name = "company-service-manager", url = "http://localhost:9097/company")
+@FeignClient(name = "company-manager", url = "${apiGatewayUrl}" + COMPANY )
 public interface ICompanyManager {
 
     @GetMapping(FIND_BY_NAME)

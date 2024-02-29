@@ -2,4 +2,5 @@ dependencies {
     implementation libs.springCloudStarterGateway
     implementation libs.springCloudCircuitBraker
     implementation libs.springCloudCircuitBrakerReactor
+    //implementation libs.springBootSecurity
 }

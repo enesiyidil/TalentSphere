@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.FIND_ALL_BY_COMPANY_ID;
+import static org.group3.constant.EndPoints.PAYMENT;
 
 
-@FeignClient(name = "payment-manager", url = "http://localhost:9098/payment" )
+@FeignClient(name = "payment-manager", url = "${apiGatewayUrl}" + PAYMENT )
 public interface IPaymentManager {
 
     @GetMapping(FIND_ALL_BY_COMPANY_ID)

@@ -8,11 +8,11 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import static org.group3.constant.EndPoints.ADD_PERSONAL;
-import static org.group3.constant.EndPoints.FIND_BY_PERSONAL_ID_GET_INFO;
+
+import static org.group3.constant.EndPoints.*;
 
 
-@FeignClient(name = "company-manager", url = "http://localhost:9097/company" )
+@FeignClient(name = "company-manager", url = "${apiGatewayUrl}" + COMPANY )
 public interface ICompanyManager {
 
     @GetMapping(ADD_PERSONAL)

@@ -13,7 +13,7 @@ import java.util.List;
 import static org.group3.constant.EndPoints.*;
 
 
-@FeignClient(name = "comment-manager", url = "http://localhost:9102/comment" )
+@FeignClient(name = "comment-manager", url = "${apiGatewayUrl}" + COMMENT )
 public interface ICommentManager {
 
     @GetMapping (FIND_ALL_BY_COMPANY_ID)

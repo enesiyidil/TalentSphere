@@ -20,6 +20,7 @@ import org.group3.repository.VisitorRepository;
 import org.group3.utility.ServiceManager;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,11 +29,8 @@ import java.util.stream.Collectors;
 public class VisitorService extends ServiceManager<Visitor, Long> {
 
     private final VisitorRepository repository;
-
     private final AuthUpdateProduce authUpdateProduce;
-
     private final AuthDeleteProducer authDeleteProducer;
-
     private final ICompanyManager companyManager;
     public VisitorService(VisitorRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, ICompanyManager companyManager) {
         super(repository);
@@ -41,15 +39,6 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         this.authUpdateProduce = authUpdateProduce;
         this.authDeleteProducer = authDeleteProducer;
         this.companyManager = companyManager;
-    }
-
-    public String saveDto(SaveRequestDto dto) {
-        if (repository.existsByEmail(dto.getEmail()) || repository.existsByPhone(dto.getPhone())) {
-            throw new VisitorManagerException(ErrorType.EMAIL_OR_PHONE_EXITS);
-        }
-        Visitor visitor = IVisitorMapper.INSTANCE.saveRequestDtoToVisitor(dto);
-        save(visitor);
-        return "kayıt işlemi başarılı";
     }
 
     public FindByIdResponseDto findByIdDto(Long id) {
@@ -74,20 +63,37 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
         if (repository.existsByEmail(dto.getEmail()) || repository.existsByPhone(dto.getPhone())) {
             throw new VisitorManagerException(ErrorType.EMAIL_OR_PHONE_EXITS);
         }
-
+        if (dto.getName() != null) {
+            visitor.setName(dto.getName());
+        }
+        if (dto.getSurname() != null) {
+            visitor.setSurname(dto.getSurname());
+        }
+        if (dto.getPhoto() != null) {
+            visitor.setPhoto(dto.getPhoto());
+        }
+        if (dto.getGender() != null) {
+            visitor.setGender(dto.getGender());
+        }
         if (dto.getEmail() != null) {
             visitor.setEmail(dto.getEmail());
         }
         if (dto.getPhone() != null) {
             visitor.setPhone(dto.getPhone());
         }
-        visitor.setUpdatedDate(System.currentTimeMillis());
+        visitor.setUpdatedDate(LocalDateTime.now().toString());
+
 
         update(visitor);
-        authUpdateProduce.convertAndSend(UpdateAuthModel.builder()
-                .authid(visitor.getAuthId())
-                .email(visitor.getEmail())
-                .build());
+        if (dto.getEmail() != null || dto.getPhone() != null) {
+            authUpdateProduce.convertAndSend(UpdateAuthModel.builder()
+                    .authId(visitor.getAuthId())
+                    .email(visitor.getEmail())
+                            .phone(visitor.getPhone())
+                    .build());
+        }
+
+
 
         return IVisitorMapper.INSTANCE.visitorToFindByIdResponseDto(visitor);
     }
@@ -123,6 +129,7 @@ public class VisitorService extends ServiceManager<Visitor, Long> {
                     .email(optionalVisitor.get().getEmail())
                     .phone(optionalVisitor.get().getPhone())
                     .photo(optionalVisitor.get().getPhoto())
+                    .gender(optionalVisitor.get().getGender())
                     .createdDate(optionalVisitor.get().getCreatedDate())
                     .updatedDate(optionalVisitor.get().getUpdatedDate())
                     .build();

@@ -47,16 +47,17 @@ public class Company implements IStatus{
     List<Communication> communications;
 
     @ElementCollection
+    @Fetch(FetchMode.JOIN)
     List<Long> holidays;
 
     @OneToMany(mappedBy = "company")
+    @Cascade(CascadeType.ALL)
     List<Shift> shifts;
 
     @Builder.Default
-    LocalDateTime createdDateTime = LocalDateTime.now();
+    String createdDateTime = LocalDateTime.now().toString();
 
-    @Builder.Default
-    LocalDateTime updatedDateTime = LocalDateTime.now();
+    String updatedDateTime;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default

@@ -1,13 +1,12 @@
 package org.group3.mapper;
 
-import org.group3.dto.request.PersonelSaveManagerRequestDto;
-import org.group3.dto.request.PersonelSaveRequestDto;
-import org.group3.dto.request.PersonelUpdateRequestDto;
-import org.group3.dto.request.RegisterRequestDto;
-import org.group3.dto.response.PersonelResponseDto;
-import org.group3.repository.entity.Personel;
+import org.group3.dto.request.ManagerOrPersonalSaveRequestDto;
+import org.group3.dto.request.PersonalSaveManagerRequestDto;
+import org.group3.dto.request.PersonalSaveRequestDto;
+import org.group3.dto.request.PersonalUpdateRequestDto;
+import org.group3.dto.response.PersonalResponseDto;
+import org.group3.repository.entity.Personal;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -16,10 +15,10 @@ import org.mapstruct.factory.Mappers;
 public interface IPersonelMapper {
     IPersonelMapper INSTANCE = Mappers.getMapper( IPersonelMapper.class);
 
-    Personel saveRequestDtoToPersonel(PersonelSaveRequestDto dto);
-    Personel saveManagerRequestDtoToPersonel(PersonelSaveManagerRequestDto dto);
+    Personal saveRequestDtoToPersonel(PersonalSaveRequestDto dto);
+    Personal saveManagerRequestDtoToPersonel(PersonalSaveManagerRequestDto dto);
 
-    PersonelResponseDto personelToResponseDto(Personel personel);
+    PersonalResponseDto personelToResponseDto(Personal personal);
 //    @Mapping(target = "name", source = "dto.name")
 //    @Mapping(target = "surname", source = "dto.surname")
 //    @Mapping(target = "email", source = "dto.email")
@@ -30,8 +29,8 @@ public interface IPersonelMapper {
 //    Personel updatePersonelFromDto(Long id, PersonelUpdateRequestDto dto);
 
 
-    RegisterRequestDto personalToRegisterRequestDto(Personel personel);
+    ManagerOrPersonalSaveRequestDto personalToManagerOrPersonalSaveRequestDto(Personal personal);
 
 
-    void updatePersonelFromDto(PersonelUpdateRequestDto dto, @MappingTarget Personel existingPersonel);
+    void updatePersonelFromDto(PersonalUpdateRequestDto dto, @MappingTarget Personal existingPersonal);
 }

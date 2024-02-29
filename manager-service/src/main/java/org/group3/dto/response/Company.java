@@ -27,8 +27,8 @@ public class Company{
     List<Communication> communications;
     List<Long> holidays;
     List<Shift> shifts;
-    LocalDateTime createdDateTime;
-    LocalDateTime updatedDateTime;
+    String createdDateTime;
+    String updatedDateTime;
 
     EStatus status;
 }

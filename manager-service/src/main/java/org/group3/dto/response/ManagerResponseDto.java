@@ -1,9 +1,8 @@
 package org.group3.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.group3.entity.enums.EGender;
+import org.group3.entity.enums.EPackage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@Setter
 public class ManagerResponseDto {
 
     Long id;
@@ -20,11 +21,14 @@ public class ManagerResponseDto {
     String email;
     String phone;
     String photo;
+    EGender gender;
     Long companyId;
     String title;
+    EPackage ePackage;
     List<Long> personals;
-    LocalDateTime updatedDateTime;
-    @Builder.Default
-    LocalDateTime createdDateTime = LocalDateTime.now();
+    String updatedDateTime;
+    String createdDateTime;
+
+
 
 }

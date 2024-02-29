@@ -4,29 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100, "Sunucu Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
+    INTERNAL_ERROR_SERVER(94500, INTERNAL_ERROR_SERVER_ERROR_MESSAGES, HttpStatus.INTERNAL_SERVER_ERROR),
 
-    MANAGER_NOT_ACTIVE(3001, "Manager aktif değil", HttpStatus.FORBIDDEN),
+    MANAGER_NOT_ACTIVE(94015, MANAGER_NOT_ACTIVE_ERROR_MESSAGES, HttpStatus.FORBIDDEN),
 
-    MANAGER_NOT_FOUND(3002, "Manager bulunamadı", HttpStatus.NOT_FOUND),
+    MANAGER_NOT_FOUND(94016, MANAGER_NOT_FOUND_ERROR_MESSAGES, HttpStatus.NOT_FOUND),
 
-    COMPANY_ALREADY_EXISTS(3002, "Şirket zaten var", HttpStatus.BAD_REQUEST),
+    COMPANY_ALREADY_EXISTS(94017, COMPANY_ALREADY_EXISTS_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    COMPANY_NOT_REGISTERED(3002, "Şirket kayıtlı değil", HttpStatus.BAD_REQUEST),
+    COMPANY_NOT_REGISTERED(94018, COMPANY_NOT_REGISTERED_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    PERSONAL_ALREADY_EXISTS(3002, "Personal zaten var", HttpStatus.BAD_REQUEST),
+    PERSONAL_ALREADY_EXISTS(94019, PERSONAL_ALREADY_EXISTS_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    PERSONAL_NOT_REGISTERED(3002, "Personal kayıtlı değil", HttpStatus.BAD_REQUEST),
+    PERSONAL_NOT_REGISTERED(94020, PERSONAL_NOT_REGISTERED_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    INVALID_TOKEN(6000,"Geçersiz token",HttpStatus.BAD_REQUEST),
-
-    TOKEN_NOT_CREATE(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST);
-
+    PARAMETER_NOT_VALID(94008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

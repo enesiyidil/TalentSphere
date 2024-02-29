@@ -3,6 +3,10 @@ package org.group3.constant;
 public class EndPoints {
 
     public static final String PERSONAL = "/personal";
+    public static final String AUTH = "/auth";
+    public static final String COMMENT = "/comment";
+    public static final String COMPANY = "/company";
+    public static final String MANAGER = "/manager";
     public static final String SAVE = "/save";
     public static final String SAVE_MANAGER = "/saveManager";
     public static final String UPDATE = "/update";
@@ -14,6 +18,7 @@ public class EndPoints {
     public static final String FIND_BY_PERSONAL_ID_GET_INFO = "/findByPersonalIdGetInfo";
     public static final String FIND_ALL_PERSONAL_BY_COMPANY_ID = "/findAllPersonalByCompanyId";
     public static final String FIND_NAME_BY_PERSONAL_ID = "/findNameByPersonalId";
+    public static final String FIND_NAME_BY_PERSONAL_AUTH_ID = "/findNameByPersonalAuthId";
     public static final String FIND_ALL_BY_MANAGER_ID = "/findAllByManagerId";
     public static final String FIND_BY_ID = "/findById";
     public static final String FIND_BY_AUTH_ID = "/findByAuthId";

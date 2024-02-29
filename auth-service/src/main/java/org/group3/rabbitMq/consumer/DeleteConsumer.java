@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class DeleteConsumer {
 
     private final AuthService authService;
-
     @RabbitListener(queues = "${rabbitmq.queue.auth.delete}")
     public void saveFromQueue(DeleteAuthModel model){
         authService.softDelete(model.getAuthid());

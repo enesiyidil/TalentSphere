@@ -11,17 +11,16 @@ spring:
       enabled: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/TalentSphereAdmin
+    url: jdbc:postgresql://localhost:5432/TalentSphereAdmin
     username: postgres
     password: 1234
   jpa:
     hibernate:
       ddl-auto: update
 
-adminservice:
-  secrets:
-    secret-key: ${TALENTSPHERE_SECRETKEY}
-    issuer: ${TALENTSPHERE_ISSUER}
+
+apiGatewayUrl: "http://localhost:9091"
+
 
 rabbitmq:
   exchange:
@@ -93,6 +92,5 @@ rabbitmq:
       sender: smsSenderBindingKey
     holiday:
       save: holidaySaveBindingKey
-
 
 

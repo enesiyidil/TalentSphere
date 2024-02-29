@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 import static org.group3.constant.EndPoints.FIND_ALL;
+import static org.group3.constant.EndPoints.VISITOR;
 
-@FeignClient(name = "visitor-manager", url = "http://localhost:9096/visitor" )
+@FeignClient(name = "visitor-manager", url = "${apiGatewayUrl}" + VISITOR )
 public interface IVisitorManager {
 
     @GetMapping(FIND_ALL)

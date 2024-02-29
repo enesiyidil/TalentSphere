@@ -19,26 +19,18 @@ public class ServiceManager<T, ID> implements IService<T, ID>{
     @Override
     public T save(T t) {
         Long time=System.currentTimeMillis();
-//        t.setCreatedDate(time);
-//        t.setUpdateAt(time);
-//        t.setState(true);
         return jpaRepository.save(t);
     }
 
     @Override
     public Iterable<T> saveAll(Iterable<T> t) {
         Long time=System.currentTimeMillis();
-//        t.forEach(x->{
-//            x.setCreateAt(time);
-//            x.setUpdateAt(time);
-//            x.setState(true);
-//        });
         return jpaRepository.saveAll(t);
     }
 
     @Override
     public T update(T t) {
-//        t.setUpdateAt(System.currentTimeMillis());
+
         return jpaRepository.save(t);
     }
 

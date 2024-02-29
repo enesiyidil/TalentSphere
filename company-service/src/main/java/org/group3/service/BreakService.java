@@ -36,15 +36,11 @@ public class BreakService {
     }
 
     public BreakResponseDto save(BreakSaveRequestDto dto) {
-        //mapper olmadan builder build yap
-        //Break breakEntity = repository.save(BreakMapper.INSTANCE.saveRequestDtoToBreak(dto));
         Break breakEntity = repository.save(Break.builder()
                         .name(dto.getName())
-                        .shift(shiftService.findById(dto.getShiftId()))
-                        .startTime(LocalTime.parse(dto.getStartTime(), formatter))
-                        .endTime(LocalTime.parse(dto.getEndTime(), formatter))
+                        .startTime(dto.getStartTime())
+                        .endTime(dto.getEndTime())
                 .build());
-        //shiftService.addBreak(breakEntity.getShiftId(), breakEntity.getId());
         return BreakMapper.INSTANCE.breakToResponseDto(breakEntity);
     }
 

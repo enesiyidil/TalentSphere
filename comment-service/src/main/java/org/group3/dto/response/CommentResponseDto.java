@@ -15,4 +15,5 @@ public class CommentResponseDto {
     Long personalId;
     String content;
     EStatus eStatus;
+    String title;
 }

@@ -1,15 +1,13 @@
 package org.group3.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.enums.ECurrency;
+import org.group3.entity.enums.ERole;
 import org.group3.entity.enums.EStatus;
 import org.group3.entity.enums.EType;
 import org.springframework.data.annotation.Id;
@@ -17,6 +15,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,25 +30,31 @@ public class Payment {
 
     Long companyId;
 
+    Long authId;
+
     BigDecimal amount;
 
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "uuuu-MM-dd'T'HH:mm:ss.SSS")
-//    @JsonSerialize(using = LocalDateTimeSerializer.class)
-//    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @Builder.Default
-    Long createdDate = System.currentTimeMillis();
+    String dueDate;
 
-    Long dueDate;
+    String paymentDate;
 
-    Long paymentDate;
-
-    @Builder.Default
-    Long updatedDate = System.currentTimeMillis();
+    String updatedDate;
 
     String description;
 
     EType type;
 
+    ECurrency currency;
+
+    String expenditureType;
+
+    ERole role;
+
     @Builder.Default
-    EStatus status = EStatus.ACTIVE;
+    EStatus status = EStatus.PENDING;
+
+    @Builder.Default
+    String requestDate= LocalDateTime.now().toString();
+
+    String approvalDate;
 }

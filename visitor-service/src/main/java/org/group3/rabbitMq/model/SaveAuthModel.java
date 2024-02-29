@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.enums.EGender;
 
 @Data
 @NoArgsConstructor
@@ -16,4 +17,6 @@ public class SaveAuthModel {
     private String email;
     private String phone;
     private String title;
+    private EGender gender;
+    private String photo;
 }

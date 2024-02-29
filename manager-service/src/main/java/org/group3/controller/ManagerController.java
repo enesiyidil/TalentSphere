@@ -3,7 +3,6 @@ package org.group3.controller;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.ManagerSaveRequestDto;
 import org.group3.dto.request.ManagerUpdateRequestDto;
-import org.group3.dto.response.Company;
 import org.group3.dto.response.GetInformationResponseDto;
 import org.group3.dto.response.ManagerResponseDto;
 import org.group3.service.ManagerService;
@@ -15,7 +14,7 @@ import java.util.List;
 import static org.group3.constant.EndPoints.*;
 import static org.group3.constant.EndPoints.ADD_PERSONAL;
 
-@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(MANAGER)
 @RequiredArgsConstructor
@@ -71,6 +70,11 @@ public class ManagerController {
     @GetMapping(FIND_NAME_BY_ID)
     public ResponseEntity<String> findNameById(@RequestParam Long id){
         return ResponseEntity.ok(service.findNameById(id));
+    }
+
+    @GetMapping(FIND_NAME_BY_AUTH_ID)
+    public ResponseEntity<String> findNameByAuthId(@RequestParam Long authId){
+        return ResponseEntity.ok(service.findNameByAuthId(authId));
     }
 
 }

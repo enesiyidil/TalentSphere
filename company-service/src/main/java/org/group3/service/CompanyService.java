@@ -3,8 +3,10 @@ package org.group3.service;
 import org.group3.dto.request.CompanySaveRequestDto;
 import org.group3.dto.request.CompanyUpdateRequestDto;
 import org.group3.dto.response.*;
+import org.group3.entity.Break;
 import org.group3.entity.Communication;
 import org.group3.entity.Company;
+import org.group3.entity.Shift;
 import org.group3.entity.enums.EStatus;
 import org.group3.exception.CompanyServiceException;
 import org.group3.exception.ErrorType;
@@ -34,32 +36,23 @@ public class CompanyService {
 
     private final ServiceUtility serviceUtility;
 
-    private final ManagerProducer managerProducer;
-
     private final IManagerServiceManager managerServiceManager;
 
     private final IPaymentManager paymentManager;
 
     private final ICommentManager commentManager;
 
-    //private final MessageSource messageSource;
-
-    public CompanyService(CompanyRepository repository, ServiceUtility serviceUtility, ManagerProducer managerProducer, IManagerServiceManager managerServiceManager, IPaymentManager paymentManager, ICommentManager commentManager) {
+    public CompanyService(CompanyRepository repository,
+                          ServiceUtility serviceUtility,
+                          IManagerServiceManager managerServiceManager,
+                          IPaymentManager paymentManager,
+                          ICommentManager commentManager) {
         this.repository = repository;
         this.serviceUtility = serviceUtility;
-        this.managerProducer = managerProducer;
-        //this.messageSource = messageSource;
-//        this.greet();
         this.managerServiceManager = managerServiceManager;
         this.paymentManager = paymentManager;
         this.commentManager = commentManager;
     }
-
-//    public void greet() {
-//        String greeting = messageSource.getMessage("hello", null, Locale.getDefault());
-//        System.out.println(greeting); // Hello (eğer varsayılan dil İngilizce ise)
-//    }
-
     public Boolean save(CompanySaveRequestDto dto) {
         Company company = repository.save(Company.builder()
                         .name(dto.getName())
@@ -71,12 +64,31 @@ public class CompanyService {
                         .phoneNumber(dto.getCommunicationPhone())
                         .name(dto.getCommunicationName())
                 .build());
+        List<Shift> shifts = dto.getShifts().stream().map(shiftSaveRequestDto ->
+        {Shift shift = Shift.builder()
+                        .company(company)
+                        .name(shiftSaveRequestDto.getName())
+                        .startTime(shiftSaveRequestDto.getStartTime())
+                        .endTime(shiftSaveRequestDto.getEndTime())
+                        .build();
+            List<Break> breaks = shiftSaveRequestDto.getBreaks().stream().map(breakSaveRequestDto ->
+                    Break.builder()
+                            .shift(shift)
+                            .name(breakSaveRequestDto.getName())
+                            .endTime(breakSaveRequestDto.getEndTime())
+                            .startTime(breakSaveRequestDto.getStartTime())
+                            .build()
+                    ).collect(Collectors.toList());
+            shift.setBreaks(breaks);
+        return shift;
+        }).collect(Collectors.toList());
+
         company.setCommunications(communicationList);
+        company.setShifts(shifts);
+        company.setUpdatedDateTime(LocalDateTime.now().toString());
         repository.save(company);
         return true;
     }
-
-
 
     public Company findById(Long id) {
         Optional<Company> optionalCompany = repository.findById(id);
@@ -90,8 +102,6 @@ public class CompanyService {
 
     public Company findByManagerId(Long managerId) {
         return repository.findByManagerId(managerId);
-
-
     }
 
     public Boolean deleteById(Long id) {
@@ -109,18 +119,9 @@ public class CompanyService {
         if (dto.getGallery() != null) {
             existingCompany.setGallery(dto.getGallery());
         }
-        existingCompany.setUpdatedDateTime(LocalDateTime.now());
+        existingCompany.setUpdatedDateTime(LocalDateTime.now().toString());
         return repository.save(existingCompany);
     }
-
-//    public void addCommunication(Long id, Long phoneId) {
-//        Company existingCompany = this.findById(id);
-//        if (existingCompany.getCommunications().contains(phoneId))
-//            throw new CompanyServiceException(ErrorType.COMMUNICATION_ALREADY_EXISTS);
-//        existingCompany.getCommunications().add(phoneId);
-//        repository.save(existingCompany);
-//    }
-
     public void addPayment(PaymentModel model) {
         Company existingCompany = this.findById(model.getCompanyId());
         if (existingCompany.getPayments().contains(model.getPaymentId()))
@@ -136,15 +137,6 @@ public class CompanyService {
         existingCompany.getPersonals().add(personalId);
         repository.save(existingCompany);
     }
-
-    public void addShift(Long id, Long shiftId) {
-//        Company existingCompany = this.findById(id);
-//        if (existingCompany.getShifts().contains(shiftId))
-//            throw new CompanyServiceException(ErrorType.SHIFT_ALREADY_EXISTS);
-//        existingCompany.getShifts().add(shiftId);
-//        repository.save(existingCompany);
-    }
-
     public void addHoliday(HolidayModel model) {
         Company existingCompany = this.findById(model.getCompanyId());
         if (existingCompany.getHolidays().contains(model.getHolidayId()))
@@ -171,7 +163,7 @@ public class CompanyService {
 
     public CompanyFindByNameResponseDto findByName(String name) {
         Company company=repository.findByName(name);
-        CompanyFindByNameResponseDto dto = CompanyFindByNameResponseDto.builder()
+        return CompanyFindByNameResponseDto.builder()
                 .name(company.getName())
                 .address(company.getAddress())
                 .gallery(company.getGallery())
@@ -179,8 +171,6 @@ public class CompanyService {
                 .managerId(company.getManagerId())
                 .id(company.getId())
                 .build();
-        //return CompanyMapper.INSTANCE.companyToCompanyResponseDto(company);
-        return dto;
     }
 
     public List<CompanyFindAllInfoResponseDto> findAllInfo() {
@@ -240,14 +230,15 @@ public class CompanyService {
 
         return repository.findAll().stream().map(company ->{
             PaymentInformationForVisitorResponseDto payment = paymentManager.getInformationForVisitor(company.getId()).getBody();
+            assert payment != null;
             return GetInformationForVisitorResponseDto.builder()
                     .companyName(company.getName())
                     .managerName(managerServiceManager.findNameById(company.getManagerId()).getBody())
                     .address(company.getAddress())
-                    .createdDate(company.getCreatedDateTime().toString())
+                    .createdDate(company.getCreatedDateTime())
                     .paymentNumber(payment.getPaymentNumber())
                     .turnOver(payment.getTurnOver())
-                    .commentNumber(commentManager.findAll().getBody().stream()
+                    .commentNumber(Objects.requireNonNull(commentManager.findAll().getBody()).stream()
                             .filter(comment -> Objects.equals(comment.getId(), company.getId())).toList().size())
                     .build();
         } ).collect(Collectors.toList());

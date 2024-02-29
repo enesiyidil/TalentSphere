@@ -1,13 +1,9 @@
 package org.group3.service;
 
-import org.group3.dto.request.LoginRequestDto;
-import org.group3.dto.request.ManagerSaveRequestDto;
-import org.group3.dto.request.RegisterRequestDto;
-import org.group3.dto.request.UpdatePasswordRequestDto;
+import org.group3.dto.request.*;
 import org.group3.dto.response.FindAllResponseDto;
-import org.group3.dto.response.FindByIdRespoonseDto;
+import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.dto.response.LoginResponseDto;
-import org.group3.dto.response.RegisterResponseDto;
 import org.group3.entity.Auth;
 import org.group3.entity.Enums.ERole;
 import org.group3.entity.Enums.EStatus;
@@ -23,8 +19,13 @@ import org.group3.repository.AuthRepository;
 import org.group3.utility.CodeGenerator;
 import org.group3.utility.JwtTokenManager;
 import org.group3.utility.ServiceManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import static org.group3.constant.EndPoints.*;
+import static org.group3.constant.Messages.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,124 +33,90 @@ import java.util.stream.Collectors;
 @Service
 public class AuthService extends ServiceManager<Auth, Long> {
 
+    @Value("${apiGatewayUrl}")
+    private String apiGatewayUrl;
     private final AuthRepository repository;
-
     private final JwtTokenManager tokenManager;
-    private final AdminSave adminSave;
-
     private final VisitorSaveProduce visitorSaveProduce;
-
-    private final ManagerSaveProducer managerSaveProducer;
-
     private final MailSenderProduce mailSenderProduce;
-
     private final CodeGenerator codeGenerator;
     private final SmsSenderProduce smsSenderProduce;
 
-    public AuthService(AuthRepository repository, JwtTokenManager tokenManager, AdminSave adminSave, VisitorSaveProduce visitorSaveProduce, ManagerSaveProducer managerSaveProducer, MailSenderProduce mailSenderProduce, CodeGenerator codeGenerator, SmsSenderProduce smsSenderProduce) {
+    public AuthService(AuthRepository repository,
+                       JwtTokenManager tokenManager,
+                       VisitorSaveProduce visitorSaveProduce,
+                       MailSenderProduce mailSenderProduce,
+                       CodeGenerator codeGenerator,
+                       SmsSenderProduce smsSenderProduce) {
         super(repository);
         this.repository = repository;
         this.tokenManager = tokenManager;
-        this.adminSave = adminSave;
         this.visitorSaveProduce = visitorSaveProduce;
-        this.managerSaveProducer = managerSaveProducer;
         this.mailSenderProduce = mailSenderProduce;
         this.codeGenerator = codeGenerator;
         this.smsSenderProduce = smsSenderProduce;
     }
 
+    @Transactional
     public Boolean register(RegisterRequestDto dto) {
-        //personelse hata fırlat
         if (repository.existsByEmail(dto.getEmail())) {
             throw new AuthManagerException(ErrorType.REGISTER_EMAIL_ALREADY_EXISTS);
         }
         Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
-        //auth.setCreatedDate(System.currentTimeMillis());
         auth.setRole(ERole.VISITOR);
+        auth.setUpdatedDate(LocalDateTime.now().toString());
         save(auth);
-        if (auth.getRole().equals(ERole.VISITOR)) {
-            visitorSaveProduce.convertAndSend(SaveAuthModel.builder()
-                    .authId(auth.getId())
-                    .email(auth.getEmail())
-                    .name(dto.getName())
-                    .surname(dto.getSurname())
-//                    .phone(dto.getPhone())
-                    .build());
-        }
 
-        String url = "http://localhost:9092/auth/activate?t=" + tokenManager.createToken(auth.getId(), auth.getRole()).get();
+        visitorSaveProduce.convertAndSend(SaveAuthModel.builder()
+                .authId(auth.getId())
+                .email(auth.getEmail())
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .gender(dto.getGender())
+                .phone(dto.getPhone())
+                .photo(dto.getPhoto())
+                .build());
+
+        String token = tokenManager.createToken(auth.getId(), auth.getRole()).orElseThrow(
+                () -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED)
+        );
+
+        String url = apiGatewayUrl + AUTH + ACTIVATE + "?t=" + token;
         mailSenderProduce.convertAndSend(SendMailModel.builder()
                 .email(auth.getEmail())
-                .subject("Aktivasyon")
+                .subject(ACTIVATE_MESSAGE)
                 .content(url)
                 .build());
-        System.out.println(url);
-
-
-//        if (auth.getRole().equals(ERole.ADMIN)) {
-//            adminSave.convertAndSend(SaveAuthModel.builder()
-//                    .authId(auth.getId())
-//                    .email(auth.getEmail())
-//                    .name(dto.getName())
-//                    .surname(dto.getSurname())
-//                    .phone(dto.getPhone())
-//                    .build());
-//            auth.setStatus(EStatus.ACTIVE);
-//            update(auth);
-//        }
-
-//        if (auth.getRole().equals(ERole.MANAGER)) {
-//            managerSaveProducer.convertAndSend(SaveAuthModel.builder()
-//                    .authId(auth.getId())
-//                    .email(auth.getEmail())
-//                    .name(dto.getName())
-//                    .surname(dto.getSurname())
-//                    .phone(dto.getPhone())
-//                    .title(dto.getTitle())
-//                    .build());
-//        }
-
-
-
-
-//        return IAuthMapper.INSTANCE.authToRegisterResponseDto(auth);
         return true;
     }
 
-    public Long personalSave(RegisterRequestDto dto) {
-        Auth auth = IAuthMapper.INSTANCE.registerRequestDtotoAuth(dto);
-        auth.setRole(ERole.PERSONAL);
-        auth.setStatus(EStatus.ACTIVE);
+    @Transactional
+    public Long managerOrPersonalSave(ManagerOrPersonalSaveRequestDto dto) {
+        Auth auth = IAuthMapper.INSTANCE.managerOrPersonalSaveRequestDtoToAuth(dto);
+        auth.setUsername(dto.getName() + dto.getSurname());
         auth.setPassword(codeGenerator.generateCode());
+        auth.setStatus(EStatus.ACTIVE);
+        auth.setUpdatedDate(LocalDateTime.now().toString());
         save(auth);
         mailSenderProduce.convertAndSend(SendMailModel.builder()
                 .email(auth.getEmail())
-                .subject("Şifresi")
+                .subject(ACCOUNT_DETAILS_MESSAGE)
                 .content(auth.getPassword())
                 .build());
         return auth.getId();
     }
-
-    public Long managerSave(ManagerSaveRequestDto dto) {
-        Auth auth = Auth.builder()
-                .email(dto.getEmail())
-                .username(dto.getName()+dto.getSurname())
-                .status(EStatus.ACTIVE)
-                .build();
-        auth.setRole(ERole.MANAGER);
-        auth.setPassword(codeGenerator.generateCode());
+    @Transactional
+    public Long adminSave(AdminSaveRequestDto dto) {
+        Auth auth = IAuthMapper.INSTANCE.adminSaveRequestDtoToAuth(dto);
+        auth.setStatus(EStatus.ACTIVE);
+        auth.setRole(ERole.ADMIN);
+        auth.setUpdatedDate(LocalDateTime.now().toString());
         save(auth);
-        mailSenderProduce.convertAndSend(SendMailModel.builder()
-                .email(auth.getEmail())
-                .subject("Şifresi")
-                .content(auth.getPassword())
-                .build());
         return auth.getId();
     }
 
     public LoginResponseDto login(LoginRequestDto dto) {
         Optional<Auth> optionalAuth = repository.findOptionalByEmailAndPassword(dto.getEmail(), dto.getPassword());
-
 
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
@@ -164,14 +131,16 @@ public class AuthService extends ServiceManager<Auth, Long> {
                     .toNumber(optionalAuth.get().getPhone())
                     .message(code)
                     .build());
-            String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole(), code).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+            String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole(), code)
+                    .orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
             return LoginResponseDto.builder()
                     .token(token)
                     .authId(optionalAuth.get().getId())
                     .role(optionalAuth.get().getRole())
                     .build();
         }
-        String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole()).orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
+        String token = tokenManager.createToken(optionalAuth.get().getId(), optionalAuth.get().getRole())
+                .orElseThrow(() -> new AuthManagerException(ErrorType.TOKEN_NOT_CREATED));
         return LoginResponseDto.builder()
                 .token(token)
                 .authId(optionalAuth.get().getId())
@@ -179,18 +148,12 @@ public class AuthService extends ServiceManager<Auth, Long> {
                 .build();
     }
 
-    public List<FindAllResponseDto> findAll(String token, EStatus status) {
-        Optional<Long> idFromToken;
-        try {
-            idFromToken = tokenManager.decodeToken(token);
-        } catch (Exception e) {
-            throw new AuthManagerException(ErrorType.INVALID_TOKEN);
-        }
+    public List<FindAllResponseDto> findAll(EStatus status) {
         return findAll().stream().filter(auth -> status == null || auth.getStatus() == status)
                 .map(IAuthMapper.INSTANCE::authToFindAllResponseDto).collect(Collectors.toList());
     }
 
-    public FindByIdRespoonseDto findByIdDto(Long id) {
+    public FindByIdResponseDto findByIdDto(Long id) {
         Optional<Auth> optionalAuth = findById(id);
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.ID_NOT_FOUND);
@@ -198,7 +161,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return IAuthMapper.INSTANCE.authToFindByIdResponseDto(optionalAuth.get());
     }
 
-    public String softDelete(Long id) {
+    public Boolean softDelete(Long id) {
         Optional<Auth> optionalAuth = findById(id);
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
@@ -208,7 +171,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         }
         optionalAuth.get().setStatus(EStatus.DELETED);
         save(optionalAuth.get());
-        return "User named " + optionalAuth.get().getUsername() + " has been deleted";
+        return true;
     }
 
     public void softUpdate(UpdateAuthModel model) {
@@ -217,18 +180,16 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (optionalAuth.get().getStatus().equals(EStatus.DELETED)) {
             throw new AuthManagerException(ErrorType.USER_ALREADY_DELETED);
         }
-//        if (repository.existsByEmail(model.getEmail())) {
-//            throw new AuthManagerException(ErrorType.EMAIL_EXITS);
-//        }
-
-        auth.setEmail(model.getEmail());
-        auth.setPhone(model.getPhone());
-        auth.setUpdatedDate(System.currentTimeMillis());
+        if (model.getEmail() != null){
+            auth.setEmail(model.getEmail());
+        }
+        if (model.getPhone() != null){
+            auth.setPhone(model.getPhone());
+            System.out.println(auth.getPhone());
+        }
+        auth.setUpdatedDate(LocalDateTime.now().toString());
         update(auth);
-
     }
-
-
 
 
     public String activateCode(String t) {
@@ -236,29 +197,24 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (optionalAuth.isEmpty()) {
             throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
         }
-
         return statusControl(optionalAuth.get());
-
     }
 
     private String statusControl(Auth auth) {
         switch (auth.getStatus()) {
             case ACTIVE -> {
-                return "Hesap zaten aktif";
+                return ACCOUNT_ALREADY_ACTIVATED_MESSAGE;
             }
             case PENDING -> {
                 auth.setStatus(EStatus.ACTIVE);
                 update(auth);
-
-                //activeStatusProducer.convertAndSendToRabbit(auth.getId());
-                return "Aktivasyon başarılı";
+                return ACTIVATION_SUCCESSFUL_MESSAGE;
             }
             case BANNED -> {
-                return "Hesabınız banlı";
+                return YOUR_ACCOUNT_HAS_BEEN_BLOCKED_MESSAGE;
             }
             case DELETED -> {
-                return "Hesabınız silinmiş";
-
+                return YOUR_ACCOUNT_HAS_BEEN_DELETED_MESSAGE;
             }
             default -> {
                 throw new AuthManagerException(ErrorType.INTERNAL_ERROR_SERVER);
@@ -267,7 +223,6 @@ public class AuthService extends ServiceManager<Auth, Long> {
     }
 
     public Boolean updatePassword(UpdatePasswordRequestDto dto) {
-
         Optional<Auth> optionalAdmin = findById(dto.getId());
         Auth auth = optionalAdmin.orElseThrow(() -> new AuthManagerException(ErrorType.USER_NOT_FOUND));
         if (optionalAdmin.get().getStatus().equals(EStatus.DELETED)) {
@@ -276,7 +231,6 @@ public class AuthService extends ServiceManager<Auth, Long> {
         auth.setPassword(dto.getPassword());
         update(auth);
         return true;
-
     }
 
 

@@ -30,6 +30,7 @@ const LoginPage = () => {
         <>
             <div className={styles["register-form-wrapper"]}>
                 <form onSubmit={handleSubmit} className={styles["register-form"]}>
+                    <input type="hidden" name="_csrf" value="DNjNrIIZvI9Pxypmv-P4hQitdT7nRLuNpbLz-oceAR7xww-mOOn_yrcojOli80gFiM7MsjzPWAfeJ4ugk4HCwuMuZHzApj2f" />
 
                     <label className={styles["label"]}>
                         <span>E-Mail: </span>

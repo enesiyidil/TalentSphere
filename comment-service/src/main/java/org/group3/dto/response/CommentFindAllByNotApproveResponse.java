@@ -15,5 +15,6 @@ public class CommentFindAllByNotApproveResponse {
     String companyName;
     String personalName;
     String content;
+    String title;
 
 }

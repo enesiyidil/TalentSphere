@@ -13,4 +13,5 @@ public class CommentFindAllByCompanyIdResponseDto {
     Long personalId;
     String content;
     String createdDate;
+    String title;
 }

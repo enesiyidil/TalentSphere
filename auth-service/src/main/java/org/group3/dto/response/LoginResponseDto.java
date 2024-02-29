@@ -13,8 +13,6 @@ import org.group3.entity.Enums.ERole;
 public class LoginResponseDto {
 
     String token;
-
     ERole role;
-
     Long authId;
 }

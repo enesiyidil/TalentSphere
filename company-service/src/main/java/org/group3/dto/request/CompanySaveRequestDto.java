@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.group3.entity.Communication;
+import org.group3.entity.Shift;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,4 +24,6 @@ public class CompanySaveRequestDto {
     String communicationPhone;
 
     String communicationName;
+
+    List<ShiftSaveRequestDto> shifts;
 }

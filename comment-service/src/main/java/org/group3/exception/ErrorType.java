@@ -4,28 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100,"Sunucu Hatası",HttpStatus.INTERNAL_SERVER_ERROR),
-    EMAIL_EXITS(2100,"Email kullanılıyor",HttpStatus.BAD_REQUEST),
-    PASSWORD_MISMATCH(2200,"Şifreler uyuşmuyor",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(5000,"Parametre Hatası",HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(3000,"Email ya da Şifre hatalı veya eksik",HttpStatus.NOT_FOUND),
-    ACCOUNT_NOT_ACTIVE(3001,"Hesabınız aktif değil",HttpStatus.FORBIDDEN),
-    ACTIVATION_CODE_MISMATSC(3002,"Aktivasyon kodu hatalı",HttpStatus.BAD_REQUEST),
-    USER_ALREADY_DELETED(3003,"Hesap zaten silinmiş",HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN(6000,"geçersiz token",HttpStatus.BAD_REQUEST),
-    TOKEN_NOT_CREATED(6001,"token oluşturulamadı",HttpStatus.BAD_REQUEST),
-    EMAIL_OR_PHONE_EXITS(2100,"Email veya telefon kullanılıyor",HttpStatus.BAD_REQUEST),
-    COMMENT_NOT_PENDING(7100,"Yorum zaten reddedilmiş ya da onaylanmıştır",HttpStatus.BAD_REQUEST),
-    ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND),
-    COMMENT_NOT_FOUND(6001, "Comment bulunamadı", HttpStatus.BAD_REQUEST);
+    INTERNAL_ERROR_SERVER(102500,INTERNAL_ERROR_SERVER_ERROR_MESSAGES,HttpStatus.INTERNAL_SERVER_ERROR),
 
+    COMMENT_NOT_PENDING(102010,COMMENT_NOT_PENDING_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
+    COMMENT_NOT_FOUND(102011, COMMENT_NOT_FOUND_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    private int code;
-    private String message;
-    HttpStatus httpStatus;
+    PARAMETER_NOT_VALID(102008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
+
+    private final int code;
+    private final String message;
+    final HttpStatus httpStatus;
 }

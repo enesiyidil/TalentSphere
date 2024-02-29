@@ -25,6 +25,9 @@ authservice:
     secret-key: ${TALENTSPHERE_SECRETKEY}
     issuer: ${TALENTSPHERE_ISSUER}
 
+apiGatewayUrl: "http://localhost:9091"
+
+
 rabbitmq:
   exchange:
     auth: authExchange
