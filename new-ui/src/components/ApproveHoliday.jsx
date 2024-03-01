@@ -23,6 +23,7 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
 
     return (
+
         <React.Fragment>
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
                 <TableCell>
@@ -113,6 +114,8 @@ export function ApproveHoliday() {
 
     return (
         <>
+            <div style={{ width:'50%', height:'20%',paddingTop:'1.5rem',margin:'auto',
+                }}>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
@@ -130,6 +133,7 @@ export function ApproveHoliday() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </div>
         </>
     )
 }

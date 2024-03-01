@@ -1,0 +1,33 @@
+.user-information-card {
+    border-radius: 20px;
+    padding: 15vh 5vw; /* Yukarı 15vh, Sağ ve sol 10vw */
+    background-color: rgba(26, 26, 26, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* user-information-card'ı göreli konumlandırma */
+
+}
+
+.icon-container {
+
+    position: absolute; /* user-information-card'a göre mutlak konumlandırma */
+    top: 10px; /* İkonun sayfanın üst kenarına olan mesafesi */
+    right: 20px; /* İkonun sayfanın sağ kenarına olan mesafesi */
+
+}
+
+.icon {
+    position: absolute; /* user-information-card'a göre mutlak konumlandırma */
+    top: 7px; /* İkonun sayfanın üst kenarına olan mesafesi */
+    gap:0.5rem;
+    right: 60px;
+    display: flex;
+    flex-direction: row;
+    z-index: 1000;
+    color: white;
+    width: 40px; /* İkon genişliği */
+    height: 40px; /* İkon yüksekliği */
+    cursor: pointer;
+
+}

@@ -14,7 +14,7 @@ export default function  Personal ()  {
             {data.personals && data.personals.map(personal =>
                 <PersonalCard key = {personal.id} personal={personal} editing={false}/>)}
             {addPersonal && <PersonalCard key = {""} personal={{}} editing={true} setAddPersonal = {setAddPersonal} />}
-            <div className={styles["button-wrapper"]}>
+            <div className={styles["button"]}>
                 <button onClick={() => setAddPersonal(true)} type="button" className={styles["button"]}>
                     Add Personal
                 </button>

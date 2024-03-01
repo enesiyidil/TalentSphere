@@ -18,7 +18,7 @@ const NavigationBar = () => {
             <nav className={styles["navbar-wrapper"]}>
 
                 <div className={styles["logo-wrapper"]}>
-                    <Link to="/">Talent Sphere</Link>
+                    <Link to="/">TalentSphere</Link>
                 </div>
 
                 {role && <div>

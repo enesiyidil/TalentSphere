@@ -73,10 +73,17 @@ export const UserProfile = () => {
     }
 
     return (<>
+
+        <div className={styles["user-information-card"]}>
+            <div className="icon-container">
+
+
+
+
         {isLoading ?
             (<div className="loader"></div>) :
-            (<div>
-                <div className={styles["button-wrapper"]}>
+            (<div >
+                <div className={styles["icon"]}>
                     {(role === 'MANAGER' || switchAccount) && <>{switchAccount ?
                         <ManageAccountsIcon onClick={handleManageAccountsIcon}/> :
                         <PersonIcon onClick={handlePersonIcon}/>}</>}
@@ -84,7 +91,7 @@ export const UserProfile = () => {
                     <PersonRemoveIcon onClick={handlePersonRemoveIcon}/>
                 </div>
 
-                <div className={styles["content-wrapper"]}>
+                <div >
                     <ProfileContent editing={editing} editedUserProfile={editedUserProfile}
                                     setEditedUserProfile={setEditedUserProfile}/>
                 </div>
@@ -96,8 +103,11 @@ export const UserProfile = () => {
                         </button>
                         <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
                     </div>
+
                 </>}
             </div>)}
+            </div>
+            </div>
 
     </>);
 };

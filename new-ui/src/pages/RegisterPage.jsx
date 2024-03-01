@@ -1,11 +1,14 @@
 import {useForm} from "react-hook-form";
 import {useContext} from "react";
+import React, { useState } from 'react';
 import {RegisterContext} from "../context/RegisterContext.jsx";
 import styles from "../Css/RegisterPage.module.css";
+
 
 const RegisterPage = () => {
 
     const {handleRegister} = useContext(RegisterContext);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const {
         register,
@@ -23,112 +26,152 @@ const RegisterPage = () => {
         handleRegister(getValues());
     }
 
+
+
+        const handleImageChange = (event) => {
+            const selectedFile = event.target.files[0];
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    setSelectedImage(reader.result);
+                };
+                reader.readAsDataURL(selectedFile);
+            } else {
+                setSelectedImage(null);
+            }
+        };
+
+
+
+
+
     return (
+
         <>
             <div className={styles["register-form-wrapper"]}>
                 <form onSubmit={handleSubmit} className={styles["register-form"]}>
-                    <label className={styles["label"]}>
+                   <div className={styles["label"]}>
+
                         <span>Name: </span>
                         <input
                             {...register("name", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'text'}
-                            placeholder={'Name'}
+                            type="text"
+                            placeholder="Name"
                             className={styles["textarea"]}
                         />
-                        {errors['name'] && (
-                            <p className="text-red-500">{errors['name'].message}</p>
+                        {errors["name"] && (
+                            <p className="text-red-500">{errors["name"].message}</p>
                         )}
-                    </label>
 
-                    <label className={styles["label"]}>
                         <span>Surname: </span>
                         <input
                             {...register("surname", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'text'}
-                            placeholder={'Surname'}
+                            type="text"
+                            placeholder="Surname"
                             className={styles["textarea"]}
                         />
-                        {errors['surname'] && (
-                            <p className="text-red-500">{errors['surname'].message}</p>
+                        {errors["surname"] && (
+                            <p className="text-red-500">{errors["surname"].message}</p>
                         )}
-                    </label>
 
-                    <label className={styles["label"]}>
                         <span>Username: </span>
                         <input
                             {...register("username", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'text'}
-                            placeholder={'username'}
+                            type="text"
+                            placeholder="username"
                             className={styles["textarea"]}
                         />
-                        {errors['username'] && (
-                            <p className="text-red-500">{errors['username'].message}</p>
+                        {errors["username"] && (
+                            <p className="text-red-500">{errors["username"].message}</p>
                         )}
-                    </label>
-
-                    <label className={styles["label"]}>
                         <span>E-Mail: </span>
                         <input
                             {...register("email", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'email'}
-                            placeholder={'E-Mail'}
+                            type="email"
+                            placeholder="E-Mail"
                             className={styles["textarea"]}
                         />
-                        {errors['email'] && (
-                            <p className="text-red-500">{errors['email'].message}</p>
+                        {errors["email"] && (
+                            <p className="text-red-500">{errors["email"].message}</p>
                         )}
-                    </label>
 
-                    <label className={styles["label"]}>
                         <span>Password: </span>
                         <input
                             {...register("password", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'password'}
-                            placeholder={'Password'}
+                            type="password"
+                            placeholder="Password"
                             className={styles["textarea"]}
                             minLength="4"
                         />
-                        {errors['password'] && (
-                            <p className="text-red-500">{errors['password'].message}</p>
+                        {errors["password"] && (
+                            <p className="text-red-500">{errors["password"].message}</p>
                         )}
-                    </label>
 
-                    <label className={styles["label"]}>
                         <span>RePassword: </span>
                         <input
                             {...register("rePassword", {
                                 required: `Cannot be left blank!`,
                             })}
-                            type={'password'}
-                            placeholder={'Password'}
+                            type="password"
+                            placeholder="Password"
                             className={styles["textarea"]}
                             minLength="4"
                         />
-                        {errors['rePassword'] && (
-                            <p className="text-red-500">{errors['rePassword'].message}</p>
+                        {errors["rePassword"] && (
+                            <p className="text-red-500">{errors["rePassword"].message}</p>
                         )}
-                    </label>
 
-                    <div>
-                        <button disabled={isSubmitting} type="submit" className={styles["button"]}>
+                   </div>
+
+                    <div className={styles["gender-select-wrapper"]}>
+                        <label className={styles["label"]}>Gender:</label>
+                        <select {...register("gender", { required: "Please select your gender!" })} className={styles["textarea"]}>
+                            <option value="">Select gender</option>
+                            <option value="MAN">Man</option>
+                            <option value="WOMAN">Woman</option>
+                            <option value="NO_GENDER">No Gender</option>
+                        </select>
+                    {errors["gender"] && (
+                        <p className="text-red-500">{errors["gender"].message}</p>
+                    )}
+
+                              <input
+                                type="file"
+                                id="imageInput"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: 'none' }}
+                            />
+                            <label htmlFor="imageInput">
+                                <button>Add Photo</button>
+                            </label>
+                            {selectedImage && (
+                                <img src={selectedImage} alt="Selected" className="selected-image" />
+                            )}
+                    </div>
+
+                    <div className={styles["button"]}>
+                        <button disabled={isSubmitting} type="submit" className={styles[""]}>
                             Submit
                         </button>
-                        <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
+                        <button type="button" onClick={handleClearClick} className={styles[""]}>
+                            Clear
+                        </button>
                     </div>
+
                 </form>
             </div>
         </>
     )
-}
-
+            }
 export default RegisterPage;

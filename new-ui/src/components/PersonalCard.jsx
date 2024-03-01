@@ -33,7 +33,7 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
         e.preventDefault();
         const request = async () => {
             const response = await apiPatch(`${API_GATEWAY_URL}${PERSONAL_URL}${UPDATE_URL}`, {
-               id: personal.id,
+                id: personal.id,
                 name,
                 surname,
                 email,
@@ -91,141 +91,153 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
         <>
             {editPersonal ? (
                 <div className={styles["personal-card"]}>
-                    <form
-                        className={styles["update-personal-form"]}
-                    >
+                    <form className={styles["update-personal-form"]}>
                         <p>Image URL</p>
                         <input
                             onChange={(e) => setPhoto(e.target.value)}
                             value={photo}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Title</p>
                         <input
                             onChange={(e) => setTitle(e.target.value)}
                             value={title}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Name</p>
                         <input
                             onChange={(e) => setName(e.target.value)}
                             value={name}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Surname</p>
                         <input
                             onChange={(e) => setSurname(e.target.value)}
                             value={surname}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Phone</p>
                         <input
                             onChange={(e) => setPhone(e.target.value)}
                             value={phone}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Email</p>
                         <input
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             type="text"
+                            className={"textarea"}
                         />
                         <p>Salary</p>
                         <input
                             onChange={(e) => setSalary(e.target.value)}
                             value={salary}
                             type="text"
+                            className={"textarea"}
                         />
-
-                        {/*<button type="submit">Update</button>*/}
-                        {/*<button type="button" onClick={() => setEditPersonal("")}>*/}
-                        {/*    Cancel*/}
-                        {/*</button>*/}
                         <Select
                             id="select"
                             value={shiftId}
                             label="Shift"
+                            className={"textarea"}
                             onChange={e => setShiftId(e.target.value)}
                         >
-                            {data.shifts.map(shift => (<MenuItem value={shift.id}>{shift.name}</MenuItem>))}
+                            {data.shifts.map(shift => (
+                                <MenuItem key={shift.id} value={shift.id}>{shift.name}</MenuItem>
+                            ))}
                         </Select>
 
-                        <div>
+                        <div className={styles["button"]}>
                             <button
                                 className={styles["button"]}
                                 onClick={(e) => {
                                     if (editPersonal) {
                                         if (editing) {
                                             handleSaveClick(e)
-                                        }else {
+                                        } else {
                                             handleUpdateClick(e)
                                         }
-                                    }else {
+                                    } else {
                                         setEditPersonal(true)
                                     }
                                 }}
                             >
-                                {editPersonal ? "save" : "update"}
+                                {editPersonal ? "Save" : "Update"}
                             </button>
+                        </div>
+
+                        <div className={styles["button"]}>
                             <button
                                 className={styles["button"]}
                                 onClick={(e) => {
                                     if (editPersonal) {
                                         setEditPersonal(false)
-                                    }else {
+                                    } else {
                                         //handleDeleteClick(e)
                                     }
                                 }}
                             >
-                                {editPersonal ? "cancel" : "delete"}
+                                {editPersonal ? "Cancel" : "Delete"}
                             </button>
+
                         </div>
 
                     </form>
                 </div>
             ) : (
-                <div className={styles["personal-card"]}>
-                    <img src={personal.photo} alt=""/>
-                    <h3>{personal.title}</h3>
-                    <p>{personal.name}</p>
-                    <p>{personal.surname}</p>
-                    <p>{personal.phone}</p>
-                    <p>{personal.email}</p>
-                    <p>{personal.salary}</p>
-                    <div>
+
+                    <div className={styles["personal-card"]}>
+                        <img src={personal.photo} alt=""/>
+                        <h3>{personal.title}</h3>
+                        <p>{personal.name}</p>
+                        <p>{personal.surname}</p>
+                        <p>{personal.phone}</p>
+                        <p>{personal.email}</p>
+                        <p>{personal.salary}</p>
+                        <div className={styles["button"]}>
                         <button
                             className={styles["button"]}
                             onClick={(e) => {
                                 if (editPersonal) {
                                     if (editing) {
                                         handleSaveClick(e)
-                                    }else {
+                                    } else {
                                         handleUpdateClick(e)
                                     }
-                                }else {
+                                } else {
                                     setEditPersonal(true)
                                 }
                             }}
                         >
-                            {editPersonal ? "save" : "update"}
+                            {editPersonal ? "Save" : "Update"}
                         </button>
+                        </div>
+
+                        <div className={styles["button"]}>
                         <button
                             className={styles["button"]}
                             onClick={(e) => {
                                 if (editPersonal) {
                                     setEditPersonal(false)
-                                }else {
+                                } else {
                                     //handleDeleteClick(e)
                                 }
                             }}
                         >
-                            {editPersonal ? "cancel" : "delete"}
+                            {editPersonal ? "Cancel" : "Delete"}
                         </button>
                     </div>
                 </div>
             )}
         </>
     );
+
 };
 
 //burası hata görüntüü olmasın diye gerekli değil

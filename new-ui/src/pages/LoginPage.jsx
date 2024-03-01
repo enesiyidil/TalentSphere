@@ -30,22 +30,23 @@ const LoginPage = () => {
         <>
             <div className={styles["register-form-wrapper"]}>
                 <form onSubmit={handleSubmit} className={styles["register-form"]}>
-                    <input type="hidden" name="_csrf" value="DNjNrIIZvI9Pxypmv-P4hQitdT7nRLuNpbLz-oceAR7xww-mOOn_yrcojOli80gFiM7MsjzPWAfeJ4ugk4HCwuMuZHzApj2f" />
 
                     <label className={styles["label"]}>
-                        <span>E-Mail: </span>
+
+                        <span className={styles["label-inside-text"]}>E-Mail: </span>
                         <input
                             {...register("email", {
                                 required: `Cannot be left blank!`,
                             })}
                             type={'email'}
                             placeholder={'E-Mail'}
-                            className={styles["textarea"]}
-                        />
+                            className={`${styles["textarea"]} ${styles["input"]}`}
+                                                    />
                         {errors['email'] && (
                             <p className="text-red-500">{errors['email'].message}</p>
                         )}
                     </label>
+
 
                     <label className={styles["label"]}>
                         <span>Password: </span>
@@ -63,7 +64,7 @@ const LoginPage = () => {
                         )}
                     </label>
 
-                    <div>
+                    <div className={styles["button"]}>
                         <button disabled={isSubmitting} type="submit" className={styles["button"]}>
                             Submit
                         </button>

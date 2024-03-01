@@ -5,10 +5,11 @@ import TextField from '@mui/material/TextField';
 import {ApiContext} from "../context/ApiContext.jsx";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import styles from "../Css/UserProfile.module.css";
+import styles from "../Css/ManagerAdd.module.css";
 import Select from '@mui/material/Select';
 import {MenuItem} from "@mui/material";
 import {API_GATEWAY_URL, COMPANY_URL, FIND_ALL_WITHOUT_MANAGER, MANAGER_URL, SAVE_URL} from "../constant/Endpoints.js";
+
 
 export default function AddManager() {
 
@@ -56,14 +57,19 @@ export default function AddManager() {
 
     return (
         <>
+            <div  className={styles["manager-add"]}>
+
+
+
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
+                    '& .MuiTextField-root': {m: 1, width: '25ch', backgroundColor:'white' },
                 }}
                 noValidate
                 autoComplete="off"
             >
+
                 <div>
                     <TextField
                         required
@@ -82,12 +88,12 @@ export default function AddManager() {
                     <TextField
                         required
                         id="email"
-                        label="Manager E-Maiil"
+                        label="Manager E-Mail"
                         onChange={e => setManager(prevState => ({...prevState, email: e.target.value}))}
                         defaultValue={manager.email}
                     />
                 </div>
-                <div>
+                <div className={styles["selector"]}>
                     <Select
                         id="select"
                         value={manager.companyId}
@@ -98,12 +104,16 @@ export default function AddManager() {
                     </Select>
                 </div>
             </Box>
-            <div className={styles["button-wrapper"]}>
+
+            <div className={styles["button"]}>
                 <button onClick={handleSaveClick} type="button" className={styles["button"]}>
                     Save
                 </button>
                 <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
             </div>
+
+            </div>
+
         </>
     )
         ;

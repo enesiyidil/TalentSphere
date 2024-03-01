@@ -12,7 +12,7 @@ export const ApiContextProvider = ({children}) => {
         return response;
     };
     const apiPost = async (url, body, token) => {
-        const response = await axios.post(url, body, token !== null ? {headers: {Authorization: "Bearer " + token}} : null);
+        const response = await axios.post(url, body, token ? {headers: {Authorization: "Bearer " + token}} : null);
         console.log("apiPost response => ", response);
         return response;
     };

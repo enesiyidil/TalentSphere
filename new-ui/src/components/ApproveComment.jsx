@@ -23,7 +23,9 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
 
     return (
-        <React.Fragment>
+
+        <React.Fragment >
+
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
                 <TableCell>
                     <IconButton
@@ -48,7 +50,7 @@ function Row(props) {
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Typography variant="h6" gutterBottom component="div">
                             Content
@@ -58,8 +60,11 @@ function Row(props) {
                         </Typography>
                     </Collapse>
                 </TableCell>
+
             </TableRow>
+
         </React.Fragment>
+
     );
 }
 
@@ -109,6 +114,7 @@ export function ApproveComment() {
 
     return (
         <>
+            <div style={{ width:'80%', margin:'auto' }}>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
@@ -124,6 +130,8 @@ export function ApproveComment() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </div>
+
         </>
     )
 }

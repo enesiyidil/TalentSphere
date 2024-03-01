@@ -8,18 +8,26 @@
 }
 
 .user-profile-wrapper {
+
     width: 20vw;
     height: 90vh;
-    border: 1px solid red;
     padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+
+}
+
+.user-profile-container {
+    width: 100%;
+    height: 100%;
+
 }
 
 .content-wrapper {
     width: 80vw;
     height: 90vh;
-    border: 1px solid red;
-    padding: 1rem;
+    padding: 3.7rem;
 }
+
+

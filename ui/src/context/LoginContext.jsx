@@ -21,6 +21,7 @@ export const LoginContextProvider = ({children}) => {
             dispatch(setRole(responseData.data.role));
             dispatch(setToken(responseData.data.token));
             dispatch(setAuthId(responseData.data.authId));
+            navigate('/home');
         } else {
             // todo: navigate homepage and error message
         }

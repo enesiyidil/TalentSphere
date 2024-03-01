@@ -13,9 +13,6 @@ server:
 
 
 spring:
-  cloud:
-    config:
-      enabled: false
   rabbitmq:
     host: localhost
     port: 5672

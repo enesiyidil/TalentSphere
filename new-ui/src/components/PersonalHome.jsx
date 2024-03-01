@@ -82,41 +82,41 @@ export function PersonalHome() {
         <>
             <div className={styles["personal-wrapper"]}>
                 <div className={styles["container-wrapper"]}>
-                    <Container maxWidth="sm" style={{border: "1px solid blue"}}>
+                    <Container maxWidth="sm" >
                         <Slide direction="right" in={true}>
                             <img src={information.company.gallery[index]} alt={`Slide ${index}`}/>
                         </Slide>
                         <LinearProgress variant="determinate" value={progress}/>
                     </Container>
-                    <Container maxWidth="xs" style={{border: "1px solid blue"}}>
-                        <div className={styles["information-wrapper"]}>
-                            <div className={styles["content-wrapper"]}>
+                    <Container maxWidth="xs" >
+                        <div className={styles["label"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Name: </span>
                                 <span>{information.company.name}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Address: </span>
                                 <span>{information.company.address}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Personal Number: </span>
                                 <span>{information.company.personalNumber}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Shift Name: </span>
                                 <span>{information.shift.name}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Shift Start Time: </span>
                                 <span>{information.shift.startTime}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Shift End Time: </span>
                                 <span>{information.shift.endTime}</span>
                             </div>
-                            <div className={styles["content-wrapper"]}>
+                            <div className={styles["textarea"]}>
                                 <span>Communications Table: </span>
-                                <TableContainer component={Paper}>
+                                <TableContainer component={Paper} width= "10%" height="100%" paddingTop="1.5rem">
                                     <Table aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
@@ -144,7 +144,7 @@ export function PersonalHome() {
                     </Container>
                 </div>
                 <div className={styles["container-wrapper"]}>
-                    <Container maxWidth="xl" style={{border: "1px solid blue"}}>
+                    <Container maxWidth="xl" style={{width:'90%', height:'20%',paddingTop:'1.5rem',margin:'auto'}}>
                         <TableContainer component={Paper}>
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>

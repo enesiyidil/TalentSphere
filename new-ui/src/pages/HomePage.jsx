@@ -11,7 +11,7 @@ import MyCalendar from "../components/MyCalendar.jsx";
 import {ApproveHoliday} from "../components/ApproveHoliday.jsx";
 import {PersonalHome} from "../components/PersonalHome.jsx";
 import AddComment from "../components/AddComment.jsx";
-import {VisitorHome} from "../components/ViaitorHome.jsx";
+import {VisitorHome} from "../components/VisitorHome.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import Personal from "../components/Personal.jsx";

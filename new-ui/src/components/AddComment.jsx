@@ -34,10 +34,12 @@ export default function AddComment() {
 
     return (
         <>
+            <div style={{ width:'50%', height:'20%',paddingTop:'1.5rem',margin:'auto',  backgroundColor: 'rgba(26, 26, 26, 0.5)',
+                display:'flex',textAlign:'center',flexDirection: 'column' }}>
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
+                    '& .MuiTextField-root': {m: 1, width: '25ch',backgroundColor:'white'},
                 }}
                 noValidate
                 autoComplete="off"
@@ -52,11 +54,12 @@ export default function AddComment() {
                     />
                 </div>
             </Box>
-            <div className={styles["button-wrapper"]}>
+            <div className={styles["button"]}>
                 <button onClick={handleSaveClick} type="button" className={styles["button"]}>
                     Save
                 </button>
                 <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
+            </div>
             </div>
         </>
     )

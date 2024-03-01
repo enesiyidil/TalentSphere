@@ -7,7 +7,7 @@ import {API_GATEWAY_URL, FIND_ALL_BY_PERSONAL_ID_URL, HOLIDAY_URL, SAVE_BY_PERSO
 import {ApiContext} from "../context/ApiContext.jsx";
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
-import styles from "../Css/ApproveHoliday.module.css";
+
 
 const DateRangePicker = () => {
     const [startDate, setStartDate] = useState(dayjs());
@@ -64,7 +64,7 @@ const DateRangePicker = () => {
         <div>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="start-date" className="flex text-md font-medium text-gray-700">
                         Start Date
                     </label>
                     <input
@@ -169,7 +169,8 @@ const MyCalendar = () => {
 
     const dayPropGetter = (date) => {
         const day = date.getDay();
-        const backgroundColor = day === 0 || day === 6 ? '#68a4e0' : '#c75959'; // Hafta sonu günlerini farklı renkte yapmak için
+        const backgroundColor = day === 0 || day === 6 ? '#cccfd3' : '#e8f1f5'; // Hafta sonu günlerini farklı renkte yapmak için
+
         return {style: {backgroundColor}};
     };
 
@@ -179,10 +180,11 @@ const MyCalendar = () => {
     // console.log(new Date())
     console.log(holidays)
     return (
-        <div>
+        <div style={{width:'90%',margin:'auto',height:'500px'}}>
             <Calendar
                 selectable
                 localizer={myLocalizer}
+                style={{backgroundColor:'white',color:' black',height: '500'}}
                 events={role === 'MANAGER' ? (data.holidays.map(holiday => ({
                     title: holiday.name,
                     start: new Date(`${holiday.startDate}`),
@@ -199,7 +201,7 @@ const MyCalendar = () => {
                 onSelectSlot={handleSelectSlot}
                 selected={selected}
                 dayPropGetter={dayPropGetter}
-                style={{height: 500}}
+
             />
             {role === 'PERSONAL' && <DateRangePicker/>}
         </div>

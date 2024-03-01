@@ -13,8 +13,11 @@
 
 .logo {
     color: #fff;
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: bold;
+}
+.logo a:hover {
+    color: #948f8f;
 }
 
 .nav-links {
@@ -33,5 +36,5 @@
 }
 
 .nav-links a:hover {
-    color: #ccc;
+    color: #948f8f;
 }

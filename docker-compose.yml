@@ -113,8 +113,7 @@ services:
     ports:
       - "5435:5432"
 
-# Sadece rabbit için hemen soldaki play butonuna basınız
-  RabbitMQ:
+  talent-sphere-rabbitmq:
     image: rabbitmq:3-management
     container_name: talent-sphere-rabbit
     networks:
@@ -126,6 +125,40 @@ services:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: user
     mem_limit: 128m
+
+  talent-sphere-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: talent-sphere-elasticsearch
+    networks:
+      - talent-sphere-network
+    ports:
+      - "9201:9200"
+    environment:
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    mem_limit: 1GB
+
+  talent-sphere-elasticsearch-log:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
+    environment:
+      - discovery.type=single-node
+    mem_limit: 1GB
+    ports:
+      - "9200:9200"
+
+  talent-sphere-logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.1
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "5000:5000"
+
+  talent-sphere-kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.1
+    ports:
+      - "5601:5601"
+    depends_on:
+      - talent-sphere-elasticsearch-log
 
   ElasticSearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3

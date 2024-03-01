@@ -7,6 +7,7 @@ import {ApiContext} from "../context/ApiContext.jsx";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {API_GATEWAY_URL, COMPANY_URL, SAVE_URL} from "../constant/Endpoints.js";
+import "../Css/AddCompany.module.css"
 
 export default function AddCompany() {
 
@@ -38,10 +39,11 @@ export default function AddCompany() {
 
     return (
         <>
+            <div className={styles["formWrapper"]}>
             <Box
                 component="form"
                 sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
+                    '& .MuiTextField-root': {m: 1, width: '25ch', backgroundColor:'#FFFFFF' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -79,11 +81,12 @@ export default function AddCompany() {
                     />
                 </div>
             </Box>
-            <div className={styles["button-wrapper"]}>
+            <div className={styles["button"]}>
                 <button onClick={handleSaveClick} type="button" className={styles["button"]}>
                     Save
                 </button>
                 <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
+            </div>
             </div>
         </>
     )

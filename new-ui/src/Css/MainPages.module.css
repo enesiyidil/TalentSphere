@@ -1,4 +1,7 @@
 .main-wrapper {
+    background-image: url('pages.jpg');
+    background-size: cover;
+    background-position: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
