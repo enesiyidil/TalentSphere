@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.enums.EGender;
+import org.group3.entity.enums.EPackage;
 import org.group3.entity.enums.EStatus;
 
 import java.time.LocalDateTime;
@@ -38,6 +40,14 @@ public class Manager {
 
     String photo;
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    EGender gender = EGender.NO_GENDER;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    EPackage ePackage = EPackage.P_30;
+
     @Column(unique = true)
     Long companyId;
 
@@ -47,10 +57,9 @@ public class Manager {
     List<Long> personals;
 
     @Builder.Default
-    LocalDateTime createdDateTime = LocalDateTime.now();
+    String createdDateTime = LocalDateTime.now().toString();
 
-    @Builder.Default
-    LocalDateTime updatedDateTime = LocalDateTime.now();
+    String updatedDateTime;
 
     String phone;
 }

@@ -34,7 +34,7 @@ public class CompanyResponseDto {
 
     List<ShiftResponseDto> shifts;
 
-    LocalDateTime createdDateTime;
+    String createdDateTime;
 
-    LocalDateTime updatedDateTime;
+    String updatedDateTime;
 }

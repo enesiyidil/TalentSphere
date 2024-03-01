@@ -13,8 +13,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class BreakSaveRequestDto {
 
-    Long shiftId;
-
     String name;
 
     String startTime;

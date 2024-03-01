@@ -13,4 +13,5 @@ public class CommentRequestDto {
     Long personalId;
     Long companyId;
     String content;
+    String title;
 }

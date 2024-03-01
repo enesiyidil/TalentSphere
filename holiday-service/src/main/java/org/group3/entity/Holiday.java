@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group3.entity.enums.EStatus;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -38,4 +38,9 @@ public class Holiday {
     @Enumerated(EnumType.STRING)
     @Builder.Default
     EStatus status = EStatus.PENDING;
+
+    @Builder.Default
+    String requestDate= LocalDateTime.now().toString();
+
+    String approvalDate;
 }

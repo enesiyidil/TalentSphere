@@ -12,7 +12,7 @@ public interface PaymentMapper {
 
     PaymentMapper INSTANCE = Mappers.getMapper(PaymentMapper.class);
 
-    Payment requestDtoToManager(PaymentRequestDto dto);
+    Payment requestDtoToPayment(PaymentRequestDto dto);
 
     PaymentFindAllInfoResponseDto paymentToPaymentFindAllInfoResponseDto(Payment payment);
 

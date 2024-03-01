@@ -1,5 +1,6 @@
 package org.group3.mapper;
 
+import org.group3.dto.request.AdminSaveRequestDto;
 import org.group3.dto.request.SaveRequestDto;
 import org.group3.dto.response.FindAllResponseDto;
 import org.group3.dto.response.FindByIdResponseDto;
@@ -18,4 +19,6 @@ public interface IAdminMapper {
     FindByIdResponseDto adminToFindByIdResponseDto(Admin admin);
 
     FindAllResponseDto adminToFindAllResponseDto(Admin admin);
+
+    AdminSaveRequestDto saveRequestDtoToAdminSaveRequestDto(SaveRequestDto dto);
 }

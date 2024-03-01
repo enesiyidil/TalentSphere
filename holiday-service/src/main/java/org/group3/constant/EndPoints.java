@@ -3,6 +3,8 @@ package org.group3.constant;
 public class EndPoints {
 
     public static final String HOLIDAY = "/holiday";
+    public static final String PERSONAL = "/personal";
+    public static final String FIND_NAME_BY_PERSONAL_ID = "/findNameByPersonalId";
     public static final String SAVE = "/save";
     public static final String SAVE_BY_PERSONAL = "/saveByPersonal";
     public static final String UPDATE = "/update";

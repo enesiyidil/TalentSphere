@@ -1,9 +1,8 @@
 package org.group3.mapper;
 
-import org.group3.dto.request.RegisterRequestDto;
+
 import org.group3.dto.response.ManagerResponseDto;
 import org.group3.entity.Manager;
-import org.group3.rabbit.model.ManagerSaveModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -13,9 +12,7 @@ public interface ManagerMapper {
 
     ManagerMapper INSTANCE = Mappers.getMapper(ManagerMapper.class);
 
-    Manager saveModelToManager(ManagerSaveModel model);
+    ManagerResponseDto managerToManagerResponseDto(Manager manager);
 
-    ManagerResponseDto ManagerToResponseDto(Manager manager);
 
-    RegisterRequestDto managerToRegisterRequestDto(Manager manager);
 }

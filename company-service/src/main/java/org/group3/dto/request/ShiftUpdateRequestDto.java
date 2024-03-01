@@ -17,7 +17,7 @@ public class ShiftUpdateRequestDto {
 
     String name;
 
-    LocalTime startTime;
+    String startTime;
 
-    LocalTime endTime;
+    String endTime;
 }

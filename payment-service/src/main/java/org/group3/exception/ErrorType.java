@@ -4,28 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100, "Sunucu Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
+    INTERNAL_ERROR_SERVER(98500, INTERNAL_ERROR_SERVER_ERROR_MESSAGES, HttpStatus.INTERNAL_SERVER_ERROR),
 
-    PAYMENT_NOT_ACTIVE(3001, "Manager aktif değil", HttpStatus.FORBIDDEN),
+    PAYMENT_NOT_ACTIVE(98021, PAYMENT_NOT_ACTIVE_ERROR_MESSAGES, HttpStatus.FORBIDDEN),
 
-    PAYMENT_NOT_FOUND(3002, "Manager bulunamadı", HttpStatus.NOT_FOUND),
+    PAYMENT_NOT_FOUND(98022, PAYMENT_NOT_FOUND_ERROR_MESSAGES, HttpStatus.NOT_FOUND),
 
-    PAYMENT_ALREADY_MADE(3002, "Şirket zaten var", HttpStatus.BAD_REQUEST),
+    PAYMENT_ALREADY_MADE(98023, PAYMENT_ALREADY_MADE_ERROR_MESSAGES, HttpStatus.BAD_REQUEST),
 
-    COMPANY_NOT_REGISTERED(3002, "Şirket kayıtlı değil", HttpStatus.BAD_REQUEST),
-
-    PERSONAL_ALREADY_EXISTS(3002, "Personal zaten var", HttpStatus.BAD_REQUEST),
-
-    PERSONAL_NOT_REGISTERED(3002, "Personal kayıtlı değil", HttpStatus.BAD_REQUEST),
-
-    INVALID_TOKEN(6000,"Geçersiz token",HttpStatus.BAD_REQUEST),
-
-    TOKEN_NOT_CREATE(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(6001,"PARAMETER_NOT_VALID",HttpStatus.BAD_REQUEST);
+    PARAMETER_NOT_VALID(98008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
 
 
     private final int code;

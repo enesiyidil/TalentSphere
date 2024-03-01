@@ -1,5 +1,5 @@
-export const API_GATEWAY_URL = "" //'http://localhost:9091'
-export const AUTH_URL = 'http://localhost:9092' + '/auth'
+export const API_GATEWAY_URL = 'http://localhost:9091'
+export const AUTH_URL = '/auth'
 export const ADMIN_URL = 'http://localhost:9093' + '/admin'
 export const MANAGER_URL = 'http://localhost:9094' + '/manager'
 export const PERSONAL_URL = 'http://localhost:9095' + '/personal'

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.group3.entity.enums.EStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,4 +29,8 @@ public class HolidayResponseDto {
     List<Long> personals;
 
     EStatus status;
+
+    String requestDate;
+
+    String approvalDate;
 }

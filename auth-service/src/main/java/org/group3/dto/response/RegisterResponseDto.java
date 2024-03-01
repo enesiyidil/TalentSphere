@@ -14,6 +14,5 @@ public class RegisterResponseDto {
     private Long id;
     private String username;
     private String email;
-    private String activationCode;
-    private EStatus status=EStatus.PENDING;
+    private EStatus status;
 }

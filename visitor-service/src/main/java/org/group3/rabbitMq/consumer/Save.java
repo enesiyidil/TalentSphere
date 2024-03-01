@@ -9,6 +9,8 @@ import org.group3.service.VisitorService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class Save {
@@ -22,6 +24,9 @@ public class Save {
                         .name(model.getName())
                         .surname(model.getSurname())
                         .phone(model.getPhone())
+                        .gender(model.getGender())
+                        .updatedDate(LocalDateTime.now().toString())
+                        .photo(model.getPhoto())
                 .build());
     }
 

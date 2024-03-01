@@ -14,6 +14,6 @@ public class FindAllResponseDto {
     private Long id;
     private String username;
     private String email;
-    private String activationCode;
     private ERole role;
+    private String phone;
 }

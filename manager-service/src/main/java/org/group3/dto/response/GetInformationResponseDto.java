@@ -20,11 +20,11 @@ public class GetInformationResponseDto {
     String address;
     List<String> gallery;
     List<Payment> payments;
-    List<Personel> personals;
+    List<Personal> personals;
     List<Communication> communications;
-    List<Long> holidays;
+    List<HolidayResponseDto> holidays;
     List<Shift> shifts;
-    LocalDateTime createdDateTime;
-    LocalDateTime updatedDateTime;
+    String createdDateTime;
+    String updatedDateTime;
     EStatus status;
 }

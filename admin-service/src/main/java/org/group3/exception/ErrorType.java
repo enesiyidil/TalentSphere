@@ -4,26 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100,"Sunucu Hatası",HttpStatus.INTERNAL_SERVER_ERROR),
-    EMAIL_EXITS(2100,"Email kullanılıyor",HttpStatus.BAD_REQUEST),
-    PASSWORD_MISMATCH(2200,"Şifreler uyuşmuyor",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(5000,"Parametre Hatası",HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(3000,"Email ya da Şifre hatalı veya eksik",HttpStatus.NOT_FOUND),
-    ACCOUNT_NOT_ACTIVE(3001,"Hesabınız aktif değil",HttpStatus.FORBIDDEN),
-    ACTIVATION_CODE_MISMATSC(3002,"Aktivasyon kodu hatalı",HttpStatus.BAD_REQUEST),
-    USER_ALREADY_DELETED(3003,"Hesap zaten silinmiş",HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN(6000,"geçersiz token",HttpStatus.BAD_REQUEST),
-    TOKEN_NOT_CREATED(6001,"token oluşturulamadı",HttpStatus.BAD_REQUEST),
-    EMAIL_OR_PHONE_EXITS(2100,"Email veya telefon kullanılıyor",HttpStatus.BAD_REQUEST),
-    ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND);
+    INTERNAL_ERROR_SERVER(93500,INTERNAL_ERROR_SERVER_ERROR_MESSAGES,HttpStatus.INTERNAL_SERVER_ERROR),
 
+    EMAIL_OR_PHONE_EXITS(93009,EMAIL_OR_PHONE_EXITS_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
+    ID_NOT_FOUND(93005,ID_NOT_FOUND_ERROR_MESSAGES,HttpStatus.NOT_FOUND),
 
-    private int code;
-    private String message;
-    HttpStatus httpStatus;
+    USER_ALREADY_DELETED(93004,USER_ALREADY_DELETED_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
+
+    USER_NOT_FOUND(93003,USER_NOT_FOUND_ERROR_MESSAGES,HttpStatus.NOT_FOUND),
+
+    PARAMETER_NOT_VALID(93008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
+
+    private final int code;
+    private final String message;
+    final HttpStatus httpStatus;
 }

@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+import static org.group3.constant.EndPoints.COMMENT;
 import static org.group3.constant.EndPoints.FIND_ALL;
 
-@FeignClient(name = "comment-manager", url = "http://localhost:9102/comment" )
+@FeignClient(name = "comment-manager", url = "${apiGatewayUrl}" + COMMENT )
 public interface ICommentManager {
     @GetMapping(FIND_ALL)
     ResponseEntity<List<CommentFindAllResponseDto>> findAll();

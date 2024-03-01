@@ -2,5 +2,5 @@ package org.group3.entity.enums;
 
 public enum EStatus {
 
-    ACTIVE, DELETED
+    ACTIVE, DELETED, ACCEPT, PENDING, REJECTED,
 }

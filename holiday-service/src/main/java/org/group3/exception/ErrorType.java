@@ -4,31 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100, "Sunucu Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
+    INTERNAL_ERROR_SERVER(101500, INTERNAL_ERROR_SERVER_ERROR_MESSAGES, HttpStatus.INTERNAL_SERVER_ERROR),
 
-    HOLIDAY_NOT_ACTIVE(3001, "Manager aktif değil", HttpStatus.FORBIDDEN),
+    HOLIDAY_NOT_ACTIVE(101012, HOLIDAY_NOT_ACTIVE_ERROR_MESSAGES, HttpStatus.FORBIDDEN),
 
-    HOLIDAY_NOT_FOUND(3002, "Manager bulunamadı", HttpStatus.NOT_FOUND),
+    HOLIDAY_NOT_FOUND(101013, HOLIDAY_NOT_FOUND_ERROR_MESSAGES, HttpStatus.NOT_FOUND),
 
-    COMPANY_ALREADY_EXISTS(3002, "Şirket zaten var", HttpStatus.BAD_REQUEST),
+    HOLIDAY_NOT_PENDING(101014,HOLIDAY_NOT_PENDING_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
-    COMPANY_NOT_REGISTERED(3002, "Şirket kayıtlı değil", HttpStatus.BAD_REQUEST),
-
-    PERSONAL_ALREADY_EXISTS(3002, "Personal zaten var", HttpStatus.BAD_REQUEST),
-
-    PERSONAL_NOT_REGISTERED(3002, "Personal kayıtlı değil", HttpStatus.BAD_REQUEST),
-
-    INVALID_TOKEN(6000,"Geçersiz token",HttpStatus.BAD_REQUEST),
-
-    TOKEN_NOT_CREATE(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(6001,"Token oluşturulmadı",HttpStatus.BAD_REQUEST),
-    HOLIDAY_NOT_PENDING(7100,"tatil zaten reddedilmiş ya da onaylanmıştır",HttpStatus.BAD_REQUEST);
-
-
+    PARAMETER_NOT_VALID(101008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
 
     private final int code;
     private final String message;

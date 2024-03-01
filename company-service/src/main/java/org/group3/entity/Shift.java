@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group3.entity.enums.EStatus;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -28,23 +30,17 @@ public class Shift implements IStatus{
     Company company;
 
     String name;
-    LocalTime startTime;
-    LocalTime endTime;
+
+    String startTime;
+
+    String endTime;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "shift")
+    @Cascade(CascadeType.ALL)
     List<Break> breaks;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     EStatus status = EStatus.ACTIVE;
 
-    @Override
-    public String toString() {
-        return "Shift{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", breaks=" + breaks +
-                ", status=" + status +
-                '}';
-    }
 }

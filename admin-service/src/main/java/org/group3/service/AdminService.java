@@ -17,6 +17,7 @@ import org.group3.repository.AdminRepository;
 import org.group3.utility.ServiceManager;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,45 +28,48 @@ import java.util.stream.Collectors;
 public class AdminService extends ServiceManager<Admin, Long> {
 
     private final AdminRepository repository;
-
     private final AuthUpdateProduce authUpdateProduce;
-
     private final AuthDeleteProducer authDeleteProducer;
-
     private final IManagerServiceManager managerServiceManager;
-
-    private final IPersonelManager personelManager;
-
+    private final IPersonalManager personalManager;
     private final IVisitorManager visitorManager;
-
     private final IPaymentManager paymentManager;
-
     private final ICommentManager commentManager;
-
     private final ICompanyManager companyManager;
+    private final IAuthManager authManager;
 
-    public AdminService(AdminRepository repository, AuthUpdateProduce authUpdateProduce, AuthDeleteProducer authDeleteProducer, IManagerServiceManager managerServiceManager, IPersonelManager personelManager, IVisitorManager visitorManager, IPaymentManager paymentManager, ICommentManager commentManager, ICompanyManager companyManager) {
+    public AdminService(AdminRepository repository,
+                        AuthUpdateProduce authUpdateProduce,
+                        AuthDeleteProducer authDeleteProducer,
+                        IManagerServiceManager managerServiceManager,
+                        IPersonalManager personalManager,
+                        IVisitorManager visitorManager,
+                        IPaymentManager paymentManager,
+                        ICommentManager commentManager,
+                        ICompanyManager companyManager,
+                        IAuthManager authManager) {
         super(repository);
         this.repository = repository;
         this.authUpdateProduce = authUpdateProduce;
         this.authDeleteProducer = authDeleteProducer;
         this.managerServiceManager = managerServiceManager;
-        this.personelManager = personelManager;
+        this.personalManager = personalManager;
         this.visitorManager = visitorManager;
         this.paymentManager = paymentManager;
         this.commentManager = commentManager;
         this.companyManager = companyManager;
+        this.authManager = authManager;
     }
 
-    public String saveDto(SaveRequestDto dto) {
+    @Transactional
+    public Boolean saveDto(SaveRequestDto dto) {
         if (repository.existsByEmail(dto.getEmail()) || repository.existsByPhone(dto.getPhone())) {
             throw new AdminManagerException(ErrorType.EMAIL_OR_PHONE_EXITS);
         }
         Admin admin = IAdminMapper.INSTANCE.saveRequestDtoToAdmin(dto);
-        //admin.setCreatedDate(System.currentTimeMillis());
+        admin.setAuthId(authManager.adminSave(IAdminMapper.INSTANCE.saveRequestDtoToAdminSaveRequestDto(dto)).getBody());
         save(admin);
-        return "kayıt işlemi başarılı";
-
+        return true;
     }
 
     public FindByIdResponseDto findByIdDto(Long id) {
@@ -83,20 +87,11 @@ public class AdminService extends ServiceManager<Admin, Long> {
         }
         return IAdminMapper.INSTANCE.adminToFindByIdResponseDto(optionalAdmin.get());
     }
-
-    public Optional<Admin> findByAuthId(Long authId) {
-        Optional<Admin> optionalAdmin = repository.findByAuthId(authId);
-        if (optionalAdmin.isEmpty()) {
-            throw new AdminManagerException(ErrorType.ID_NOT_FOUND);
-        }
-        return optionalAdmin;
-    }
-
-
     public List<FindAllResponseDto> findAllDto() {
         return findAll().stream().map(IAdminMapper.INSTANCE::adminToFindAllResponseDto).collect(Collectors.toList());
     }
 
+    @Transactional
     public UpdateResponseDto softUpdate(UpdateRequestDto dto) {
         Optional<Admin> optionalAdmin = findById(dto.getId());
         Admin admin = optionalAdmin.orElseThrow(() -> new AdminManagerException(ErrorType.USER_NOT_FOUND));
@@ -120,7 +115,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
             admin.setPhone(dto.getPhone());
         }
         if (dto.getPhoto() != null) {
-            admin.setPhone(dto.getPhoto());
+            admin.setPhoto(dto.getPhoto());
         }
 
         admin.setUpdatedDate(System.currentTimeMillis());
@@ -133,6 +128,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .build());
 
         return UpdateResponseDto.builder()
+                .id(admin.getId())
                 .name(admin.getName())
                 .surname(admin.getSurname())
                 .email(admin.getEmail())
@@ -143,6 +139,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
                 .build();
     }
 
+    @Transactional
     public Boolean softDelete(Long id) {
         Optional<Admin> optionalAdmin = findById(id);
         if (optionalAdmin.isEmpty()) {
@@ -160,10 +157,9 @@ public class AdminService extends ServiceManager<Admin, Long> {
         return true;
     }
 
-
     public GetInformationResponseDto getInformation() {
         ResponseEntity<List<ManagerResponseDto>> listManager=managerServiceManager.findAll();
-        ResponseEntity<List<PersonelResponseDto>> listPersonel=personelManager.findAll();
+        ResponseEntity<List<PersonalResponseDto>> listPersonal= personalManager.findAll();
         ResponseEntity<List<VisitorFindAllResponseDto>> listVisitor=visitorManager.findAll();
         ResponseEntity<List<PaymentFindAllInfoResponseDto>> listPayment=paymentManager.findAllInfo();
         ResponseEntity<List<CommentFindAllResponseDto>> listComment=commentManager.findAll();
@@ -171,7 +167,7 @@ public class AdminService extends ServiceManager<Admin, Long> {
 
         return GetInformationResponseDto.builder()
                 .managerSize(Objects.requireNonNull(listManager.getBody()).size())
-                .personalSize(Objects.requireNonNull(listPersonel.getBody()).size())
+                .personalSize(Objects.requireNonNull(listPersonal.getBody()).size())
                 .visitorSize(Objects.requireNonNull(listVisitor.getBody()).size())
                 .paymentSize(Objects.requireNonNull(listPayment.getBody()).size())
                 .commentSize(Objects.requireNonNull(listComment.getBody()).size())

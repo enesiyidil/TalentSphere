@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class UpdateConsumer {
 
     private final AuthService authService;
-
     @RabbitListener(queues = "${rabbitmq.queue.auth.update}")
     public void saveFromQueue(UpdateAuthModel model){
         authService.softUpdate(model);

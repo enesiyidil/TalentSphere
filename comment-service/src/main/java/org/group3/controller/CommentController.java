@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
 
-@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(COMMENT)
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class CommentController {
 
     // checked
     @PostMapping(SAVE_BY_PERSONAL)
-    public ResponseEntity<CommentResponseDto> save(@RequestBody CommentRequestDto dto){
+    public ResponseEntity<Boolean> save(@RequestBody CommentRequestDto dto){
         return ResponseEntity.ok(commentService.save(dto));
     }
 

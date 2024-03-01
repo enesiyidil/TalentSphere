@@ -16,7 +16,7 @@ import java.util.List;
 import static org.group3.constant.EndPoints.*;
 import static org.group3.constant.EndPoints.FIND_BY_AUTH_ID;
 
-@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(VISITOR)
 @RequiredArgsConstructor
@@ -28,28 +28,22 @@ public class VisitorController {
     public ResponseEntity<FindByIdResponseDto> findById(@RequestParam Long id){
         return ResponseEntity.ok(visitorService.findByIdDto(id));
     }
-
-
     @GetMapping(FIND_ALL)
     public ResponseEntity<List<VisitorFindAllResponseDto>> findAll(){
         return ResponseEntity.ok(visitorService.findAllDto());
     }
-
-    @PutMapping(UPDATE)
+    @PatchMapping(UPDATE)
     public ResponseEntity<FindByIdResponseDto> update(@RequestBody UpdateRequestDto dto){
         return ResponseEntity.ok(visitorService.softUpdate(dto));
     }
-
     @DeleteMapping(DELETE + "/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(visitorService.softDelete(id));
     }
-
     @GetMapping(FIND_BY_COMPANY_NAME)
     public ResponseEntity<CompanyFindByNameResponseDto> findByCompanyName(String companyName){
         return ResponseEntity.ok(visitorService.findByCompanyName(companyName));
     }
-
     @GetMapping(FIND_BY_AUTH_ID)
     public ResponseEntity<FindByIdResponseDto> findByAuthId(@RequestParam Long authId) {
         return ResponseEntity.ok(visitorService.findByAuthId(authId));

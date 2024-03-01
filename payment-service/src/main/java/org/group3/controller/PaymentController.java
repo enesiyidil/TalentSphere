@@ -1,7 +1,10 @@
 package org.group3.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.group3.dto.request.AcceptOrRejectPaymentByIdRequestDto;
 import org.group3.dto.request.PaymentRequestDto;
+import org.group3.dto.request.PaymentUpdateRequestDto;
+import org.group3.dto.response.PaymentFindAllByNotApproveResponse;
 import org.group3.dto.response.PaymentFindAllInfoResponseDto;
 import org.group3.dto.response.PaymentInformationForVisitorResponseDto;
 import org.group3.entity.Payment;
@@ -13,7 +16,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
 
-@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(PAYMENT)
 @RequiredArgsConstructor
@@ -25,7 +28,6 @@ public class PaymentController {
     public ResponseEntity<Payment> save(@RequestBody PaymentRequestDto dto){
         return ResponseEntity.ok(service.save(dto));
     }
-
     @GetMapping(FIND_BY_ID)
     public ResponseEntity<Payment> findById(@RequestParam String id){
         return ResponseEntity.ok(service.findById(id));
@@ -47,7 +49,7 @@ public class PaymentController {
     }
 
     @PatchMapping(UPDATE)
-    public ResponseEntity<Payment> update(@RequestBody PaymentRequestDto dto){
+    public ResponseEntity<Payment> update(@RequestBody PaymentUpdateRequestDto dto){
         return ResponseEntity.ok(service.update(dto));
     }
 
@@ -79,4 +81,16 @@ public class PaymentController {
     public ResponseEntity<PaymentInformationForVisitorResponseDto> getInformationForVisitor(@RequestParam Long companyId){
         return ResponseEntity.ok(service.getInformationForVisitor(companyId));
     }
+
+    @GetMapping (FIND_ALL_BY_NOT_APPROVE)
+    public ResponseEntity<List<PaymentFindAllByNotApproveResponse>> findAllByNotApprove(@RequestParam Long companyId){
+        return ResponseEntity.ok(service.findAllByNotApprove(companyId));
+    }
+
+    // checked
+    @PostMapping (ACCEPT_OR_REJECT_PAYMENT_BY_ID)
+    public ResponseEntity<Boolean> acceptOrRejectCommentById(@RequestBody AcceptOrRejectPaymentByIdRequestDto dto){
+        return ResponseEntity.ok(service.acceptOrRejectPaymentById(dto));
+    }
+
 }

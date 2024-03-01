@@ -2,10 +2,16 @@ server:
   port: 9091
 
 spring:
-
+#  security:
+#    user:
+#      name: java12
+#      password: 1234
   main:
+    allow-bean-definition-overriding: true
     web-application-type: reactive
   cloud:
+    config:
+      enabled: false
     gateway:
       routes:
         - id: auth-service
@@ -13,10 +19,11 @@ spring:
           predicates:
             - Path=/auth/**
           filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
             - name: CircuitBreaker
               args:
                 name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                fallbackUri: forward:/fallback/auth
 
         - id: admin-service
           uri: http://localhost:9093
@@ -25,8 +32,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: adminCircuitBreaker
+                fallbackUri: forward:/fallback/admin
 
         - id: manager-service
           uri: http://localhost:9094
@@ -35,7 +42,7 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
+                name: managerCircuitBreaker
                 fallbackUri: forward:/fallback/manager
 
         - id: personal-service
@@ -45,8 +52,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: personalCircuitBreaker
+                fallbackUri: forward:/fallback/personal
 
         - id: visitor-service
           uri: http://localhost:9096
@@ -55,8 +62,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: visitorCircuitBreaker
+                fallbackUri: forward:/fallback/visitor
 
         - id: company-service-company
           uri: http://localhost:9097
@@ -65,8 +72,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: companyCircuitBreaker
+                fallbackUri: forward:/fallback/company
 
         - id: company-service-shift
           uri: http://localhost:9097
@@ -75,8 +82,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: shiftCircuitBreaker
+                fallbackUri: forward:/fallback/shift
 
         - id: company-service-communication
           uri: http://localhost:9097
@@ -85,8 +92,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: communicationCircuitBreaker
+                fallbackUri: forward:/fallback/communication
 
         - id: company-service-break
           uri: http://localhost:9097
@@ -95,8 +102,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: breakCircuitBreaker
+                fallbackUri: forward:/fallback/break
 
         - id: payment-service
           uri: http://localhost:9098
@@ -105,8 +112,8 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: paymentCircuitBreaker
+                fallbackUri: forward:/fallback/payment
 
         - id: holiday-service
           uri: http://localhost:9101
@@ -115,13 +122,23 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: authCircuitBreaker
-                fallbackUri: forward:/fallback/manager
+                name: holidayCircuitBreaker
+                fallbackUri: forward:/fallback/holiday
+
+        - id: comment-service
+          uri: http://localhost:9102
+          predicates:
+            - Path=/comment/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: commentCircuitBreaker
+                fallbackUri: forward:/fallback/comment
+
+
+secrets:
+  secret-key: ${TALENTSPHERE_SECRETKEY}
+  issuer: ${TALENTSPHERE_ISSUER}
 
 
 
-      default-filters:
-        #       http://localhost/auth/findbyid/1
-        #       (?<segment>.*)   ->    auth/findbyid/1
-        #       $\{segment}      ->    http://localhost:9090/auth/findbyid/1
-        - RewritePath=/?(?<segment>.*), /$\{segment}

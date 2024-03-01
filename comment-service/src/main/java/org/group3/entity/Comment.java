@@ -14,18 +14,26 @@ import org.group3.entity.enums.EStatus;
 @Entity
 @Table(name = "tblcomment")
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long personalId;
+
     private Long companyId;
+
+    private String title;
+
     private String content;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private EStatus status=EStatus.PENDING;
 
     @Builder.Default
     private Long createdDate=System.currentTimeMillis();
+
     private Long updatedDate;
 
 

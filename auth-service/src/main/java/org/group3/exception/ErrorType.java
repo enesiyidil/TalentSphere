@@ -4,35 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.group3.constant.ErrorMessages.*;
+
 @Getter
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5100,"Sunucu Hatası",HttpStatus.INTERNAL_SERVER_ERROR),
 
-    PASSWORD_MISMATCH(2200,"Şifreler uyuşmuyor",HttpStatus.BAD_REQUEST),
-    PARAMETER_NOT_VALID(5000,"Parametre Hatası",HttpStatus.BAD_REQUEST),
-    ACCOUNT_NOT_ACTIVE(3001,"Hesabınız aktif değil",HttpStatus.FORBIDDEN),
-    ACTIVATION_CODE_MISMATSC(3002,"Aktivasyon kodu hatalı",HttpStatus.BAD_REQUEST),
+    INTERNAL_ERROR_SERVER(92500,INTERNAL_ERROR_SERVER_ERROR_MESSAGES,HttpStatus.INTERNAL_SERVER_ERROR),
 
+    REGISTER_EMAIL_ALREADY_EXISTS(92001,REGISTER_EMAIL_ALREADY_EXISTS_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
+    TOKEN_NOT_CREATED(92002,TOKEN_NOT_CREATED_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
+    USER_NOT_FOUND(92003,USER_NOT_FOUND_ERROR_MESSAGES,HttpStatus.NOT_FOUND),
 
-    REGISTER_PASSWORD_MISMATCH(1001,"The entered passwords do not match.",HttpStatus.BAD_REQUEST),
-    REGISTER_EMAIL_ALREADY_EXISTS(1002,"This email address has already been registered.",HttpStatus.BAD_REQUEST),
+    USER_ALREADY_DELETED(92004,USER_ALREADY_DELETED_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
-    EMAIL_EXITS(2100,"Email is already in use.",HttpStatus.BAD_REQUEST),
+    ID_NOT_FOUND(92005,ID_NOT_FOUND_ERROR_MESSAGES,HttpStatus.NOT_FOUND),
 
-    USER_NOT_FOUND(3000,"Incorrect email or password.",HttpStatus.NOT_FOUND),
-    ID_NOT_FOUND(3000,"User not found.",HttpStatus.NOT_FOUND),
-    USER_ALREADY_DELETED(3003,"This account has already been deleted.",HttpStatus.BAD_REQUEST),
-    USERNAME_EXITS(3004,"Username is already in use.",HttpStatus.BAD_REQUEST),
+    ACCOUNT_NOT_ACTIVE(92006,ACCOUNT_NOT_ACTIVE_ERROR_MESSAGES,HttpStatus.FORBIDDEN),
 
-    INVALID_TOKEN(6000,"Invalid token.",HttpStatus.BAD_REQUEST),
-    TOKEN_NOT_CREATED(6001,"Token could not be created.",HttpStatus.BAD_REQUEST);
+    REGISTER_PASSWORD_MISMATCH(92007,REGISTER_PASSWORD_MISMATCH_ERROR_MESSAGES,HttpStatus.BAD_REQUEST),
 
+    PARAMETER_NOT_VALID(92008,PARAMETER_NOT_VALID_ERROR_MESSAGES,HttpStatus.BAD_REQUEST);
 
-    private int code;
-    private String message;
-    HttpStatus httpStatus;
+    private final int code;
+    private final String message;
+    final HttpStatus httpStatus;
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -13,11 +14,11 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class ShiftSaveRequestDto {
 
-    Long companyId;
-
     String name;
 
     String  startTime;
 
     String  endTime;
+
+    List<BreakSaveRequestDto> breaks;
 }

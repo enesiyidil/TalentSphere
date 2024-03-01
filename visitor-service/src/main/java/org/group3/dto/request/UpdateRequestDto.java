@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.group3.entity.enums.EGender;
 
 @Data
 @NoArgsConstructor
@@ -16,4 +17,5 @@ public class UpdateRequestDto {
     private String email;
     private String phone;
     private String photo;
+    private EGender gender;
 }

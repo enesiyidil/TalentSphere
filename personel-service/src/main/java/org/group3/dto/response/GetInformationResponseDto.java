@@ -19,4 +19,5 @@ public class GetInformationResponseDto {
     ShiftGetInformationResponseDto shift;
     List<CommentFindAllByCompanyIdWithPersonalNameResponseDto> comments;
 
+
 }

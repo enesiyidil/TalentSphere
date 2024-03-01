@@ -11,10 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SaveRequestDto {
 
-    private Long authid;
+
     private String name;
     private String surname;
     private String email;
     private String phone;
+    private String password;
+    private String username;
+    private String photo;
 
 }

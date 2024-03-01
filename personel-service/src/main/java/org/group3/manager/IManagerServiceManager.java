@@ -7,13 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import static org.group3.constant.EndPoints.*;
 
 
-import static org.group3.constant.EndPoints.ADD_PERSONAL;
-import static org.group3.constant.EndPoints.FIND_NAME_BY_ID;
-
-
-@FeignClient(name = "manager-service-manager", url = "http://localhost:9094/manager")
+@FeignClient(name = "manager-service-manager", url = "${apiGatewayUrl}" + MANAGER)
 public interface IManagerServiceManager {
 
     @GetMapping(ADD_PERSONAL)

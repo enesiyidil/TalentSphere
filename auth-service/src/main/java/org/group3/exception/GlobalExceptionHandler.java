@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
         ErrorMessage errorMessage=createError(errorType,ex);
         errorMessage.setMessage(ex.getMessage());
 
-        return new ResponseEntity(errorMessage,httpStatus);
+        return new ResponseEntity<>(errorMessage,httpStatus);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

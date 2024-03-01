@@ -4,9 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.group3.dto.request.*;
 import org.group3.dto.response.FindAllResponseDto;
-import org.group3.dto.response.FindByIdRespoonseDto;
+import org.group3.dto.response.FindByIdResponseDto;
 import org.group3.dto.response.LoginResponseDto;
-import org.group3.dto.response.RegisterResponseDto;
 import org.group3.entity.Enums.EStatus;
 import org.group3.exception.AuthManagerException;
 import org.group3.exception.ErrorType;
@@ -18,7 +17,7 @@ import java.util.List;
 
 import static org.group3.constant.EndPoints.*;
 
-@CrossOrigin(maxAge = 3600, allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(AUTH)
 @RequiredArgsConstructor
@@ -39,26 +38,30 @@ public class AuthController {
     }
 
     @GetMapping(FIND_ALL)
-    public ResponseEntity<List<FindAllResponseDto>> findAll(String token, @RequestParam(required = false) EStatus status){
-        return ResponseEntity.ok(authService.findAll(token, status));
+    public ResponseEntity<List<FindAllResponseDto>> findAll(@RequestParam(required = false) EStatus status){
+        return ResponseEntity.ok(authService.findAll(status));
     }
     @GetMapping(FIND_BY_ID + "/{id}")
-    public ResponseEntity<FindByIdRespoonseDto> findById(@PathVariable Long id){
+    public ResponseEntity<FindByIdResponseDto> findById(@PathVariable Long id){
         return ResponseEntity.ok(authService.findByIdDto(id));
     }
-
     @DeleteMapping(DELETE + "/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Boolean> delete(@PathVariable("id") Long id){
         return ResponseEntity.ok(authService.softDelete(id));
     }
 
     @PostMapping(PERSONAL_SAVE)
-    public ResponseEntity<Long> personalSave(@RequestBody @Valid RegisterRequestDto dto){
-        return ResponseEntity.ok(authService.personalSave(dto));
+    public ResponseEntity<Long> personalSave(@RequestBody ManagerOrPersonalSaveRequestDto dto){
+        return ResponseEntity.ok(authService.managerOrPersonalSave(dto));
     }
     @PostMapping(MANAGER_SAVE)
-    public ResponseEntity<Long> managerSave(@RequestBody ManagerSaveRequestDto dto){
-        return ResponseEntity.ok(authService.managerSave(dto));
+    public ResponseEntity<Long> managerSave(@RequestBody ManagerOrPersonalSaveRequestDto dto){
+        return ResponseEntity.ok(authService.managerOrPersonalSave(dto));
+    }
+
+    @PostMapping(ADMIN_SAVE)
+    public ResponseEntity<Long> adminSave(@RequestBody AdminSaveRequestDto dto){
+        return ResponseEntity.ok(authService.adminSave(dto));
     }
     @GetMapping(ACTIVATE)
     public ResponseEntity<String> activate(@RequestParam String t){

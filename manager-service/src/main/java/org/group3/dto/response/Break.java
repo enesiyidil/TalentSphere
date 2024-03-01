@@ -24,9 +24,9 @@ public class Break {
 
     String name;
 
-    LocalTime startTime;
+    String startTime;
 
-    LocalTime endTime;
+    String endTime;
 
 
     EStatus status ;

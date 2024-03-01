@@ -28,22 +28,12 @@ public class Break implements IStatus{
 
     String name;
 
-    LocalTime startTime;
+    String startTime;
 
-    LocalTime endTime;
+    String endTime;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
     EStatus status = EStatus.ACTIVE;
 
-    @Override
-    public String toString() {
-        return "Break{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", status=" + status +
-                '}';
-    }
 }
