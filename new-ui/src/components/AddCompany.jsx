@@ -159,7 +159,7 @@ export default function AddCompany() {
                                             </TableCell>
 
                                             {company.gallery.length > 1 && <TableCell align="right">
-                                                <button type="button" onClick={() => {
+                                                <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
                                                     setCompany(prevState => ({
                                                         ...prevState,
                                                         gallery: prevState.gallery.filter((_, i) => i !== index)
@@ -170,7 +170,7 @@ export default function AddCompany() {
                                         </TableRow>
                                     ))}
                                     <TableRow key={"new-photo"} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                        <button type={"button"} onClick={(e) => {
+                                        <button type={"button"} style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
 
                                             setCompany(prevState => ({
                                                 ...prevState,
@@ -334,7 +334,7 @@ export default function AddCompany() {
                                                                     />
                                                                 </TableCell>
                                                                 {row.breaks.length > 1 && <TableCell align="right">
-                                                                    <button type="button" onClick={() => {
+                                                                    <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
                                                                         setCompany(prevState => ({
                                                                             ...prevState,
                                                                             shifts: prevState.shifts.map((shift, i) =>
@@ -352,7 +352,7 @@ export default function AddCompany() {
                                                         ))}
                                                         <TableRow key={"new"}
                                                                   sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                                            <button type={"button"} onClick={(e) => {
+                                                            <button type={"button"}  style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
 
                                                                 setCompany(prevState => ({
                                                                     ...prevState,
@@ -378,7 +378,7 @@ export default function AddCompany() {
                                                 </Table>
                                             </TableContainer></TableCell>
                                             {company.shifts.length > 1 && <TableCell align="right">
-                                                <button type="button" onClick={() => {
+                                                <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
                                                     setCompany(prevState => ({
                                                         ...prevState,
                                                         shifts: prevState.shifts.filter((_, i) => i !== index) // İlgili vardiya (shift) filtrelenir ve silinir
@@ -389,7 +389,7 @@ export default function AddCompany() {
                                         </TableRow>
                                     ))}
                                     <TableRow key={"new-shift"} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                        <button type={"button"} onClick={(e) => {
+                                        <button type={"button"}   style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
 
                                             setCompany(prevState => ({
                                                 ...prevState,

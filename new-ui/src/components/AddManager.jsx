@@ -141,7 +141,7 @@ export default function AddManager() {
                             onChange={e => setManager(prevState => ({...prevState, salary: e.target.value}))}
                             value={manager.salary}
                         />
-                        <Select
+                        <Select  style={{backgroundColor: 'white'}}
                             id="gender"
                             label="Gender"
                             value={manager.gender}
@@ -151,8 +151,8 @@ export default function AddManager() {
                             <MenuItem value="WOMAN">WOMAN</MenuItem>
                             <MenuItem value="NO_GENDER">NO_GENDER</MenuItem>
                         </Select>
-                        <Select
-                            id="epackage"
+                        <Select  style={{backgroundColor: 'white'}}
+                                 id="epackage"
                             label="Epackage"
                             value={manager.packet}
                             onChange={e => setManager(prevState => ({...prevState, packet: e.target.value}))}
