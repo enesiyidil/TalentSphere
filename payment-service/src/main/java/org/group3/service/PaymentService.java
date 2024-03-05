@@ -163,7 +163,7 @@ public class PaymentService {
         Criteria criteria = new Criteria("companyId").matches(companyId);
         CriteriaQuery criteriaQuery = new CriteriaQuery(criteria);
         SearchHits<Payment> searchHits = elasticsearchTemplate.search(criteriaQuery, Payment.class);
-        return searchHits.stream().map(SearchHit::getContent).collect(Collectors.toList());
+        return searchHits.stream().map(SearchHit::getContent).filter(payment -> payment.getStatus().equals(EStatus.ACCEPT)).collect(Collectors.toList());
     }
 
 
@@ -209,6 +209,7 @@ public class PaymentService {
         if (optionalPayment.isPresent()){
             if ((optionalPayment.get().getStatus().equals(EStatus.PENDING))){
                 optionalPayment.get().setStatus(Objects.equals(dto.getConfirm(), "accept") ? EStatus.ACCEPT : EStatus.REJECTED);
+                optionalPayment.get().setApprovalDate(LocalDateTime.now().toString());
                 repository.save(optionalPayment.get());
                 return true;
             }

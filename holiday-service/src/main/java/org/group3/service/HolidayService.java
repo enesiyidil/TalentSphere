@@ -39,6 +39,7 @@ public class HolidayService {
 
     public HolidayResponseDto save(HolidayRequestDto dto) {
         Holiday holiday = HolidayMapper.INSTANCE.saveRequestDtoToHoliday(dto);
+        System.out.println(holiday);
         if (dto.getRole().equals("MANAGER")){
             holiday.setStatus(EStatus.ACTIVE);
         }

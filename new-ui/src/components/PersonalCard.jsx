@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import styles from "../Css/PersonalCard.module.css";
-import { useContext, useState } from "react";
-import { ApiContext } from "../context/ApiContext";
+import * as React from "react";
+import {useContext, useState} from "react";
+import {ApiContext} from "../context/ApiContext";
 import {useDispatch, useSelector} from "react-redux";
 import {API_GATEWAY_URL, PERSONAL_URL, SAVE_URL, UPDATE_URL} from "../constant/Endpoints.js";
-import {updatePersonal, addPersonal} from "../redux/actions.js"
+import {addPersonal, updatePersonal} from "../redux/actions.js"
 import {MenuItem} from "@mui/material";
 import Select from "@mui/material/Select";
-import * as React from "react";
 
-const PersonalCard = ({ personal, editing, setAddPersonal }) => {
+const PersonalCard = ({personal, editing, setAddPersonal}) => {
     const [editPersonal, setEditPersonal] = useState(editing);
     const [name, setName] = useState(personal ? personal.name : "");
     const [surname, setSurname] = useState(personal ? personal.surname : "");
@@ -18,14 +18,14 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
     const [title, setTitle] = useState(personal ? personal.title : "");
     const [photo, setPhoto] = useState(personal ? personal.photo : "");
     const [salary, setSalary] = useState(personal ? personal.salary : "");
+    const [gender, setGender] = useState(personal ? personal.gender : "");
 
     const [isDeletedLoading, setIsDeletedLoading] = useState(false);
-    const { apiPatch, apiDelete, apiPost } = useContext(ApiContext);
+    const {apiPatch, apiDelete, apiPost} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const data = useSelector((state) => state.data);
     const dispatch = useDispatch()
     const [shiftId, setShiftId] = useState(personal ? personal.shiftId : "");
-
 
 
     const handleUpdateClick = (e) => {
@@ -46,10 +46,10 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
                 managerId: data.managerId
 
             }, token);
-            if (response.status === 200){
+            if (response.status === 200) {
                 dispatch(updatePersonal(response.data))
                 setEditPersonal(false);
-            }else {
+            } else {
 
             }
         }
@@ -70,21 +70,20 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
                 salary,
                 shiftId,
                 companyId: data.id,
-                managerId: data.managerId
-
+                managerId: data.managerId,
+                gender
             }, token);
-            if (response.status === 200){
+            if (response.status === 200) {
                 dispatch(addPersonal(response.data))
                 setEditPersonal(false);
                 setAddPersonal(false)
-            }else {
+            } else {
 
             }
         }
         request()
 
     };
-
 
 
     return (
@@ -152,6 +151,16 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
                                 <MenuItem key={shift.id} value={shift.id}>{shift.name}</MenuItem>
                             ))}
                         </Select>
+                        <Select
+                            id="gender"
+                            label="Gender"
+                            value={gender}
+                            onChange={e => setGender(e.target.value)}
+                        >
+                            <MenuItem value="MAN">MAN</MenuItem>
+                            <MenuItem value="WOMAN">WOMAN</MenuItem>
+                            <MenuItem value="NO_GENDER">NO_GENDER</MenuItem>
+                        </Select>
 
                         <div className={styles["button"]}>
                             <button
@@ -192,15 +201,15 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
                 </div>
             ) : (
 
-                    <div className={styles["personal-card"]}>
-                        <img src={personal.photo} alt=""/>
-                        <h3>{personal.title}</h3>
-                        <p>{personal.name}</p>
-                        <p>{personal.surname}</p>
-                        <p>{personal.phone}</p>
-                        <p>{personal.email}</p>
-                        <p>{personal.salary}</p>
-                        <div className={styles["button"]}>
+                <div className={styles["personal-card"]}>
+                    <img src={personal.photo} alt=""/>
+                    <h3>{personal.title}</h3>
+                    <p>{personal.name}</p>
+                    <p>{personal.surname}</p>
+                    <p>{personal.phone}</p>
+                    <p>{personal.email}</p>
+                    <p>{personal.salary}</p>
+                    <div className={styles["button"]}>
                         <button
                             className={styles["button"]}
                             onClick={(e) => {
@@ -217,9 +226,9 @@ const PersonalCard = ({ personal, editing, setAddPersonal }) => {
                         >
                             {editPersonal ? "Save" : "Update"}
                         </button>
-                        </div>
+                    </div>
 
-                        <div className={styles["button"]}>
+                    <div className={styles["button"]}>
                         <button
                             className={styles["button"]}
                             onClick={(e) => {

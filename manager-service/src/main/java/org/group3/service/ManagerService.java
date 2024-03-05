@@ -75,7 +75,7 @@ public class ManagerService {
                 .gender(dto.getGender())
                 .phone(dto.getPhone())
                 .updatedDateTime(LocalDateTime.now().toString())
-                .ePackage(dto.getEPackage())
+                .ePackage(dto.getPacket())
                 .build();
         System.out.println(dto.getName()+dto.getSurname() + dto.getEmail() + dto.getCompanyId());
         manager.setStatus(EStatus.ACTIVE);
@@ -107,7 +107,7 @@ public class ManagerService {
             if (optionalManager.get().getStatus() == EStatus.DELETED)
                 throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
             ManagerResponseDto dto = ManagerMapper.INSTANCE.managerToManagerResponseDto(optionalManager.get());
-            dto.setEPackage(optionalManager.get().getEPackage());
+            dto.setPacket(optionalManager.get().getEPackage());
             return dto;
         }
         throw new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND);
@@ -169,7 +169,7 @@ public class ManagerService {
 
             }
             ManagerResponseDto dto2 = ManagerMapper.INSTANCE.managerToManagerResponseDto(existingManager);
-            dto2.setEPackage(existingManager.getEPackage());
+            dto2.setPacket(existingManager.getEPackage());
             return dto2;
         }
         throw new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND);
@@ -181,7 +181,7 @@ public class ManagerService {
             if (optionalManager.get().getStatus() == EStatus.DELETED)
                 throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
             ManagerResponseDto dto = ManagerMapper.INSTANCE.managerToManagerResponseDto(optionalManager.get());
-            dto.setEPackage(optionalManager.get().getEPackage());
+            dto.setPacket(optionalManager.get().getEPackage());
             return dto;
         }
         throw new ManagerServiceException(ErrorType.MANAGER_NOT_FOUND);
@@ -231,6 +231,8 @@ public class ManagerService {
                         throw new ManagerServiceException(ErrorType.PERSONAL_ALREADY_EXISTS);
                     }
                     manager.getPersonals().add(personId);
+                    repository.save(manager);
+                    System.out.println(manager);
                 }
         );
         optionalExistingManager.orElseThrow(
@@ -259,7 +261,7 @@ public class ManagerService {
     public List<ManagerResponseDto> findAllDto() {
         return repository.findAll().stream().map((manager) -> {
             ManagerResponseDto dto = ManagerMapper.INSTANCE.managerToManagerResponseDto(manager);
-            dto.setEPackage(manager.getEPackage());
+            dto.setPacket(manager.getEPackage());
             return dto;
         } ).collect(Collectors.toList());
     }

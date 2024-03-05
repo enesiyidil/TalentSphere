@@ -54,6 +54,9 @@ const NavigationBar = () => {
                                 <li>
                                     <Link to="/home/payment">Payment</Link>
                                 </li>
+                                <li>
+                                    <Link to="/home/approvePayment">Approve Payment</Link>
+                                </li>
                             </>
                         )}
                         {role === 'PERSONAL' && (
@@ -64,11 +67,14 @@ const NavigationBar = () => {
                                 <li>
                                     <Link to="/home/comment">Comment</Link>
                                 </li>
+                                <li>
+                                    <Link to="/home/payment">Payment</Link>
+                                </li>
                             </>
                         )}
                         {role === 'VISITOR' && (
                             <>
-                                {/* visitor-service getInformation (pageable) */}
+                            {/* visitor-service getInformation (pageable) */}
                                 {/* visitor-service getInformationByCompanyName */}
                                 <li>
                                     <TextField

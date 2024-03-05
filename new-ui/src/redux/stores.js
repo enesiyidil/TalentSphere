@@ -15,6 +15,10 @@ const defaultState = {
         phone: "",
         title: "",
         personals: [],
+        gender: "",
+        packet: "",
+        updatedDateTime: "",
+        createdDateTime: "",
     },
     data: {
         name: "",
@@ -24,11 +28,18 @@ const defaultState = {
         payments: [{
             id: "",
             amount: 0,
-            createdDate: 0,
-            dueDate: 0,
-            paymentDate: 0,
-            updatedDate: 0,
+            companyId: 0,
+            authId: 0,
+            requestDate: "",
+            approvalDate: "",
+            dueDate: "",
+            paymentDate: "",
+            updatedDate: "",
             description: "",
+            expenditureType: "",
+            status: "",
+            role: "",
+            currency: "",
             type: ""
         }],
         personals: [{
@@ -42,26 +53,27 @@ const defaultState = {
             photo: "",
             salary: 0,
             holidaysNumber: 0,
-            createdDate: new Date,
-            updatedDate: new Date,
+            createdDate: "",
+            updatedDate: "",
+            gender: "",
         }],
         communications: [{id: 0, name: "", phoneNumber: ""}],
         holidays: [{
-            name: "Ramazan Bayramı",
-            startDate: new Date,
-            endDate: new Date,
+            name: "",
+            startDate: "",
+            endDate: "",
             description: "",
             personals: [],
         }],
         shifts: [{
             id: 0,
             name: "",
-            startTime: new Date,
-            endTime: new Date,
-            breaks: [{id: 0, name: "", startTime: new Date, endTime: new Date}]
+            startTime: "",
+            endTime: "",
+            breaks: [{id: 0, name: "", startTime: "", endTime: ""}]
         }],
-        createdDateTime: new Date,
-        updatedDateTime: new Date,
+        createdDateTime: "",
+        updatedDateTime: "",
     }
 }
 

@@ -27,4 +27,5 @@ export const FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING = '/findAllByCompanyIdAnd
 export const GET_INFORMATION = '/getInformation'
 export const ACCEPTED_OR_REJECTED_COMMENT_BY_ID = '/acceptedOrRejectedCommentById'
 export const ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID = '/acceptedOrRejectedHolidayById'
+export const ACCEPTED_OR_REJECTED_PAYMENT_BY_ID = '/acceptOrRejectPaymentById'
 export const SAVE_BY_PERSONAL = '/saveByPersonal'
