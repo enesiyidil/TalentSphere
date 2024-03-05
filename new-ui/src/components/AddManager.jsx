@@ -29,7 +29,7 @@ export default function AddManager() {
         photo: "",
         title: "",
         salary: 0,
-        ePackage: "P_30"
+        packet: "P_30"
     });
 
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function AddManager() {
             photo: "",
             title: "",
             salary: 0,
-            ePackage: "P_30"
+            packet: "P_30"
         })
     }
 
@@ -154,8 +154,8 @@ export default function AddManager() {
                         <Select
                             id="epackage"
                             label="Epackage"
-                            value={manager.ePackage}
-                            onChange={e => setManager(prevState => ({...prevState, ePackage: e.target.value}))}
+                            value={manager.packet}
+                            onChange={e => setManager(prevState => ({...prevState, packet: e.target.value}))}
                         >
                             <MenuItem value="P_30">P_30</MenuItem>
                             <MenuItem value="P_60">P_60</MenuItem>

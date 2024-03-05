@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.group3.repository.entity.enums.EGender;
 
-import java.time.LocalDateTime;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +26,8 @@ public class PersonalResponseDto {
     private String photo;
     private Double salary;
     private EGender gender;
-    private String createdDate;
-    private String updatedDate;
+    private String createdDateTime;
+    private String updatedDateTime;
 
 
 

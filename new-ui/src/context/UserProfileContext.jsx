@@ -5,10 +5,12 @@ import {resetStore, setUserProfile, updateUserProfile} from "../redux/actions.js
 import PropTypes from "prop-types";
 import {
     ADMIN_URL,
-    API_GATEWAY_URL, DELETE_URL,
+    API_GATEWAY_URL,
+    DELETE_URL,
     FIND_BY_AUTH_ID_URL,
     MANAGER_URL,
-    PERSONAL_URL, UPDATE_URL,
+    PERSONAL_URL,
+    UPDATE_URL,
     VISITOR_URL
 } from "../constant/Endpoints.js";
 import {useNavigate} from "react-router-dom";
@@ -26,6 +28,7 @@ export const UserProfileContextProvider = ({children}) => {
     const navigate = useNavigate();
 
     let url;
+    console.log("role : ", role)
     switch (role) {
         case 'ADMIN':
             url = API_GATEWAY_URL + ADMIN_URL;
@@ -41,7 +44,25 @@ export const UserProfileContextProvider = ({children}) => {
             break;
     }
 
-    async function handleSetUserProfile() {
+
+    async function handleSetUserProfile(roleParam) {
+        if(roleParam){
+            switch (roleParam) {
+                case 'ADMIN':
+                    url = API_GATEWAY_URL + ADMIN_URL;
+                    break;
+                case 'MANAGER':
+                    url = API_GATEWAY_URL + MANAGER_URL;
+                    break;
+                case 'PERSONAL':
+                    url = API_GATEWAY_URL + PERSONAL_URL;
+                    break;
+                case 'VISITOR':
+                    url = API_GATEWAY_URL + VISITOR_URL;
+                    break;
+            }
+        }
+
         setIsLoading(true);
         console.log(`${url}${FIND_BY_AUTH_ID_URL}?authId=${authId}`)
         const responseData = await apiGet(`${url}${FIND_BY_AUTH_ID_URL}?authId=${authId}`, token);

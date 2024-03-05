@@ -61,6 +61,7 @@ export const userReducer = (state, action) => {
                 ...state,
                 data: {...state.data, companies: [...state.data.companies, action.payload]}
             };
+
         case 'ADD_HOLIDAY':
             return {
                 ...state,

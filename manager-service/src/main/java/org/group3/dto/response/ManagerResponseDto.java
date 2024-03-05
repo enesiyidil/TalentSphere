@@ -4,7 +4,6 @@ import lombok.*;
 import org.group3.entity.enums.EGender;
 import org.group3.entity.enums.EPackage;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -24,7 +23,7 @@ public class ManagerResponseDto {
     EGender gender;
     Long companyId;
     String title;
-    EPackage ePackage;
+    EPackage packet;
     List<Long> personals;
     String updatedDateTime;
     String createdDateTime;

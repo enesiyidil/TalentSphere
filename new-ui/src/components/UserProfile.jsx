@@ -56,16 +56,18 @@ export const UserProfile = () => {
         });
     }
 
-    const handleManageAccountsIcon = () => {
+    const handleManageAccountsIcon = async () => {
         dispatch(setSwitchAccount(false));
         dispatch(setRole('MANAGER'));
-        handleSetUserProfile();
+        // await new Promise(resolve => setTimeout(resolve, 300));
+        handleSetUserProfile('MANAGER');
     }
 
-    const handlePersonIcon = () => {
+    const handlePersonIcon = async () => {
         dispatch(setSwitchAccount(true));
         dispatch(setRole('PERSONAL'));
-        handleSetUserProfile();
+        // await new Promise(resolve => setTimeout(resolve, 300));
+        handleSetUserProfile('PERSONAL');
     }
 
     const handleClearClick = () => {

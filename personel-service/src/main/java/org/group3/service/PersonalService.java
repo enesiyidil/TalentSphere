@@ -43,7 +43,7 @@ public class PersonalService {
         this.authUpdateProducer = authUpdateProducer;
     }
 
-    public PersonalResponseDto save(PersonalSaveRequestDto dto){
+    public PersonalResponseDto save(PersonalSaveRequestDto dto) {
         Personal personal = IPersonelMapper.INSTANCE.saveRequestDtoToPersonel(dto);
         ManagerOrPersonalSaveRequestDto dto1 = IPersonelMapper.INSTANCE.personalToManagerOrPersonalSaveRequestDto(personal);
         dto1.setRole(ERole.PERSONAL);
@@ -56,11 +56,14 @@ public class PersonalService {
 
     }
 
-    public PersonalResponseDto saveManager(PersonalSaveManagerRequestDto dto){
+    public PersonalResponseDto saveManager(PersonalSaveManagerRequestDto dto) {
         Personal personal = IPersonelMapper.INSTANCE.saveManagerRequestDtoToPersonel(dto);
+        personal.setUpdatedDate(LocalDateTime.now().toString());
         personalRepository.save(personal);
+        companyManager.addPersonal(personal.getCompanyId(), personal.getId());
         return IPersonelMapper.INSTANCE.personelToResponseDto(personal);
     }
+
     public PersonalResponseDto findById(Long id) {
         Optional<Personal> optionalPersonal = personalRepository.findById(id);
         if (optionalPersonal.isPresent()) {
@@ -75,6 +78,7 @@ public class PersonalService {
                 .map(IPersonelMapper.INSTANCE::personelToResponseDto)
                 .collect(Collectors.toList());
     }
+
     public PersonalResponseDto updatePersonal(PersonalUpdateRequestDto dto) {
         Optional<Personal> optionalPersonal = personalRepository.findById(dto.getId());
         if (optionalPersonal.isPresent()) {
@@ -141,7 +145,7 @@ public class PersonalService {
 
     public PersonalResponseDto findByAuthId(Long authId) {
         Optional<Personal> optionalPersonal = personalRepository.findByAuthId(authId);
-        if (optionalPersonal.isPresent()){
+        if (optionalPersonal.isPresent()) {
             return PersonalResponseDto.builder()
                     .id(optionalPersonal.get().getId())
                     .companyId(optionalPersonal.get().getCompanyId())
@@ -154,10 +158,10 @@ public class PersonalService {
                     .photo(optionalPersonal.get().getPhoto())
                     .salary(optionalPersonal.get().getSalary())
                     .gender(optionalPersonal.get().getGender())
-                    .createdDate(optionalPersonal.get().getCreatedDate())
-                    .updatedDate(optionalPersonal.get().getUpdatedDate())
+                    .createdDateTime(optionalPersonal.get().getCreatedDate())
+                    .updatedDateTime(optionalPersonal.get().getUpdatedDate())
                     .build();
-        }else {
+        } else {
             throw new PersonelServiceException(ErrorType.USER_NOT_FOUND);
         }
     }
@@ -196,6 +200,12 @@ public class PersonalService {
         if (optionalPersonal.isPresent()) {
             Company company = companyManager.findByPersonalIdGetInfo(id).getBody();
             assert company != null;
+            String managerName = null;
+            try {
+                managerName = managerServiceManager.findNameById(optionalPersonal.get().getManagerId()).getBody();
+            } catch (Exception e) {
+                managerName = optionalPersonal.get().getName();
+            }
             return GetInformationResponseDto.builder()
                     .company(CompanyInformationResponseDto.builder()
                             .name(company.getName())
@@ -204,7 +214,7 @@ public class PersonalService {
                             .personalNumber(company.getPersonalNumber())
                             .communications(company.getCommunications())
                             .build())
-                    .managerName(managerServiceManager.findNameById(optionalPersonal.get().getManagerId()).getBody())
+                    .managerName(managerName)
                     .shift(company.getShifts().stream().filter(shift -> Objects.equals(shift.getId(), optionalPersonal.get().getShiftId())).findFirst()
                             .orElseThrow(() -> new PersonelServiceException(ErrorType.USER_NOT_FOUND)))
                     .comments(Objects.requireNonNull(commentManager.findAllByCompanyId(company.getId()).getBody()).stream()

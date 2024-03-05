@@ -1,10 +1,7 @@
 package org.group3.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.group3.entity.enums.EGender;
 import org.group3.entity.enums.EPackage;
 import org.group3.entity.enums.EStatus;
@@ -17,6 +14,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
+@ToString
 @Table(name = "tbl_manager")
 public class Manager {
 
