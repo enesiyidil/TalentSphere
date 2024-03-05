@@ -18,6 +18,9 @@ spring:
     port: 5672
     username: user
     password: user
+  cloud:
+    config:
+      enabled: false
 
 
   elasticsearch:

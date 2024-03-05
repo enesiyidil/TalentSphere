@@ -39,6 +39,8 @@ const HomePage = ({page}) => {
 
         }else if(role === 'VISITOR'){
 
+        }else if(role === ''){
+            navigate('/')
         }
     }, []);
 

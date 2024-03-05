@@ -1,20 +1,9 @@
 .label2 {
-    /*color: #fdfafa;*/
-    /*font-size: 1rem;*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
-    /*!*align-items: flex-end;*!*/
-    /*gap: .5rem;*/
-
     font-style: italic;
     color: #fdfafa;
     font-size: 1.5rem;
-     /*display: flex;*/
-    /* flex-direction: column; */
     justify-content: center;
     margin-left: auto;
-
     gap: .5rem;
 }
 .text{
@@ -25,4 +14,19 @@
     font-size: 1.4rem;
     resize: vertical;
 
+}
+
+.profile-img-wrapper{
+    width: 15vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1e5e58;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-img-wrapper img {
+    width: 100%;
+    border-radius: 10px;
 }

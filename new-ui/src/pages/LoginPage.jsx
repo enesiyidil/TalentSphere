@@ -1,13 +1,16 @@
 import styles from "../Css/LoginPage.module.css";
 import {useForm} from "react-hook-form";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {LoginContext} from "../context/LoginContext.jsx";
 import {useNavigate} from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const LoginPage = () => {
 
-    const {handleLogin} = useContext(LoginContext);
+    const {handleLogin, isLoading, isLogin} = useContext(LoginContext);
     const navigate = useNavigate();
+    const [isSubmit, setIsSubmit] = useState(false);
 
     const {
         register,
@@ -23,16 +26,22 @@ const LoginPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         handleLogin(getValues());
-        navigate('/home');
+        setIsSubmit(true);
     }
+
+    useEffect(() => {
+        if(isLogin)
+            navigate('/home');
+    }, [isLogin]);
 
     return (
         <>
-            <div className={styles["register-form-wrapper"]}>
-                <form onSubmit={handleSubmit} className={styles["register-form"]}>
-
+            {isLoading ? (<Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>) : (<div className={styles["register-form-wrapper"]}>
+                <form onSubmit={handleSubmit} className={styles["register-form"]} style={(!isLogin && isSubmit) ? {backgroundColor: "red"} : {}}>
+                    {(!isLogin && isSubmit) && <p style={{color: "yellow", fontStyle: "oblique", }}>Email or password incorrect</p>}
                     <label className={styles["label"]}>
-
                         <span className={styles["label-inside-text"]}>E-Mail: </span>
                         <input
                             {...register("email", {
@@ -41,7 +50,7 @@ const LoginPage = () => {
                             type={'email'}
                             placeholder={'E-Mail'}
                             className={`${styles["textarea"]} ${styles["input"]}`}
-                                                    />
+                        />
                         {errors['email'] && (
                             <p className="text-red-500">{errors['email'].message}</p>
                         )}
@@ -71,7 +80,8 @@ const LoginPage = () => {
                         <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
                     </div>
                 </form>
-            </div>
+            </div>)}
+
         </>
     )
 }
