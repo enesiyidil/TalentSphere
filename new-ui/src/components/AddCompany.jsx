@@ -27,6 +27,7 @@ export default function AddCompany() {
         address: "",
         communicationName: "",
         communicationPhone: "",
+        gallery: [""],
         shifts: [
             {
                 name: "",
@@ -49,6 +50,7 @@ export default function AddCompany() {
             address: "",
             communicationName: "",
             communicationPhone: "",
+            gallery: [""],
             shifts: [
                 {
                     name: "",
@@ -117,6 +119,72 @@ export default function AddCompany() {
                             }))}
                             defaultValue={company.communicationPhone}
                         />
+                    </div>
+                    <div>
+                        <TableContainer component={Paper}>
+                            <Table sx={{minWidth: 650}} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Gallery</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {company.gallery.map((row, index) => (
+                                        <TableRow
+                                            key={index}
+                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                        >
+                                            <TableCell component="th" scope="row">
+                                                <TextField
+                                                    required
+                                                    id={`photo-url-${index}`} // Shift ismini benzersiz bir ID ile belirtin
+                                                    label="Photo URL"
+                                                    onChange={e => setCompany(prevState => ({
+                                                        ...prevState,
+                                                        gallery: prevState.gallery.map((photo, i) =>
+                                                            index === i ? e.target.value : photo
+                                                        )
+                                                    }))}
+                                                    defaultValue={row.name}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="right">
+                                                {row && (
+                                                    <img
+                                                        src={row}
+                                                        alt="Uploaded"
+                                                        style={{maxWidth: '100px', maxHeight: '100px', marginTop: '10px'}}
+                                                    />
+                                                )}
+                                            </TableCell>
+
+                                            {company.gallery.length > 1 && <TableCell align="right">
+                                                <button type="button" onClick={() => {
+                                                    setCompany(prevState => ({
+                                                        ...prevState,
+                                                        gallery: prevState.gallery.filter((_, i) => i !== index)
+                                                    }));
+                                                }}>Delete Photo
+                                                </button>
+                                            </TableCell>}
+                                        </TableRow>
+                                    ))}
+                                    <TableRow key={"new-photo"} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                        <button type={"button"} onClick={(e) => {
+
+                                            setCompany(prevState => ({
+                                                ...prevState,
+                                                gallery: [
+                                                    ...prevState.gallery,
+                                                    ""
+                                                ]
+                                            }));
+                                        }}>Add Photo
+                                        </button>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                     </div>
                     <div>
                         <TableContainer component={Paper}>
