@@ -6,15 +6,22 @@
     justify-content: center;
     align-items: center;
     position: relative; /* user-information-card'ı göreli konumlandırma */
+}
 
+.user-information-card-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid red;
+    gap: 10px;
 }
 
 .icon-container {
-
-    position: absolute; /* user-information-card'a göre mutlak konumlandırma */
+    position: relative; /* user-information-card'a göre mutlak konumlandırma */
     top: 10px; /* İkonun sayfanın üst kenarına olan mesafesi */
     right: 20px; /* İkonun sayfanın sağ kenarına olan mesafesi */
-
+    border: 1px solid red;
 }
 
 .icon {
@@ -29,5 +36,6 @@
     width: 40px; /* İkon genişliği */
     height: 40px; /* İkon yüksekliği */
     cursor: pointer;
+    border: 1px solid red;
 
 }

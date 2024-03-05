@@ -273,11 +273,11 @@ public class ManagerService {
 
     public GetInformationResponseDto getInformation(Long id) {
         Company company = companyManager.findByManagerId(id).getBody();
-        System.out.println(company);
         assert company != null;
         List<Payment> payments = paymentManager.findAllByCompanyId(company.getId()).getBody();
         List<Personal> personals = personalManager.findAllPersonalByCompanyId(company.getId()).getBody();
         List<HolidayResponseDto> holidays = holidayManager.findAllByCompanyId(company.getId()).getBody();
+        System.out.println(company);
         return GetInformationResponseDto.builder()
                 .id(company.getId())
                 .managerId(company.getManagerId())

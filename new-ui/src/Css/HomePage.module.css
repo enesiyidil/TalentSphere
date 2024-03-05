@@ -8,20 +8,18 @@
 }
 
 .user-profile-wrapper {
-
+    margin-top: 1vh;
     width: 20vw;
-    height: 90vh;
+    height: 99vh;
     padding: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .user-profile-container {
     width: 100%;
     height: 100%;
-
 }
 
 .content-wrapper {

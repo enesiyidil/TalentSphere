@@ -30,7 +30,7 @@ public class ManagerResponseDto {
 
     List<Long> personals;
 
-    LocalDateTime updatedDateTime;
+    String updatedDateTime;
 
     String phone;
 }
