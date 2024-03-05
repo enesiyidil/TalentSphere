@@ -22,6 +22,8 @@
 
 .nav-links {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
 }
 
@@ -37,4 +39,8 @@
 
 .nav-links a:hover {
     color: #948f8f;
+}
+.search-link{
+    background-color: white;
+  left: 80px;
 }

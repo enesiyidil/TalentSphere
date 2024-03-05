@@ -1,6 +1,6 @@
 .home-page-wrapper {
     width: 100vw;
-    height: 90vh;
+    height: 92vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +10,7 @@
 .user-profile-wrapper {
     margin-top: 1vh;
     width: 20vw;
-    height: 99vh;
+    height: 88vh;
     padding: 1rem;
     display: flex;
     justify-content: center;

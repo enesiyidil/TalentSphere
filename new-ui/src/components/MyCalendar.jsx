@@ -7,6 +7,7 @@ import {API_GATEWAY_URL, FIND_ALL_BY_PERSONAL_ID_URL, HOLIDAY_URL, SAVE_BY_PERSO
 import {ApiContext} from "../context/ApiContext.jsx";
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
+import styles from "../Css/ApproveComment.module.css";
 
 
 const DateRangePicker = () => {
@@ -63,8 +64,8 @@ const DateRangePicker = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="start-date" className="flex text-md font-medium text-gray-700">
+                <div  style={{marginTop:'10px'}} >
+                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="start-date" className="flex text-md font-medium text-gray-700">
                         Start Date
                     </label>
                     <input
@@ -77,7 +78,7 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="end-date" className="block text-sm font-medium text-gray-700">
+                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="end-date" className="block text-sm font-medium text-gray-700">
                         End Date
                     </label>
                     <input
@@ -90,10 +91,11 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    <label   style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Name
                     </label>
                     <input
+                        style={{width:'15%'}}
                         type="text"
                         id="namae"
                         name="name"
@@ -103,10 +105,11 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Description
                     </label>
                     <input
+                        style={{width:'15%'}}
                         type="text"
                         id="description"
                         name="description"
