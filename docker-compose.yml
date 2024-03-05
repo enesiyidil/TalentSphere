@@ -132,7 +132,7 @@ services:
     networks:
       - talent-sphere-network
     ports:
-      - "9201:9200"
+      - "9200:9200"
     environment:
       - "discovery.type=single-node"
       - "xpack.security.enabled=false"
