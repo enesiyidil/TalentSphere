@@ -1,33 +1,45 @@
 import styles from "../Css/AddPayment.module.css";
+import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {ApiContext} from "../context/ApiContext.jsx";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {
-    API_GATEWAY_URL,
-    COMPANY_URL,
-    FIND_ALL_WITHOUT_MANAGER,
-    MANAGER_URL,
-    PAYMENT_URL,
-    SAVE_URL
-} from "../constant/Endpoints.js";
+import {API_GATEWAY_URL, PAYMENT_URL, SAVE_URL} from "../constant/Endpoints.js";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import {MenuItem} from "@mui/material";
-import * as React from "react";
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from "dayjs";
+import {BarChart} from '@mui/x-charts/BarChart';
+import {axisClasses} from "@mui/x-charts";
 
-export default function AddPayment () {
+const chartSetting = {
+    yAxis: [
+        {
+            label: 'Amount (TL)',
+        },
+    ],
+    width: 500,
+    height: 300,
+    sx: {
+        [`.${axisClasses.left} .${axisClasses.label}`]: {
+            transform: 'translate(-20px, 0)',
+        },
+    },
+};
+
+const valueFormatter = (value) => `${value}TL`;
+export default function AddPayment() {
     const {apiPost} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const userProfile = useSelector((state) => state.userProfile);
     const role = useSelector((state) => state.role);
     const authId = useSelector((state) => state.authId);
+    const data = useSelector((state) => state.data);
     const navigate = useNavigate();
     const [payment, setPayment] = useState({
         amount: 0,
@@ -40,6 +52,154 @@ export default function AddPayment () {
         currency: "",
         type: ""
     });
+    const [dataset, setDataset] = useState([
+        {
+            income: 0,
+            expense: 0,
+            month: "Jan"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Feb"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Mar"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Apr"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "May"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Jun"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Jul"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Agu"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Sep"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Oct"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Nov"
+        },
+        {
+            income: 0,
+            expense: 0,
+            month: "Dec"
+        }]);
+
+    useEffect(() => {
+        setDataset([
+            {
+                income: 0,
+                expense: 0,
+                month: "Jan"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Feb"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Mar"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Apr"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "May"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Jun"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Jul"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Agu"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Sep"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Oct"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Nov"
+            },
+            {
+                income: 0,
+                expense: 0,
+                month: "Dec"
+            }]);
+        data.payments.forEach(payment => {
+            setDataset(prevState => {
+                const months = [
+                    {item1: "01", item2: "Jan"},
+                    {item1: "02", item2: "Feb"},
+                    {item1: "03", item2: "Mar"},
+                    {item1: "04", item2: "Apr"},
+                    {item1: "05", item2: "May"},
+                    {item1: "06", item2: "Jun"},
+                    {item1: "07", item2: "Jul"},
+                    {item1: "08", item2: "Aug"},
+                    {item1: "09", item2: "Sep"},
+                    {item1: "10", item2: "Oct"},
+                    {item1: "11", item2: "Nov"},
+                    {item1: "12", item2: "Dec"}
+                ].filter(month => month.item1 === payment.dueDate.substring(5, 7))[0].item2;
+                return prevState.map(item => item.month === months ? payment.type === "INCOME" ? {
+                    ...item,
+                    income: item.income + payment.amount
+                } : {...item, expense: item.expense + payment.amount} : item)
+
+            })
+        })
+    }, []);
 
     const handleClearClick = () => {
         setPayment({
@@ -58,9 +218,9 @@ export default function AddPayment () {
     const handleSaveClick = () => {
         const request = async () => {
             const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${SAVE_URL}`, payment, token);
-            if(response.status === 200){
+            if (response.status === 200) {
 
-            }else {
+            } else {
                 alert(response.data.message);
             }
             navigate('/home');
@@ -72,6 +232,7 @@ export default function AddPayment () {
         const date = dayjs(event.target.value);
         setPayment(prevState => ({...prevState, dueDate: date.isValid() ? date : dayjs()}));
     };
+
 
     return (
         <>
@@ -120,7 +281,7 @@ export default function AddPayment () {
                             <MenuItem value="USD">USD</MenuItem>
                             <MenuItem value="EUR">EUR</MenuItem>
                         </Select>
-                        <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormControl fullWidth sx={{m: 1}}>
                             <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-amount"
@@ -155,6 +316,17 @@ export default function AddPayment () {
 
             </div>
 
+            <div>
+                <BarChart
+                    dataset={dataset}
+                    xAxis={[{scaleType: 'band', dataKey: 'month'}]}
+                    series={[
+                        {dataKey: 'income', label: 'Income', valueFormatter},
+                        {dataKey: 'expense', label: 'Expense', valueFormatter},
+                    ]}
+                    {...chartSetting}
+                />
+            </div>
         </>
     )
         ;
