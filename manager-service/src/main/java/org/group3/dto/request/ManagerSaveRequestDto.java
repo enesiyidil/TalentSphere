@@ -19,7 +19,7 @@ public class ManagerSaveRequestDto {
     String phone;
     ERole role;
     EGender gender;
-    EPackage ePackage;
+    EPackage packet;
     String photo;
     Double salary;
     String title;

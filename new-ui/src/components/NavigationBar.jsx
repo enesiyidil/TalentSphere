@@ -54,6 +54,9 @@ const NavigationBar = () => {
                                 <li>
                                     <Link to="/home/payment">Payment</Link>
                                 </li>
+                                <li>
+                                    <Link to="/home/approvePayment">Approve Payment</Link>
+                                </li>
                             </>
                         )}
                         {role === 'PERSONAL' && (
@@ -64,14 +67,22 @@ const NavigationBar = () => {
                                 <li>
                                     <Link to="/home/comment">Comment</Link>
                                 </li>
+                                <li>
+                                    <Link to="/home/payment">Payment</Link>
+                                </li>
                             </>
                         )}
                         {role === 'VISITOR' && (
                             <>
-                                {/* visitor-service getInformation (pageable) */}
+                            {/* visitor-service getInformation (pageable) */}
                                 {/* visitor-service getInformationByCompanyName */}
                                 <li>
-                                    <TextField id="search" label="Search" variant="outlined" value={search} onChange={e => dispatch(setSearch(e.target.value))} />
+                                    <TextField
+                                        id="search"
+                                        label="Search"
+                                        variant="outlined"
+                                        className={styles["search-link"]}
+                                        value={search} onChange={e => dispatch(setSearch(e.target.value))} />
                                 </li>
                             </>
                         )}

@@ -11,8 +11,7 @@ const ProfileContent = ({editing, editedUserProfile, setEditedUserProfile}) => {
         <>
             {/*<div className={styles["user-profile-container"]}>*/}
             <div className={styles["profile-img-wrapper"]}>
-
-                <img src={userProfile.photo} alt="" />
+                {userProfile.photo ? <img src={userProfile.photo} alt=""/> : <img src="personal.png" alt=""/>}
             </div>
             <div className={styles["profile-wrapper"]}>
                 <div className={styles["content-wrapper"]}>
@@ -62,26 +61,34 @@ const ProfileContent = ({editing, editedUserProfile, setEditedUserProfile}) => {
 
 
                 {(role === 'MANAGER' || role === 'PERSONAL') && (
-                        <div className={styles["content-wrapper"]}>
-                            <span className={styles["label2"]}>Title: </span>
-                            {editing ?
-                                (<input
-                                    value={editedUserProfile.title}
-                                    onChange={e => setEditedUserProfile(prevState => ({
-                                        ...prevState,
-                                        title: e.target.value
-                                    }))}
-                                />)
-                                :
-                                (<span className={styles["text"]}>{userProfile.email}</span>)}
-                        </div>
+                    <div className={styles["content-wrapper"]}>
+                        <span className={styles["label2"]}>Title: </span>
+                        {editing ?
+                            (<input
+                                value={editedUserProfile.title}
+                                onChange={e => setEditedUserProfile(prevState => ({
+                                    ...prevState,
+                                    title: e.target.value
+                                }))}
+                            />)
+                            :
+                            (<span className={styles["text"]}>{userProfile.title}</span>)}
+                    </div>
                 )}
 
                 {role === 'MANAGER' && (
+                    <>
                         <div className={styles["content-wrapper"]}>
                             <span className={styles["label2"]}>Personals Number: </span>
-                            <span className={styles["text"]}>{userProfile.personals && userProfile.personals.length}</span>
+                            <span
+                                className={styles["text"]}>{userProfile.personals && userProfile.personals.length}</span>
                         </div>
+                        <div className={styles["content-wrapper"]}>
+                            <span className={styles["label2"]}>Packet: </span>
+                            <span
+                                className={styles["text"]}>{userProfile.packet}</span>
+                        </div>
+                    </>
                 )}
 
                 {role === 'PERSONAL' && (
@@ -93,12 +100,12 @@ const ProfileContent = ({editing, editedUserProfile, setEditedUserProfile}) => {
 
                 <div className={styles["content-wrapper"]}>
                     <span className={styles["label2"]}>Created Date: </span>
-                    <span className={styles["text"]}>{userProfile.createdDate}</span>
+                    <span className={styles["text"]}>{userProfile.createdDateTime}</span>
                 </div>
 
                 <div className={styles["content-wrapper"]}>
                     <span className={styles["label2"]}>Updated Date: </span>
-                    <span className={styles["text"]}>{userProfile.updatedDate}</span>
+                    <span className={styles["text"]}>{userProfile.updatedDateTime}</span>
                 </div>
             </div>
             {/*</div>*/}

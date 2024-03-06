@@ -15,6 +15,8 @@ import {VisitorHome} from "../components/VisitorHome.jsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import Personal from "../components/Personal.jsx";
+import AddPayment from "../components/AddPayment.jsx";
+import {ApprovePayment} from "../components/ApprovePayment.jsx";
 
 const HomePage = ({page}) => {
 
@@ -39,6 +41,8 @@ const HomePage = ({page}) => {
 
         }else if(role === 'VISITOR'){
 
+        }else if(role === ''){
+            navigate('/')
         }
     }, []);
 
@@ -64,12 +68,14 @@ const HomePage = ({page}) => {
                         {page === 'personals' && <Personal/>}
                         {page === 'calendar' && <MyCalendar/>}
                         {page === 'approveHoliday' && <ApproveHoliday/>}
-                        {page === 'payment' && <div>Soon</div>}
+                        {page === 'payment' && <AddPayment/>}
+                        {page === 'approvePayment' && <ApprovePayment/>}
                     </>}
                     {role === 'PERSONAL' && <>
                         {page === 'home' && <PersonalHome/>}
                         {page === 'calendar' && <MyCalendar/>}
                         {page === 'comment' && <AddComment/>}
+                        {page === 'payment' && <AddPayment/>}
                     </>}
                     {role === 'VISITOR' && <>
                         {page === 'home' && <VisitorHome/>}

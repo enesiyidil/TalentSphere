@@ -157,7 +157,14 @@ public class CompanyService {
     public List<CompanyFindAllWithoutManagerResponseDto> findAllWithoutManager() {
         List<Company> companyList = repository.findAllByManagerIdIsNull();
         return companyList.stream()
-                .map(CompanyMapper.INSTANCE::companyToCompanyFindAllWithoutManagerResponseDto)
+                .map(company -> CompanyFindAllWithoutManagerResponseDto.builder()
+                        .id(company.getId())
+                        .name(company.getName())
+                        .shifts(company.getShifts().stream().map(shift -> ShiftFindAllWithoutManagerResponseDto.builder()
+                                .id(shift.getId())
+                                .name(shift.getName())
+                                .build()).collect(Collectors.toList()))
+                        .build())
                 .collect(Collectors.toList());
     }
 

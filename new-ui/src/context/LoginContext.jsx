@@ -12,17 +12,22 @@ export const LoginContextProvider = ({children}) => {
     const {apiPost} = useContext(ApiContext);
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
     const navigate = useNavigate();
 
     async function handleLogin(payload) {
         setIsLoading(true);
-        const responseData = await apiPost(`${API_GATEWAY_URL}${AUTH_URL}${LOGIN_URL}`, payload);
-        if (responseData.status === 200) {
-            dispatch(setRole(responseData.data.role));
-            dispatch(setToken(responseData.data.token));
-            dispatch(setAuthId(responseData.data.authId));
-        } else {
-            // todo: navigate homepage and error message
+        try {
+            const responseData = await apiPost(`${API_GATEWAY_URL}${AUTH_URL}${LOGIN_URL}`, payload);
+            if (responseData.status === 200) {
+                dispatch(setRole(responseData.data.role));
+                dispatch(setToken(responseData.data.token));
+                dispatch(setAuthId(responseData.data.authId));
+                setIsLogin(true);
+            }
+        }catch (error){
+            console.log(error);
+            setIsLogin(false);
         }
         setIsLoading(false);
     }
@@ -38,6 +43,7 @@ export const LoginContextProvider = ({children}) => {
                 handleLogin,
                 handleLogout,
                 isLoading,
+                isLogin
             }}
         >
             {children}

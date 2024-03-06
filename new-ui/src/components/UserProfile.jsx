@@ -18,7 +18,12 @@ export const UserProfile = () => {
     const role = useSelector((state) => state.role);
     const switchAccount = useSelector((state) => state.switchAccount);
     const dispatch = useDispatch();
-    const {handleSetUserProfile, handleUpdateUserProfile, handleDeleteUserProfile, isLoading} = useContext(UserProfileContext);
+    const {
+        handleSetUserProfile,
+        handleUpdateUserProfile,
+        handleDeleteUserProfile,
+        isLoading
+    } = useContext(UserProfileContext);
     const [editing, setEditing] = useState(false);
     const [editedUserProfile, setEditedUserProfile] = useState(userProfile);
 
@@ -51,16 +56,18 @@ export const UserProfile = () => {
         });
     }
 
-    const handleManageAccountsIcon = () => {
+    const handleManageAccountsIcon = async () => {
         dispatch(setSwitchAccount(false));
         dispatch(setRole('MANAGER'));
-        handleSetUserProfile();
+        // await new Promise(resolve => setTimeout(resolve, 300));
+        handleSetUserProfile('MANAGER');
     }
 
-    const handlePersonIcon = () => {
+    const handlePersonIcon = async () => {
         dispatch(setSwitchAccount(true));
         dispatch(setRole('PERSONAL'));
-        handleSetUserProfile();
+        // await new Promise(resolve => setTimeout(resolve, 300));
+        handleSetUserProfile('PERSONAL');
     }
 
     const handleClearClick = () => {
@@ -76,38 +83,36 @@ export const UserProfile = () => {
 
         <div className={styles["user-information-card"]}>
             <div className="icon-container">
+                {isLoading ?
+                    (<div className="loader"></div>) :
+                    (<div className={styles["user-information-card-2"]}>
+                        <div className={styles["icon"]}>
+                            {(role === 'MANAGER' || switchAccount) && <>{switchAccount ?
+                                <ManageAccountsIcon onClick={handleManageAccountsIcon}/> :
+                                <PersonIcon onClick={handlePersonIcon}/>}</>}
+                            {editing ? <EditOffIcon onClick={handleEditOffIcon}/> :
+                                <EditIcon onClick={handleEditIcon}/>}
+                            <PersonRemoveIcon onClick={handlePersonRemoveIcon}/>
+                        </div>
 
+                        <div>
+                            <ProfileContent editing={editing} editedUserProfile={editedUserProfile}
+                                            setEditedUserProfile={setEditedUserProfile}/>
+                        </div>
 
+                        {editing && <>
+                            <div className={styles["button-wrapper"]}>
+                                <button onClick={handleSaveClick} type="button" className={styles["button"]}>
+                                    Save
+                                </button>
+                                <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear
+                                </button>
+                            </div>
 
-
-        {isLoading ?
-            (<div className="loader"></div>) :
-            (<div >
-                <div className={styles["icon"]}>
-                    {(role === 'MANAGER' || switchAccount) && <>{switchAccount ?
-                        <ManageAccountsIcon onClick={handleManageAccountsIcon}/> :
-                        <PersonIcon onClick={handlePersonIcon}/>}</>}
-                    {editing ? <EditOffIcon onClick={handleEditOffIcon}/> : <EditIcon onClick={handleEditIcon}/>}
-                    <PersonRemoveIcon onClick={handlePersonRemoveIcon}/>
-                </div>
-
-                <div >
-                    <ProfileContent editing={editing} editedUserProfile={editedUserProfile}
-                                    setEditedUserProfile={setEditedUserProfile}/>
-                </div>
-
-                {editing && <>
-                    <div className={styles["button-wrapper"]}>
-                        <button onClick={handleSaveClick} type="button" className={styles["button"]}>
-                            Save
-                        </button>
-                        <button type='button' onClick={handleClearClick} className={styles["button"]}>Clear</button>
-                    </div>
-
-                </>}
-            </div>)}
+                        </>}
+                    </div>)}
             </div>
-            </div>
+        </div>
 
     </>);
 };
