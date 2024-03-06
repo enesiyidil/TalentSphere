@@ -11,12 +11,15 @@ import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {Paper, Table, TableBody, TableContainer, TableHead} from "@mui/material";
+import styles from "../Css/VisitorHome.module.css";
+
 
 function Row(props) {
     const {row} = props;
     const [open, setOpen] = React.useState(false);
 
     return (
+
         <React.Fragment>
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
                 <TableCell>
@@ -48,6 +51,7 @@ function Row(props) {
                 </TableCell>
             </TableRow>
         </React.Fragment>
+
     );
 }
 
@@ -81,8 +85,10 @@ export function VisitorHome() {
     }, []);
 
     return (
+
         <>
-            <TableContainer component={Paper}>
+        <div className={styles["formWrapper"]}>
+            <TableContainer  component={Paper}>
                 <Table aria-label="collapsible table">
                     <TableHead>
                         <TableRow>
@@ -101,6 +107,8 @@ export function VisitorHome() {
                     </TableBody>
                 </Table>
             </TableContainer>
+        </div>
         </>
+
     )
 }

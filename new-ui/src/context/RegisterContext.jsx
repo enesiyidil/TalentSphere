@@ -22,7 +22,6 @@ export const RegisterContextProvider = ({children}) => {
         }
         setIsLoading(false);
     }
-
     return (
         <RegisterContext.Provider
             value={{
