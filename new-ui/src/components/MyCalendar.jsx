@@ -240,6 +240,8 @@ const MyCalendar = () => {
                     allDay: true,
                     desc: payment.description
                 }))]) : (holidays.map(holiday => ({
+                    id: holiday.id,
+                    what: 'holiday',
                     title: holiday.name,
                     start: new Date(`${holiday.startDate}`),
                     end: new Date(`${holiday.endDate}`),

@@ -52,10 +52,9 @@ const defaultState = {
             title: "",
             photo: "",
             salary: 0,
-            holidaysNumber: 0,
+            comment: [0],
             createdDate: "",
             updatedDate: "",
-            gender: "",
         }],
         communications: [{id: 0, name: "", phoneNumber: ""}],
         holidays: [{
