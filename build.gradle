@@ -47,9 +47,9 @@ allprojects {
         implementation libs.swagger
 
         implementation libs.jwt
-//        implementation libs.springBootSecurity
+       // implementation libs.springBootSecurity
 
-//        implementation libs.springCloudSleuth
+       // implementation libs.springCloudSleuth
     }
 }
 
