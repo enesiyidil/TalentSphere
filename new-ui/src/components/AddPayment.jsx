@@ -340,6 +340,17 @@ export default function AddPayment() {
                     />
                 </div>}
 
+            <div>
+                <BarChart
+                    dataset={dataset}
+                    xAxis={[{scaleType: 'band', dataKey: 'month'}]}
+                    series={[
+                        {dataKey: 'income', label: 'Income', valueFormatter},
+                        {dataKey: 'expense', label: 'Expense', valueFormatter},
+                    ]}
+                    {...chartSetting}
+                />
+            </div>
         </>
     )
         ;

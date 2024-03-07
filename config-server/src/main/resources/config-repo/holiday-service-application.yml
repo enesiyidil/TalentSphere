@@ -1,0 +1,92 @@
+server:
+  port: 9101
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: user
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/talent-sphere-holiday-db
+    username: talent-sphere
+    password: ts123456
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+apiGatewayUrl: "http://localhost:9091"
+
+rabbitmq:
+  exchange:
+    auth: authExchange
+    admin: adminExchange
+    manager: managerExchange
+    personal: personalExchange
+    visitor: visitorExchange
+    company: companyExchange
+    payment: paymentExchange
+    mail: mailExchange
+    sms: smsExchange
+    holiday: holidayExchange
+
+  queue:
+    auth:
+      update: authUpdateQueue
+      delete: authDeleteQueue
+    admin:
+      save: adminSaveQueue
+    manager:
+      save: managerSaveQueue
+      addCompany: managerAddCompanyQueue
+      addPersonal: managerAddPersonalQueue
+      deleteCompany: managerDeleteCompanyQueue
+      deletePersonal: managerDeletePersonalQueue
+    personal:
+      addHoliday: personalAddHolidayQueue
+      deleteHoliday: personalDeleteHolidayQueue
+    visitor:
+      save: visitorSaveQueue
+    company:
+      addHoliday: companyAddHolidayQueue
+      addPayment: companyAddPaymentQueue
+      deleteHoliday: companyDeleteHolidayQueue
+      deletePayment: companyDeletePaymentQueue
+    mail:
+      sender: mailSenderQueue
+    sms:
+      sender: smsSenderQueue
+    holiday:
+      save: holidaySaveQueue
+
+  bindingKey:
+    auth:
+      update: authUpdateBindingKey
+      delete: authDeleteBindingKey
+    admin:
+      save: adminSaveBindingKey
+    manager:
+      save: managerSaveBindingKey
+      addCompany: managerAddCompanyBindingKey
+      addPersonal: managerAddPersonalBindingKey
+      deleteCompany: managerDeleteCompanyBindingKey
+      deletePersonal: managerDeletePersonalBindingKey
+    personal:
+      addHoliday: personalAddHolidayBindingKey
+      deleteHoliday: personalDeleteHolidayBindingKey
+    visitor:
+      save: visitorSaveBindingKey
+    company:
+      addHoliday: companyAddHolidayBindingKey
+      addPayment: companyAddPaymentBindingKey
+      deleteHoliday: companyDeleteHolidayBindingKey
+      deletePayment: companyDeletePaymentBindingKey
+    mail:
+      sender: mailSenderBindingKey
+    sms:
+      sender: smsSenderBindingKey
+    holiday:
+      save: holidaySaveBindingKey
