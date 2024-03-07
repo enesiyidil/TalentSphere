@@ -1,21 +1,7 @@
-#spring:
-#  cloud:
-#    config:
-#      uri: ${CONFIG_SERVER_URL}
-#      # http://localhost:8888
-#  config:
-#    import: "configserver:"
-#  application:
-#    name:
-
 server:
   port: 9101
 
-
 spring:
-  cloud:
-    config:
-      enabled: false
   rabbitmq:
     host: localhost
     port: 5672
@@ -33,7 +19,6 @@ spring:
       ddl-auto: update
 
 apiGatewayUrl: "http://localhost:9091"
-
 
 rabbitmq:
   exchange:

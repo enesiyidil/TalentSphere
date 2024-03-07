@@ -2,10 +2,6 @@ server:
   port: 9102
 
 spring:
-  cloud:
-    config:
-      enabled: false
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5435/TalentSphereComment
