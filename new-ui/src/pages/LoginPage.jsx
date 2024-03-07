@@ -30,17 +30,21 @@ const LoginPage = () => {
     }
 
     useEffect(() => {
-        if(isLogin)
+        if (isLogin)
             navigate('/home');
     }, [isLogin]);
 
     return (
         <>
-            {isLoading ? (<Box sx={{ display: 'flex' }}>
-                <CircularProgress />
+
+
+            {isLoading ? (<Box sx={{display: 'flex'}}>
+                <CircularProgress/>
             </Box>) : (<div className={styles["register-form-wrapper"]}>
-                <form onSubmit={handleSubmit} className={styles["register-form"]} style={(!isLogin && isSubmit) ? {backgroundColor: "red"} : {}}>
-                    {(!isLogin && isSubmit) && <p style={{color: "yellow", fontStyle: "oblique", }}>Email or password incorrect</p>}
+                <form onSubmit={handleSubmit} className={styles["register-form"]}
+                      style={(!isLogin && isSubmit) ? {backgroundColor: "red"} : {}}>
+                    {(!isLogin && isSubmit) &&
+                        <p style={{color: "yellow", fontStyle: "oblique",}}>Email or password incorrect</p>}
                     <label className={styles["label"]}>
                         <span className={styles["label-inside-text"]}>E-Mail: </span>
                         <input

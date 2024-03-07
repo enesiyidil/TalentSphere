@@ -13,23 +13,21 @@ import {
 import {ApiContext} from "../context/ApiContext.jsx";
 import dayjs from 'dayjs';
 import 'dayjs/locale/tr';
-import styles from "../Css/ApproveComment.module.css"; //mycalendar.module.css
+import styles from "../Css/MyCalendar.module.css"; //mycalendar.module.css
 import {addHoliday} from "../redux/actions.js";
-import { DataGrid } from '@mui/x-data-grid';
+import {DataGrid} from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'First name', width: 130 },
-    { field: 'surname', headerName: 'Last name', width: 130 },
+    {field: 'id', headerName: 'ID', width: 70},
+    {field: 'name', headerName: 'First name', width: 130},
+    {field: 'surname', headerName: 'Last name', width: 130},
 ];
-
-
-const DateRangePicker = () => {
+const DateRangePicker = ({personals, setPersonals}) => {
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs());
     const [description, setDescription] = useState('');
     const [name, setName] = useState('');
-    const [personals, setPersonals] = useState([]);
+
     const {apiPost} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const userProfile = useSelector((state) => state.userProfile);
@@ -82,7 +80,7 @@ const DateRangePicker = () => {
         }, token);
         if (response.status === 200) {
             handleClear();
-            if(role === 'MANAGER') {
+            if (role === 'MANAGER') {
                 dispatch(addHoliday(response.data));
             }
         } else {
@@ -91,10 +89,10 @@ const DateRangePicker = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div  style={{marginTop:'10px'}} >
-                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="start-date" className="flex text-md font-medium text-gray-700">
+        <div className={styles["wrapper"]}>
+            <div className={styles["datepicker-wrapper"]} onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="start-date" className="flex text-md font-medium text-gray-700">
                         Start Date
                     </label>
                     <input
@@ -107,10 +105,11 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="end-date" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="end-date" className="block text-sm font-medium text-gray-700">
                         End Date
                     </label>
                     <input
+
                         type="date"
                         id="end-date"
                         name="end-date"
@@ -120,11 +119,10 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label   style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Name
                     </label>
                     <input
-                        style={{width:'15%'}}
                         type="text"
                         id="namae"
                         name="name"
@@ -134,11 +132,10 @@ const DateRangePicker = () => {
                     />
                 </div>
                 <div>
-                    <label  style={{color:'white', fontWeight:' 550',padding:'0 10px'}} htmlFor="description" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Description
                     </label>
                     <input
-                        style={{width:'15%'}}
                         type="text"
                         id="description"
                         name="description"
@@ -147,8 +144,11 @@ const DateRangePicker = () => {
                         className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
-                {role === 'MANAGER' && <div style={{height: 400, width: '100%'}}>
+            </div>
+            {role === 'MANAGER' &&
+                <div style={{height: 200, width: '100%', backgroundColor: 'white', marginTop: "10px"}}>
                     <DataGrid
+
                         rows={data.personals}
                         columns={columns}
                         initialState={{
@@ -158,19 +158,18 @@ const DateRangePicker = () => {
                         }}
                         pageSizeOptions={[5, 10]}
                         checkboxSelection
-                        onStateChange={(e) => setPersonals(e.rowSelection.map(i => data.personals[i - 1].id))}
+                        onStateChange={(e) => setPersonals(data.personals.filter(personal => e.rowSelection.includes(personal.id)).map(personal => personal.id))}
                     />
                 </div>}
-                <div className={"button-wrapper"}>
-                    <button onClick={handleSubmit} type="button" className={"button"}
-                    >
-                        Submit
-                    </button>
-                    <button type='button' onClick={handleClear} className={"button"}
-                    >Clear
-                    </button>
-                </div>
-            </form>
+            <div style={{display: 'flex', flexDirection: 'row', paddingTop: '5px', marginTop: '20px'}}>
+                <button onClick={handleSubmit} style={{backgroundColor: "lightgrey"}} type="button" className={"button"}
+                >
+                    Submit
+                </button>
+                <button type='button' style={{backgroundColor: "lightgrey"}} onClick={handleClear} className={"button"}
+                >Clear
+                </button>
+            </div>
         </div>
     );
 };
@@ -179,7 +178,7 @@ const DateRangePicker = () => {
 const myLocalizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
-
+    const [personals, setPersonals] = useState([]);
     const data = useSelector((state) => state.data);
     const role = useSelector((state) => state.role);
     const {apiGet} = useContext(ApiContext);
@@ -197,7 +196,7 @@ const MyCalendar = () => {
     if (role === 'PERSONAL') {
         useEffect(() => {
             const request = async () => {
-                const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_PERSONAL_ID_URL}?personalId=${userProfile.id}&companyId=${userProfile.companyId}`, token);
+                const response = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_PERSONAL_ID_URL}?personalId=${userProfile.id}&companyId=${userProfile.companyId}`, token);
                 if (response.status === 200) {
                     setHolidays(response.data);
                 } else {
@@ -220,12 +219,21 @@ const MyCalendar = () => {
         return {style: {backgroundColor}};
     };
     return (
-        <div style={{width:'90%',margin:'auto',height:'500px'}}>
+        <div style={{width: '90%', margin: 'auto', height: '500px'}}>
             <Calendar
                 selectable
                 localizer={myLocalizer}
-                style={{backgroundColor:'white',color:' black',height: '500'}}
-                events={role === 'MANAGER' ? ([...data.holidays.map(holiday => ({
+                style={{backgroundColor: 'white', color: ' black', height: '500'}}
+                events={role === 'MANAGER' ? (personals.length !== 0 ? data.holidays.filter(holiday => personals.some(value => holiday.personals.includes(value))).map(holiday => ({
+                    id: holiday.id,
+                    what: 'holiday',
+                    personals: holiday.personals.length,
+                    title: holiday.name,
+                    start: new Date(`${holiday.startDate}`),
+                    end: new Date(`${holiday.endDate}`),
+                    allDay: true,
+                    desc: holiday.description
+                })) : [...data.holidays.map(holiday => ({
                     id: holiday.id,
                     what: 'holiday',
                     personals: holiday.personals.length,
@@ -261,10 +269,9 @@ const MyCalendar = () => {
                             border: "none"
                         };
 
-                        if (event.what === "payment"){
+                        if (event.what === "payment") {
                             newStyle.backgroundColor = data.payments.filter(payment => payment.expenditureType === event.title)[0].type === 'INCOME' ? "green" : "red";
-                        }
-                        else if(event.what === "holiday") {
+                        } else if (event.what === "holiday") {
                             newStyle.backgroundColor = event.personals === 1 ? "yellow" : "purple";
                         }
                         return {
@@ -274,7 +281,7 @@ const MyCalendar = () => {
                     }
                 }
             />
-             <DateRangePicker/>
+            <DateRangePicker personals={personals} setPersonals={setPersonals}/>
         </div>
     );
 };

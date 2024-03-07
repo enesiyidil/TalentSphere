@@ -1,6 +1,6 @@
 import {useForm} from "react-hook-form";
 import {useContext} from "react";
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {RegisterContext} from "../context/RegisterContext.jsx";
 import styles from "../Css/RegisterPage.module.css";
 
@@ -27,22 +27,18 @@ const RegisterPage = () => {
     }
 
 
-
-        const handleImageChange = (event) => {
-            const selectedFile = event.target.files[0];
-            if (selectedFile) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    setSelectedImage(reader.result);
-                };
-                reader.readAsDataURL(selectedFile);
-            } else {
-                setSelectedImage(null);
-            }
-        };
-
-
-
+    const handleImageChange = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setSelectedImage(reader.result);
+            };
+            reader.readAsDataURL(selectedFile);
+        } else {
+            setSelectedImage(null);
+        }
+    };
 
 
     return (
@@ -50,7 +46,7 @@ const RegisterPage = () => {
         <>
             <div className={styles["register-form-wrapper"]}>
                 <form onSubmit={handleSubmit} className={styles["register-form"]}>
-                   <div className={styles["label"]}>
+                    <div className={styles["label"]}>
 
                         <span>Name: </span>
                         <input
@@ -84,7 +80,7 @@ const RegisterPage = () => {
                                 required: `Cannot be left blank!`,
                             })}
                             type="text"
-                            placeholder="username"
+                            placeholder="Username"
                             className={styles["textarea"]}
                         />
                         {errors["username"] && (
@@ -103,6 +99,18 @@ const RegisterPage = () => {
                             <p className="text-red-500">{errors["email"].message}</p>
                         )}
 
+                        <span>Phone: </span>
+                        <input
+                            {...register("phone", {
+                                required: `Cannot be left blank!`,
+                            })}
+                            type="text"
+                            placeholder="Phone"
+                            className={styles["textarea"]}
+                        />
+                        {errors["phone"] && (
+                            <p className="text-red-500">{errors["phone"].message}</p>
+                        )}
                         <span>Password: </span>
                         <input
                             {...register("password", {
@@ -131,33 +139,34 @@ const RegisterPage = () => {
                             <p className="text-red-500">{errors["rePassword"].message}</p>
                         )}
 
-                   </div>
+                    </div>
 
                     <div className={styles["gender-select-wrapper"]}>
                         <label className={styles["label"]}>Gender:</label>
-                        <select {...register("gender", { required: "Please select your gender!" })} className={styles["textarea"]}>
+                        <select {...register("gender", {required: "Please select your gender!"})}
+                                className={styles["textarea"]}>
                             <option value="">Select gender</option>
                             <option value="MAN">Man</option>
                             <option value="WOMAN">Woman</option>
                             <option value="NO_GENDER">No Gender</option>
                         </select>
-                    {errors["gender"] && (
-                        <p className="text-red-500">{errors["gender"].message}</p>
-                    )}
+                        {errors["gender"] && (
+                            <p className="text-red-500">{errors["gender"].message}</p>
+                        )}
 
-                              <input
-                                type="file"
-                                id="imageInput"
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                style={{ display: 'none' }}
-                            />
-                            <label htmlFor="imageInput">
-                                <button>Add Photo</button>
-                            </label>
-                            {selectedImage && (
-                                <img src={selectedImage} alt="Selected" className="selected-image" />
-                            )}
+                        <input
+                            type="file"
+                            id="imageInput"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{display: 'none'}}
+                        />
+                        <label htmlFor="imageInput">
+                            <button>Add Photo</button>
+                        </label>
+                        {selectedImage && (
+                            <img src={selectedImage} alt="Selected" className="selected-image"/>
+                        )}
                     </div>
 
                     <div className={styles["button"]}>
@@ -173,5 +182,5 @@ const RegisterPage = () => {
             </div>
         </>
     )
-            }
+}
 export default RegisterPage;

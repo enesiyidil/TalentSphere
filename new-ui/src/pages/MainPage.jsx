@@ -11,6 +11,8 @@ import {LoginContextProvider} from "../context/LoginContext.jsx";
 const MainPage = () => {
 
     return (<>
+        <div  className={styles["background-wrapper"]}>
+        </div>
         <div className={styles["main-wrapper"]}>
             <BrowserRouter>
                 <header className={styles["header-wrapper"]}>
@@ -38,6 +40,7 @@ const MainPage = () => {
                 </main>
             </BrowserRouter>
         </div>
+
     </>)
 }
 

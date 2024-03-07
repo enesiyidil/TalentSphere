@@ -37,6 +37,7 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell align="right">{row.companyName}</TableCell>
+                <TableCell align="right">{row.title}</TableCell>
                 <TableCell align="right">{row.personalName}</TableCell>
                 <TableCell align="right">
                     <div className={styles["button-wrapper"]}>
@@ -58,6 +59,13 @@ function Row(props) {
                         <Typography variant="subtitle2" gutterBottom component="div">
                             {row.content}
                         </Typography>
+
+                        {/*<Typography variant="h6" gutterBottom component="div">*/}
+                        {/*    Title*/}
+                        {/*</Typography>*/}
+                        {/*<Typography variant="subtitle3" gutterBottom component="div">*/}
+                        {/*    {row.title}*/}
+                        {/*</Typography>*/}
                     </Collapse>
                 </TableCell>
 
@@ -72,12 +80,14 @@ export function ApproveComment() {
     const {apiPost, apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const [comments, setComments] = useState([{personalName: "", id: 0, content: "", companyName: ""}]);
+    const [title, setTitle] = useState([{personalName: "", id: 0, title: "", companyName: ""}]);
 
     useEffect(() => {
         const request = async () =>{
             const response =await apiGet(`${API_GATEWAY_URL}${COMMENT_URL}${FIND_ALL_BY_NOT_APPROVE}`, token);
             if (response.status === 200) {
                 setComments(response.data);
+                setTitle(response.data);
             } else {
 
             }
@@ -91,6 +101,7 @@ export function ApproveComment() {
             const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'accept'}, token);
             if(response.status === 200 && response.data === true) {
                 setComments(prevState => prevState.filter(item => item.id !== id))
+                setTitle(prevState => prevState.filter(item => item.id !== id))
             }else {
 
             }
@@ -104,6 +115,7 @@ export function ApproveComment() {
             const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'reject'}, token);
             if(response.status === 200 && response.data === true) {
                 setComments(prevState => prevState.filter(item => item.id !== id))
+                setTitle(prevState => prevState.filter(item => item.id !== id))
             }else {
 
             }
@@ -115,21 +127,23 @@ export function ApproveComment() {
     return (
         <>
             <div style={{ width:'80%', margin:'auto' }}>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Company Name</TableCell>
-                            <TableCell align="right">Personal Name</TableCell>
-                            <TableCell align="right">Approve/Reject</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {comments.map(comment => <Row key={comment.id} row={{...comment, handleApprove,handleReject}} />)}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell />
+                                <TableCell>Company Name</TableCell>
+                                <TableCell>Title</TableCell>
+                                <TableCell align="right">Personal Name</TableCell>
+                                <TableCell align="right">Approve/Reject</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {comments.map(comment => <Row key={comment.id} row={{...comment, handleApprove,handleReject}} />)}
+
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
 
         </>

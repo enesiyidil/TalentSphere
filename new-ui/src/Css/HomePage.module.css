@@ -23,9 +23,8 @@
 }
 
 .content-wrapper {
+    margin-top: 8vh;
     width: 80vw;
     height: 90vh;
     padding: 3.7rem;
 }
-
-
