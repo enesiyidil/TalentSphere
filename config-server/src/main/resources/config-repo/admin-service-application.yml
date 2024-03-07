@@ -6,21 +6,16 @@ spring:
     port: 5672
     username: user
     password: user
-  cloud:
-    config:
-      enabled: false
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/TalentSphereAdmin
+    url: jdbc:postgresql://localhost:5433/TalentSphereAdmin
     username: postgres
     password: 1234
   jpa:
     hibernate:
       ddl-auto: update
 
-
 apiGatewayUrl: "http://localhost:9091"
-
 
 rabbitmq:
   exchange:

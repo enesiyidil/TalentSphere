@@ -9,9 +9,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
-  cloud:
-    config:
-      enabled: false
     gateway:
       routes:
         - id: auth-service

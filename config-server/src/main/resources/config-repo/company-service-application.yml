@@ -1,20 +1,7 @@
-#spring:
-#  cloud:
-#    config:
-#      uri: ${CONFIG_SERVER_URL}
-#      # http://localhost:8888
-#  config:
-#    import: "configserver:"
-#  application:
-#    name:
-
 server:
   port: 9097
 
 spring:
-  cloud:
-    config:
-      enabled: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3310/talent-sphere-company2-db

@@ -11,10 +11,6 @@ spring:
     username: user
     password: user
 
-  cloud:
-    config:
-      enabled: false
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/TalentSphereAuth
@@ -24,15 +20,12 @@ spring:
     hibernate:
       ddl-auto: update
 
-
-
 authservice:
   secrets:
     secret-key: ${TALENTSPHERE_SECRETKEY}
     issuer: ${TALENTSPHERE_ISSUER}
 
 apiGatewayUrl: "http://localhost:9091"
-
 
 rabbitmq:
   exchange:
