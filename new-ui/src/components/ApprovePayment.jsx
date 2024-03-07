@@ -132,7 +132,7 @@ export function ApprovePayment() {
     return (
         <>
             <div style={{
-                width: '50%', height: '20%', paddingTop: '1.5rem', margin: 'auto',
+                width: '80%', height: '20%', paddingTop: '1.5rem', margin: 'auto',
             }}>
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">

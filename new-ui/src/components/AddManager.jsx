@@ -142,10 +142,10 @@ export default function AddManager() {
                             value={manager.salary}
                         />
                         <Select  style={{backgroundColor: 'white'}}
-                            id="gender"
-                            label="Gender"
-                            value={manager.gender}
-                            onChange={e => setManager(prevState => ({...prevState, gender: e.target.value}))}
+                                 id="gender"
+                                 label="Gender"
+                                 value={manager.gender}
+                                 onChange={e => setManager(prevState => ({...prevState, gender: e.target.value}))}
                         >
                             <MenuItem value="MAN">MAN</MenuItem>
                             <MenuItem value="WOMAN">WOMAN</MenuItem>
@@ -153,9 +153,9 @@ export default function AddManager() {
                         </Select>
                         <Select  style={{backgroundColor: 'white'}}
                                  id="epackage"
-                            label="Epackage"
-                            value={manager.packet}
-                            onChange={e => setManager(prevState => ({...prevState, packet: e.target.value}))}
+                                 label="Epackage"
+                                 value={manager.packet}
+                                 onChange={e => setManager(prevState => ({...prevState, packet: e.target.value}))}
                         >
                             <MenuItem value="P_30">P_30</MenuItem>
                             <MenuItem value="P_60">P_60</MenuItem>
@@ -175,6 +175,7 @@ export default function AddManager() {
                             id="shift-select"
                             value={manager.shiftId}
                             label="Shift"
+                            style={{ width:'50%',backgroundColor:'white'}}
                             onChange={e => setManager(prevState => ({...prevState, shiftId: e.target.value}))}
                         >
                             {companies.map(company => (company.id === manager.companyId && company.shifts.map(shift =>

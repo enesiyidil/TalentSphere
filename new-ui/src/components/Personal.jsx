@@ -120,10 +120,10 @@ export default function Personal() {
                         </TableHead>
                         <TableBody>
                             {Array.isArray(personals) && personals.map(personal => <Row key={personal.id}
-                                                                                row={personal} data={data}
-                                                                                handleUpdateClick={handleUpdateClick}
-                                                                                handleDeleteClick={handleDeleteClick}
-                                                                                handleSaveClick={handleSaveClick}/>)}
+                                                                                        row={personal} data={data}
+                                                                                        handleUpdateClick={handleUpdateClick}
+                                                                                        handleDeleteClick={handleDeleteClick}
+                                                                                        handleSaveClick={handleSaveClick}/>)}
                             <TableRow>
                                 <button onClick={e => {
                                     setPersonals(prevState => ([...prevState, {

@@ -176,29 +176,31 @@ export default function AddPayment() {
                 expense: 0,
                 month: "Dec"
             }]);
-        data.payments.forEach(payment => {
-            setDataset(prevState => {
-                const months = [
-                    {item1: "01", item2: "Jan"},
-                    {item1: "02", item2: "Feb"},
-                    {item1: "03", item2: "Mar"},
-                    {item1: "04", item2: "Apr"},
-                    {item1: "05", item2: "May"},
-                    {item1: "06", item2: "Jun"},
-                    {item1: "07", item2: "Jul"},
-                    {item1: "08", item2: "Aug"},
-                    {item1: "09", item2: "Sep"},
-                    {item1: "10", item2: "Oct"},
-                    {item1: "11", item2: "Nov"},
-                    {item1: "12", item2: "Dec"}
-                ].filter(month => month.item1 === payment.dueDate.substring(5, 7))[0].item2;
-                return prevState.map(item => item.month === months ? payment.type === "INCOME" ? {
-                    ...item,
-                    income: item.income + payment.amount
-                } : {...item, expense: item.expense + payment.amount} : item)
+        if (role === "MANAGER") {
+            data.payments.forEach(payment => {
+                setDataset(prevState => {
+                    const months = [
+                        {item1: "01", item2: "Jan"},
+                        {item1: "02", item2: "Feb"},
+                        {item1: "03", item2: "Mar"},
+                        {item1: "04", item2: "Apr"},
+                        {item1: "05", item2: "May"},
+                        {item1: "06", item2: "Jun"},
+                        {item1: "07", item2: "Jul"},
+                        {item1: "08", item2: "Aug"},
+                        {item1: "09", item2: "Sep"},
+                        {item1: "10", item2: "Oct"},
+                        {item1: "11", item2: "Nov"},
+                        {item1: "12", item2: "Dec"}
+                    ].filter(month => month.item1 === payment.dueDate.substring(5, 7))[0].item2;
+                    return prevState.map(item => item.month === months ? payment.type === "INCOME" ? {
+                        ...item,
+                        income: item.income + payment.amount
+                    } : {...item, expense: item.expense + payment.amount} : item)
 
+                })
             })
-        })
+        }
     }, []);
 
     const handleClearClick = () => {
@@ -259,6 +261,7 @@ export default function AddPayment() {
                             id="type"
                             label="Type"
                             value={payment.type}
+                            style={{backgroundColor: 'white', top: '0.5rem'}}
                             onChange={e => setPayment(prevState => ({...prevState, type: e.target.value}))}
                         >
                             <MenuItem value="INCOME">INCOME</MenuItem>
@@ -275,6 +278,7 @@ export default function AddPayment() {
                             id="gender"
                             label="Gender"
                             value={payment.currency}
+                            style={{backgroundColor: 'white', top: '0.5rem'}}
                             onChange={e => setPayment(prevState => ({...prevState, currency: e.target.value}))}
                         >
                             <MenuItem value="TL">TL</MenuItem>
@@ -287,12 +291,14 @@ export default function AddPayment() {
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">{payment.currency}</InputAdornment>}
                                 label="Amount"
+                                style={{width: '70%', backgroundColor: 'white'}}
                                 value={payment.amount}
                                 onChange={(e) => setPayment(prevState => ({...prevState, amount: e.target.value}))}
                             />
                         </FormControl>
                         <div>
-                            <label htmlFor="due-date" className="flex text-md font-medium text-gray-700">
+                            <label htmlFor="due-date" className="flex text-md font-medium text-gray-700"
+                                   style={{fontWeight: '500', color: 'white', padding: '0.5rem'}}>
                                 Due Date
                             </label>
                             <input
@@ -315,6 +321,24 @@ export default function AddPayment() {
                 </div>
 
             </div>
+            {
+                role === "MANAGER" && <div style={{
+                    width: '45%',
+                    backgroundColor: 'lightgrey',
+                    padding: '1.5rem',
+                    margin: "auto",
+                    marginTop: '2rem'
+                }}>
+                    <BarChart
+                        dataset={dataset}
+                        xAxis={[{scaleType: 'band', dataKey: 'month'}]}
+                        series={[
+                            {dataKey: 'income', label: 'Income', valueFormatter},
+                            {dataKey: 'expense', label: 'Expense', valueFormatter},
+                        ]}
+                        {...chartSetting}
+                    />
+                </div>}
 
             <div>
                 <BarChart

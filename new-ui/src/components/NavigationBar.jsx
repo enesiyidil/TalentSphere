@@ -18,7 +18,7 @@ const NavigationBar = () => {
             <nav className={styles["navbar-wrapper"]}>
 
                 <div className={styles["logo-wrapper"]}>
-                    <Link to="/">TalentSphere</Link>
+                    <Link style={{marginLeft:"20px"}} to="/">TalentSphere</Link>
                 </div>
 
                 {role && <div>
@@ -74,7 +74,7 @@ const NavigationBar = () => {
                         )}
                         {role === 'VISITOR' && (
                             <>
-                            {/* visitor-service getInformation (pageable) */}
+                                {/* visitor-service getInformation (pageable) */}
                                 {/* visitor-service getInformationByCompanyName */}
                                 <li>
                                     <TextField

@@ -1,0 +1,40 @@
+.datepicker-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.datepicker-wrapper div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15vw;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.datepicker-wrapper div label, .datepicker-wrapper div input {
+    width: 90%;
+}
+
+.datepicker-wrapper div input {
+    height: 1.5rem;
+}
+
+.datepicker-wrapper div label {
+    background-color: lightgrey;
+    color: black;
+    font-weight: 550;
+    padding: 0 10px;
+}
+
+.wrapper{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width:100%;
+}
