@@ -12,8 +12,8 @@ import java.util.List;
 import static org.group3.constant.EndPoints.FIND_ALL_BY_COMPANY_ID;
 import static org.group3.constant.EndPoints.PAYMENT;
 
-
-@FeignClient(name = "payment-manager", url = "${apiGatewayUrl}" + PAYMENT )
+@FeignClient(name = "payment-manager", url = "http://${payment-service}:9098" + PAYMENT )
+//@FeignClient(name = "payment-manager", url = "${apiGatewayUrl}" + PAYMENT )
 public interface IPaymentManager {
 
     @GetMapping(FIND_ALL_BY_COMPANY_ID)

@@ -3,10 +3,9 @@ import {useContext, useEffect, useState} from "react";
 import {ApiContext} from "../context/ApiContext.jsx";
 import {useSelector} from "react-redux";
 import {
-    ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID, ACCEPTED_OR_REJECTED_PAYMENT_BY_ID,
+    ACCEPTED_OR_REJECTED_PAYMENT_BY_ID,
     API_GATEWAY_URL,
     FIND_ALL_BY_NOT_APPROVE,
-    HOLIDAY_URL,
     PAYMENT_URL
 } from "../constant/Endpoints.js";
 import Collapse from '@mui/material/Collapse';
@@ -75,7 +74,6 @@ function Row(props) {
 export function ApprovePayment() {
     const {apiPost, apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
-    const data = useSelector((state) => state.data);
     const userProfile = useSelector((state) => state.userProfile);
     const [payments, setPayments] = useState([{
         id: "",
@@ -100,12 +98,14 @@ export function ApprovePayment() {
             }
         }
         request()
-
     }, []);
 
     const handleApprove = (id) => {
         const request = async () => {
-            const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${ACCEPTED_OR_REJECTED_PAYMENT_BY_ID}`, {id, confirm: 'accept'}, token);
+            const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${ACCEPTED_OR_REJECTED_PAYMENT_BY_ID}`, {
+                id,
+                confirm: 'accept'
+            }, token);
             if (response.status === 200 && response.data === true) {
                 setPayments(prevState => prevState.filter(item => item.id !== id))
             } else {
@@ -113,12 +113,14 @@ export function ApprovePayment() {
             }
         }
         request()
-
     }
 
     const handleReject = (id) => {
         const request = async () => {
-            const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${ACCEPTED_OR_REJECTED_PAYMENT_BY_ID}`, {id, confirm: 'reject'}, token);
+            const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${ACCEPTED_OR_REJECTED_PAYMENT_BY_ID}`, {
+                id,
+                confirm: 'reject'
+            }, token);
             if (response.status === 200 && response.data === true) {
                 setPayments(prevState => prevState.filter(item => item.id !== id))
             } else {

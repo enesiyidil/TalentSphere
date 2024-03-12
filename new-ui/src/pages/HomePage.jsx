@@ -69,7 +69,8 @@ const HomePage = ({page}) => {
 
                                 {role === 'MANAGER' && <>
                                     {page === 'home' && <ManagerHome/>}
-                                    {page === 'personals' && <Personal/>}
+                                    {page === 'personals' &&
+                                        <UserProfileContextProvider><Personal/></UserProfileContextProvider>}
                                     {page === 'calendar' && <MyCalendar/>}
                                     {page === 'approveHoliday' && <ApproveHoliday/>}
                                     {page === 'payment' && <AddPayment/>}

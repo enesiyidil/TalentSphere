@@ -3,10 +3,10 @@ import {useContext, useEffect, useState} from "react";
 import {ApiContext} from "../context/ApiContext.jsx";
 import {useSelector} from "react-redux";
 import {
-    ACCEPTED_OR_REJECTED_COMMENT_BY_ID, ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID,
+    ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID,
     API_GATEWAY_URL,
-    COMMENT_URL, FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING,
-    FIND_ALL_BY_NOT_APPROVE, HOLIDAY_URL
+    FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING,
+    HOLIDAY_URL
 } from "../constant/Endpoints.js";
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -23,7 +23,6 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
 
     return (
-
         <React.Fragment>
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
                 <TableCell>
@@ -41,10 +40,12 @@ function Row(props) {
                 <TableCell align="right">{row.endDate}</TableCell>
                 <TableCell align="right">
                     <div className={styles["button-wrapper"]}>
-                        <button onClick={e => row.handleApprove(e.target.value)} type="button" className={styles["button"]} value={row.id}>
+                        <button onClick={e => row.handleApprove(e.target.value)} type="button"
+                                className={styles["button"]} value={row.id}>
                             Approve
                         </button>
-                        <button type='button' onClick={e => row.handleReject(e.target.value)} className={styles["button"]}
+                        <button type='button' onClick={e => row.handleReject(e.target.value)}
+                                className={styles["button"]}
                                 value={row.id}>Reject
                         </button>
                     </div>
@@ -71,11 +72,18 @@ export function ApproveHoliday() {
     const token = useSelector((state) => state.token);
     const data = useSelector((state) => state.data);
     const userProfile = useSelector((state) => state.userProfile);
-    const [holidays, setHolidays] = useState([{name: "", id: 0, description: "", startDate: "", endDate: "", personalName: ""}]);
+    const [holidays, setHolidays] = useState([{
+        name: "",
+        id: 0,
+        description: "",
+        startDate: "",
+        endDate: "",
+        personalName: ""
+    }]);
 
     useEffect(() => {
         const request = async () => {
-            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING}?companyId=${userProfile.companyId}`, token);
+            const response = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${FIND_ALL_BY_COMPANY_ID_AND_STATUS_PENDING}?companyId=${userProfile.companyId}`, token);
             if (response.status === 200) {
                 setHolidays(response.data);
             } else {
@@ -83,28 +91,26 @@ export function ApproveHoliday() {
             }
         }
         request()
-
     }, []);
 
     const handleApprove = (id) => {
         const request = async () => {
-            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=accept`, token);
-            if(response.status === 200 && response.data === true) {
-                setHolidays(prevState => prevState.filter(item => item.id !== id))
-            }else {
+            const response = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=accept`, token);
+            if (response.status === 200 && response.data === true) {
+                setHolidays(prevState => prevState.filter(item => item.id != id))
+            } else {
 
             }
         }
         request()
-
     }
 
     const handleReject = (id) => {
-        const request = async  () => {
-            const response =await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=reject`, token);
-            if(response.status === 200 && response.data === true) {
-                setHolidays(prevState => prevState.filter(item => item.id !== id))
-            }else {
+        const request = async () => {
+            const response = await apiGet(`${API_GATEWAY_URL}${HOLIDAY_URL}${ACCEPTED_OR_REJECTED_HOLIDAY_BY_ID}?id=${id}&confirm=reject`, token);
+            if (response.status === 200 && response.data === true) {
+                setHolidays(prevState => prevState.filter(item => item.id != id))
+            } else {
 
             }
         }
@@ -114,25 +120,27 @@ export function ApproveHoliday() {
 
     return (
         <>
-            <div style={{ width:'50%', height:'20%',paddingTop:'1.5rem',margin:'auto',
-                }}>
-            <TableContainer component={Paper}>
-                <Table aria-label="collapsible table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell />
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Personal Name</TableCell>
-                            <TableCell align="right">Start Date</TableCell>
-                            <TableCell align="right">End Date</TableCell>
-                            <TableCell align="right">Approve/Reject</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {holidays.map(comment => <Row key={comment.id} row={{...comment, handleApprove,handleReject}} />)}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div style={{
+                width: '50%', height: '20%', paddingTop: '1.5rem', margin: 'auto',
+            }}>
+                <TableContainer component={Paper}>
+                    <Table aria-label="collapsible table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell/>
+                                <TableCell>Name</TableCell>
+                                <TableCell align="right">Personal Name</TableCell>
+                                <TableCell align="right">Start Date</TableCell>
+                                <TableCell align="right">End Date</TableCell>
+                                <TableCell align="right">Approve/Reject</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {holidays.map(comment => <Row key={comment.id}
+                                                          row={{...comment, handleApprove, handleReject}}/>)}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         </>
     )

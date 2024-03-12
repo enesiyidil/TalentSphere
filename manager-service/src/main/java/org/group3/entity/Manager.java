@@ -5,6 +5,8 @@ import lombok.*;
 import org.group3.entity.enums.EGender;
 import org.group3.entity.enums.EPackage;
 import org.group3.entity.enums.EStatus;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,6 +54,7 @@ public class Manager {
     String title;
 
     @ElementCollection
+    @Fetch(FetchMode.JOIN)
     List<Long> personals;
 
     @Builder.Default

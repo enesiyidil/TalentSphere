@@ -24,7 +24,7 @@ function Row(props) {
 
     return (
 
-        <React.Fragment >
+        <React.Fragment>
 
             <TableRow sx={{'& > *': {borderBottom: 'unset'}}}>
                 <TableCell>
@@ -41,17 +41,19 @@ function Row(props) {
                 <TableCell align="right">{row.personalName}</TableCell>
                 <TableCell align="right">
                     <div className={styles["button-wrapper"]}>
-                        <button onClick={e => row.handleApprove(e.target.value)} type="button" className={styles["button"]} value={row.id}>
+                        <button onClick={e => row.handleApprove(e.target.value)} type="button"
+                                className={styles["button"]} value={row.id}>
                             Approve
                         </button>
-                        <button type='button' onClick={e => row.handleReject(e.target.value)} className={styles["button"]}
+                        <button type='button' onClick={e => row.handleReject(e.target.value)}
+                                className={styles["button"]}
                                 value={row.id}>Reject
                         </button>
                     </div>
                 </TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Typography variant="h6" gutterBottom component="div">
                             Content
@@ -59,13 +61,6 @@ function Row(props) {
                         <Typography variant="subtitle2" gutterBottom component="div">
                             {row.content}
                         </Typography>
-
-                        {/*<Typography variant="h6" gutterBottom component="div">*/}
-                        {/*    Title*/}
-                        {/*</Typography>*/}
-                        {/*<Typography variant="subtitle3" gutterBottom component="div">*/}
-                        {/*    {row.title}*/}
-                        {/*</Typography>*/}
                     </Collapse>
                 </TableCell>
 
@@ -80,58 +75,57 @@ export function ApproveComment() {
     const {apiPost, apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const [comments, setComments] = useState([{personalName: "", id: 0, content: "", companyName: ""}]);
-    const [title, setTitle] = useState([{personalName: "", id: 0, title: "", companyName: ""}]);
 
     useEffect(() => {
-        const request = async () =>{
-            const response =await apiGet(`${API_GATEWAY_URL}${COMMENT_URL}${FIND_ALL_BY_NOT_APPROVE}`, token);
+        const request = async () => {
+            const response = await apiGet(`${API_GATEWAY_URL}${COMMENT_URL}${FIND_ALL_BY_NOT_APPROVE}`, token);
             if (response.status === 200) {
                 setComments(response.data);
-                setTitle(response.data);
             } else {
 
             }
         }
         request()
-
     }, []);
 
     const handleApprove = (id) => {
         const request = async () => {
-            const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'accept'}, token);
-            if(response.status === 200 && response.data === true) {
-                setComments(prevState => prevState.filter(item => item.id !== id))
-                setTitle(prevState => prevState.filter(item => item.id !== id))
-            }else {
+            const response = await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {
+                id: id,
+                confirm: 'accept'
+            }, token);
+            if (response.status === 200 && response.data === true) {
+                setComments(prevState => prevState.filter(item => item.id != id));
+            } else {
 
             }
         }
         request()
-
     }
 
     const handleReject = (id) => {
         const request = async () => {
-            const response =await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {id: id, confirm: 'reject'}, token);
-            if(response.status === 200 && response.data === true) {
-                setComments(prevState => prevState.filter(item => item.id !== id))
-                setTitle(prevState => prevState.filter(item => item.id !== id))
-            }else {
+            const response = await apiPost(`${API_GATEWAY_URL}${COMMENT_URL}${ACCEPTED_OR_REJECTED_COMMENT_BY_ID}`, {
+                id: id,
+                confirm: 'reject'
+            }, token);
+            if (response.status === 200 && response.data === true) {
+                setComments(prevState => prevState.filter(item => item.id !== id));
+            } else {
 
             }
         }
         request()
-
     }
 
     return (
         <>
-            <div style={{ width:'80%', margin:'auto' }}>
+            <div style={{width: '80%', margin: 'auto'}}>
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">
                         <TableHead>
                             <TableRow>
-                                <TableCell />
+                                <TableCell/>
                                 <TableCell>Company Name</TableCell>
                                 <TableCell>Title</TableCell>
                                 <TableCell align="right">Personal Name</TableCell>
@@ -139,8 +133,8 @@ export function ApproveComment() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {comments.map(comment => <Row key={comment.id} row={{...comment, handleApprove,handleReject}} />)}
-
+                            {comments.map(comment => <Row key={comment.id}
+                                                          row={{...comment, handleApprove, handleReject}}/>)}
                         </TableBody>
                     </Table>
                 </TableContainer>

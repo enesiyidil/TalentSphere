@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.group3.constant.EndPoints.FIND_NAME_BY_ID;
 import static org.group3.constant.EndPoints.MANAGER;
 
-@FeignClient(name = "manager-service-manager", url = "${apiGatewayUrl}" + MANAGER)
+@FeignClient(name = "manager-service-manager", url = "http://${manager-service}:9094" + MANAGER)
+//@FeignClient(name = "manager-service-manager", url = "${apiGatewayUrl}" + MANAGER)/
 public interface IManagerServiceManager {
 
     @GetMapping(FIND_NAME_BY_ID)

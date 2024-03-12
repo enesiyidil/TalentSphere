@@ -1,14 +1,13 @@
 import {useForm} from "react-hook-form";
-import {useContext} from "react";
-import React, {useState} from 'react';
+import React, {useContext} from "react";
 import {RegisterContext} from "../context/RegisterContext.jsx";
 import styles from "../Css/RegisterPage.module.css";
-
+import {useNavigate} from "react-router-dom";
 
 const RegisterPage = () => {
 
     const {handleRegister} = useContext(RegisterContext);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -24,22 +23,8 @@ const RegisterPage = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         handleRegister(getValues());
+        navigate('/login');
     }
-
-
-    const handleImageChange = (event) => {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setSelectedImage(reader.result);
-            };
-            reader.readAsDataURL(selectedFile);
-        } else {
-            setSelectedImage(null);
-        }
-    };
-
 
     return (
 
@@ -47,7 +32,6 @@ const RegisterPage = () => {
             <div className={styles["register-form-wrapper"]}>
                 <form onSubmit={handleSubmit} className={styles["register-form"]}>
                     <div className={styles["label"]}>
-
                         <span>Name: </span>
                         <input
                             {...register("name", {
@@ -99,18 +83,6 @@ const RegisterPage = () => {
                             <p className="text-red-500">{errors["email"].message}</p>
                         )}
 
-                        <span>Phone: </span>
-                        <input
-                            {...register("phone", {
-                                required: `Cannot be left blank!`,
-                            })}
-                            type="text"
-                            placeholder="Phone"
-                            className={styles["textarea"]}
-                        />
-                        {errors["phone"] && (
-                            <p className="text-red-500">{errors["phone"].message}</p>
-                        )}
                         <span>Password: </span>
                         <input
                             {...register("password", {
@@ -141,7 +113,19 @@ const RegisterPage = () => {
 
                     </div>
 
-                    <div className={styles["gender-select-wrapper"]}>
+                    <div className={styles["label"]}>
+                        <span>Phone: </span>
+                        <input
+                            {...register("phone", {
+                                required: `Cannot be left blank!`,
+                            })}
+                            type="text"
+                            placeholder="Phone"
+                            className={styles["textarea"]}
+                        />
+                        {errors["phone"] && (
+                            <p className="text-red-500">{errors["phone"].message}</p>
+                        )}
                         <label className={styles["label"]}>Gender:</label>
                         <select {...register("gender", {required: "Please select your gender!"})}
                                 className={styles["textarea"]}>
@@ -154,18 +138,17 @@ const RegisterPage = () => {
                             <p className="text-red-500">{errors["gender"].message}</p>
                         )}
 
+                        <span>Photo: </span>
                         <input
-                            type="file"
-                            id="imageInput"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            style={{display: 'none'}}
+                            {...register("photo", {
+                                required: `Cannot be left blank!`,
+                            })}
+                            type="text"
+                            placeholder="Photo"
+                            className={styles["textarea"]}
                         />
-                        <label htmlFor="imageInput">
-                            <button>Add Photo</button>
-                        </label>
-                        {selectedImage && (
-                            <img src={selectedImage} alt="Selected" className="selected-image"/>
+                        {errors["photo"] && (
+                            <p className="text-red-500">{errors["photo"].message}</p>
                         )}
                     </div>
 

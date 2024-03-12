@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.group3.constant.EndPoints.COMPANY;
 import static org.group3.constant.EndPoints.FIND_NAME_BY_COMPANY_ID;
 
-@FeignClient(name = "company-manager", url = "${apiGatewayUrl}" + COMPANY )
+@FeignClient(name = "company-manager", url = "http://${company-service}:9097" + COMPANY )
+//@FeignClient(name = "company-manager", url = "${apiGatewayUrl}" + COMPANY )
 public interface ICompanyManager {
 
     @GetMapping(FIND_NAME_BY_COMPANY_ID)

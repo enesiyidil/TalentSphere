@@ -21,6 +21,8 @@ public class CompanySaveRequestDto {
 
     String address;
 
+    List<String> gallery;
+
     String communicationPhone;
 
     String communicationName;

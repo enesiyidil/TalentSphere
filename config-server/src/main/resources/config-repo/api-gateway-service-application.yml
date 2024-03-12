@@ -2,10 +2,6 @@ server:
   port: 9091
 
 spring:
-  #  security:
-  #    user:
-  #      name: java12
-  #      password: 1234
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
@@ -21,15 +17,6 @@ spring:
               args:
                 name: authCircuitBreaker
                 fallbackUri: forward:/fallback/auth
-        #        - id: swagger-auth-redirect
-        #          uri: http://localhost:9092
-        #          predicates:
-        #            - Path=/auth/swagger/**
-        #          filters:
-        #            - name: RewritePath
-        #              args:
-        #                regexp: /auth/swagger/(.+)
-        #                replacement: /$1
 
         - id: admin-service
           uri: http://localhost:9093

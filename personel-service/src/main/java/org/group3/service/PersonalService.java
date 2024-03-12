@@ -13,7 +13,9 @@ import org.group3.manager.ICompanyManager;
 import org.group3.manager.IManagerServiceManager;
 import org.group3.mapper.IPersonelMapper;
 import org.group3.rabbit.model.AuthUpdateModel;
+import org.group3.rabbit.model.PersonalModel;
 import org.group3.rabbit.producer.AuthUpdateProducer;
+import org.group3.rabbit.producer.ManagerProducer;
 import org.group3.repository.IPersonalRepository;
 import org.group3.repository.entity.Personal;
 import org.group3.repository.entity.enums.ERole;
@@ -33,14 +35,16 @@ public class PersonalService {
     private final IManagerServiceManager managerServiceManager;
     private final ICommentManager commentManager;
     private final AuthUpdateProducer authUpdateProducer;
+    private final ManagerProducer managerProducer;
 
-    public PersonalService(IPersonalRepository personalRepository, IAuthManager authManager, ICompanyManager companyManager, IManagerServiceManager managerServiceManager, ICommentManager commentManager, AuthUpdateProducer authUpdateProducer) {
+    public PersonalService(IPersonalRepository personalRepository, IAuthManager authManager, ICompanyManager companyManager, IManagerServiceManager managerServiceManager, ICommentManager commentManager, AuthUpdateProducer authUpdateProducer, ManagerProducer managerProducer) {
         this.personalRepository = personalRepository;
         this.authManager = authManager;
         this.companyManager = companyManager;
         this.managerServiceManager = managerServiceManager;
         this.commentManager = commentManager;
         this.authUpdateProducer = authUpdateProducer;
+        this.managerProducer = managerProducer;
     }
 
     public PersonalResponseDto save(PersonalSaveRequestDto dto) {
@@ -170,7 +174,14 @@ public class PersonalService {
     public void deletePersonalById(Long id) {
         Optional<Personal> optionalPersonal = personalRepository.findById(id);
         if (optionalPersonal.isPresent()) {
+            if(optionalPersonal.get().getManagerId() == null) {
+                throw new PersonelServiceException(ErrorType.PARAMETER_NOT_VALID);
+            }
             personalRepository.deleteById(id);
+            managerProducer.deletePersonal(PersonalModel.builder()
+                            .personalId(id)
+                            .managerId(optionalPersonal.get().getManagerId())
+                    .build());
         } else {
             throw new PersonelServiceException(ErrorType.USER_NOT_FOUND);
         }

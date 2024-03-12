@@ -47,7 +47,7 @@ export const UserProfile = () => {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => handleDeleteUserProfile
+                    onClick: () => handleDeleteUserProfile()
                 },
                 {
                     label: 'No',

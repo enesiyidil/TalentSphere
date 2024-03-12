@@ -15,10 +15,10 @@ public class ManagerProducer {
     @Value("${rabbitmq.exchange.manager}")
     private String exchange;
 
-    @Value("${rabbitmq.bindingKey.manager.addPersonal}")
+    @Value("${rabbitmq.bindingKey.manager.deletePersonal}")
     private String bindingKey;
 
-    public void addPersonal(PersonalModel model){
+    public void deletePersonal(PersonalModel model){
         rabbitTemplate.convertAndSend(exchange, bindingKey, model);
     }
 }

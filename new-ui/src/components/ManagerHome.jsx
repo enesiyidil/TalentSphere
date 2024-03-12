@@ -26,8 +26,8 @@ export function ManagerHome() {
     const slideInterval = 5000;
 
     useEffect(() => {
-        const request = async () =>{
-            const response =await apiGet(`${API_GATEWAY_URL}${MANAGER_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
+        const request = async () => {
+            const response = await apiGet(`${API_GATEWAY_URL}${MANAGER_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
             if (response.status === 200) {
                 dispatch(setData(response.data));
             } else {
@@ -42,7 +42,12 @@ export function ManagerHome() {
         const timer = setInterval(() => {
             setProgress((prevProgress) => {
                 if (prevProgress === 100) {
-                    setIndex((prevIndex) => (prevIndex + 1) % (data.gallery ? data.gallery.length : 1));
+                    setIndex((prevIndex) => {
+                        if (!Array.isArray(data.gallery) || data.gallery.length - 1 === prevIndex){
+                            return 0;
+                        }
+                        return prevIndex + 1;
+                    });
                     return 0;
                 }
                 return prevProgress + (100 / slideInterval) * 100;
@@ -53,20 +58,22 @@ export function ManagerHome() {
     }, []);
 
 
-
     return (
         <>
             <div className={styles["manager-wrapper"]}>
                 <div className={styles["container-wrapper"]}>
-                    <Container maxWidth="sm" >
-                        {data.gallery &&
-                            <Slide direction="right" in={true}  object-fit=" cover ">
-                                <img src={data.gallery[index]} alt={`Slide ${index}`}/>
-                            </Slide>
+                    <Container maxWidth="sm">
+                        {data.gallery ? (data.gallery.length > 0 ?
+                                <Slide direction="right" in={true} object-fit=" cover ">
+                                    <img src={data.gallery[index]} alt={`Slide ${index}`}/>
+                                </Slide> : data.gallery.length === 1 ?
+                                    <img src={data.gallery[0]} alt={`${0}`}/> :
+                                    <img src="company.jpg" alt={`Company img`}/>) :
+                            <img src="company.jpg" alt={`Company img`}/>
                         }
-                        <LinearProgress variant="determinate" value={progress}/>
+                        <LinearProgress variant="determinate" value={progress} className={styles["linear-progress"]}/>
                     </Container>
-                    <Container maxWidth="xs">
+                    <Container maxWidth="sm">
                         <div className={styles["label"]}>
                             <div className={styles["textarea"]}>
                                 <span>Name: </span>
@@ -83,14 +90,14 @@ export function ManagerHome() {
                             <div className={styles["textarea"]}>
                                 <span>Communications Table: </span>
 
-                                <div style={{width: '100%', height:'200%',paddingTop:'1.8rem'}}>
-                                    <TableContainer component={Paper} >
+                                <div style={{width: '100%', height: '200%', paddingTop: '1.8rem'}}>
+                                    <TableContainer component={Paper}>
 
-                                        <Table aria-label="simple table" >
+                                        <Table aria-label="simple table">
 
                                             <TableHead>
 
-                                                <TableRow >
+                                                <TableRow>
                                                     <TableCell>Name</TableCell>
                                                     <TableCell align="right">Phone Number</TableCell>
                                                 </TableRow>
@@ -122,8 +129,8 @@ export function ManagerHome() {
                         </div>
                     </Container>
                 </div>
-                <div className={styles["container-wrapper"]}>
-                    <div style={{ width:'90%', height:'20%',paddingTop:'1.5rem',margin:'auto'}}>
+                <div className={styles["payment-wrapper"]}>
+                    <div style={{width: '90%', height: '20%', paddingTop: '1.5rem', margin: 'auto'}}>
                         <Container maxWidth="xl">
                             <TableContainer component={Paper}>
                                 <Table sx={{minWidth: 650}} aria-label="simple table">

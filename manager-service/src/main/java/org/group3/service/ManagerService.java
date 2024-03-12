@@ -248,6 +248,7 @@ public class ManagerService {
                         throw new ManagerServiceException(ErrorType.MANAGER_NOT_ACTIVE);
                     if (manager.getPersonals().contains(model.getPersonalId())) {
                         manager.getPersonals().remove(model.getPersonalId());
+                        repository.save(manager);
                     } else {
                         throw new ManagerServiceException(ErrorType.PERSONAL_NOT_REGISTERED);
                     }
@@ -276,9 +277,16 @@ public class ManagerService {
     public GetInformationResponseDto getInformation(Long id) {
         Company company = companyManager.findByManagerId(id).getBody();
         assert company != null;
-        List<Payment> payments = paymentManager.findAllByCompanyId(company.getId()).getBody();
-        List<Personal> personals = personalManager.findAllPersonalByCompanyId(company.getId()).getBody();
-        List<HolidayResponseDto> holidays = holidayManager.findAllByCompanyId(company.getId()).getBody();
+        List<Payment> payments = null;
+        List<Personal> personals = null;
+        List<HolidayResponseDto> holidays = null;
+        try {
+            payments = paymentManager.findAllByCompanyId(company.getId()).getBody();
+            personals = personalManager.findAllPersonalByCompanyId(company.getId()).getBody();
+            holidays = holidayManager.findAllByCompanyId(company.getId()).getBody();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
         System.out.println(company);
         return GetInformationResponseDto.builder()
                 .id(company.getId())

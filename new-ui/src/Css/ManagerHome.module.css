@@ -3,36 +3,38 @@
     height: 84vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .container-wrapper {
     width: 75vw;
-    height: 40vh;
+    /*height: 40vh;*/
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     margin-top: 2vh;
-
 }
 
-.information-wrapper {
-
+.payment-wrapper {
+    width: 75vw;
+    margin-top: 20px;
 }
+
 .label {
     background-color: rgba(26, 26, 26, 0.5);
     width: 100%;
     color: #fdfafa;
     font-size: 1.5rem;
     display: flex;
-    margin:auto;
+    margin: auto;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: .5rem;
 }
+
 .textarea {
     width: 90%;
     height: 40px;
@@ -41,4 +43,13 @@
     border-radius: 5px;
     font-size: 1.2rem;
     resize: vertical;
+}
+
+.container-wrapper img {
+    width: 25vw;
+    height: 40vh;
+}
+
+.linear-progress {
+    width: 25vw;
 }

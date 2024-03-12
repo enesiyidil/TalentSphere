@@ -224,7 +224,7 @@ const MyCalendar = () => {
                 selectable
                 localizer={myLocalizer}
                 style={{backgroundColor: 'white', color: ' black', height: '500'}}
-                events={role === 'MANAGER' ? (personals.length !== 0 ? data.holidays.filter(holiday => personals.some(value => holiday.personals.includes(value))).map(holiday => ({
+                events={role === 'MANAGER' ? data.holidays ? data.holidays.length > 0 ? (personals.length !== 0 ? data.holidays.filter(holiday => personals.some(value => holiday.personals.includes(value))).map(holiday => ({
                     id: holiday.id,
                     what: 'holiday',
                     personals: holiday.personals.length,
@@ -250,7 +250,7 @@ const MyCalendar = () => {
                     end: new Date(`${payment.dueDate}`),
                     allDay: true,
                     desc: payment.description
-                }))]) : (holidays.map(holiday => ({
+                }))]) : [] : [] : (holidays.map(holiday => ({
                     id: holiday.id,
                     what: 'holiday',
                     title: holiday.name,

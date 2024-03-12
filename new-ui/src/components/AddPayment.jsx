@@ -2,9 +2,9 @@ import styles from "../Css/AddPayment.module.css";
 import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {ApiContext} from "../context/ApiContext.jsx";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {API_GATEWAY_URL, PAYMENT_URL, SAVE_URL} from "../constant/Endpoints.js";
+import {API_GATEWAY_URL, GET_INFORMATION, MANAGER_URL, PAYMENT_URL, SAVE_URL} from "../constant/Endpoints.js";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
@@ -15,16 +15,18 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from "dayjs";
 import {BarChart} from '@mui/x-charts/BarChart';
-import {axisClasses} from "@mui/x-charts";
+import {axisClasses, DEFAULT_Y_AXIS_KEY} from "@mui/x-charts";
+import {setData} from "../redux/actions.js";
 
 const chartSetting = {
     yAxis: [
         {
             label: 'Amount (TL)',
+            width: 100
         },
     ],
-    width: 500,
-    height: 300,
+    width: 700,
+    height: 500,
     sx: {
         [`.${axisClasses.left} .${axisClasses.label}`]: {
             transform: 'translate(-20px, 0)',
@@ -34,7 +36,7 @@ const chartSetting = {
 
 const valueFormatter = (value) => `${value}TL`;
 export default function AddPayment() {
-    const {apiPost} = useContext(ApiContext);
+    const {apiPost, apiGet} = useContext(ApiContext);
     const token = useSelector((state) => state.token);
     const userProfile = useSelector((state) => state.userProfile);
     const role = useSelector((state) => state.role);
@@ -113,6 +115,7 @@ export default function AddPayment() {
             expense: 0,
             month: "Dec"
         }]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setDataset([
@@ -201,7 +204,16 @@ export default function AddPayment() {
                 })
             })
         }
-    }, []);
+    }, role === 'MANAGER' ? [data.payments.length] : []);
+
+    const updateData = async () => {
+        const response = await apiGet(`${API_GATEWAY_URL}${MANAGER_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
+        if (response.status === 200) {
+            dispatch(setData(response.data));
+        } else {
+
+        }
+    }
 
     const handleClearClick = () => {
         setPayment({
@@ -221,11 +233,13 @@ export default function AddPayment() {
         const request = async () => {
             const response = await apiPost(`${API_GATEWAY_URL}${PAYMENT_URL}${SAVE_URL}`, payment, token);
             if (response.status === 200) {
-
+                if(role === 'MANAGER')
+                    await updateData();
+                else
+                    navigate("/home");
             } else {
                 alert(response.data.message);
             }
-            navigate('/home');
         }
         request();
     };
@@ -333,24 +347,13 @@ export default function AddPayment() {
                         dataset={dataset}
                         xAxis={[{scaleType: 'band', dataKey: 'month'}]}
                         series={[
-                            {dataKey: 'income', label: 'Income', valueFormatter},
-                            {dataKey: 'expense', label: 'Expense', valueFormatter},
+                            {dataKey: 'income', label: 'Income', valueFormatter, color: "green"},
+                            {dataKey: 'expense', label: 'Expense', valueFormatter, color: "red"},
                         ]}
                         {...chartSetting}
                     />
                 </div>}
 
-            <div>
-                <BarChart
-                    dataset={dataset}
-                    xAxis={[{scaleType: 'band', dataKey: 'month'}]}
-                    series={[
-                        {dataKey: 'income', label: 'Income', valueFormatter},
-                        {dataKey: 'expense', label: 'Expense', valueFormatter},
-                    ]}
-                    {...chartSetting}
-                />
-            </div>
         </>
     )
         ;

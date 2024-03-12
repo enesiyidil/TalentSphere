@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.group3.constant.EndPoints.FIND_NAME_BY_PERSONAL_ID;
 import static org.group3.constant.EndPoints.PERSONAL;
 
-@FeignClient(name = "personal-manager", url = "${apiGatewayUrl}" + PERSONAL )
+@FeignClient(name = "personal-manager", url = "http://${personal-service}:9095" + PERSONAL )
+//@FeignClient(name = "personal-manager", url = "${apiGatewayUrl}" + PERSONAL )
 public interface IPersonalManager {
 
     @GetMapping(FIND_NAME_BY_PERSONAL_ID)

@@ -31,13 +31,13 @@ export default function AddCompany() {
         shifts: [
             {
                 name: "",
-                startTime: "",
-                endTime: "",
+                startTime: "00:00",
+                endTime: "00:00",
                 breaks: [
                     {
                         name: "",
-                        startTime: "",
-                        endTime: ""
+                        startTime: "00:00",
+                        endTime: "00:00"
                     }
                 ]
             }
@@ -54,13 +54,13 @@ export default function AddCompany() {
             shifts: [
                 {
                     name: "",
-                    startTime: "",
-                    endTime: "",
+                    startTime: "00:00",
+                    endTime: "00:00",
                     breaks: [
                         {
                             name: "",
-                            startTime: "",
-                            endTime: ""
+                            startTime: "00:00",
+                            endTime: "00:00"
                         }
                     ]
                 }
@@ -76,8 +76,9 @@ export default function AddCompany() {
 
     return (
         <>
-            <div className={styles["formWrapper"]}>
+            <div className={styles["form-wrapper"]}>
                 <Box
+                    className={styles["box"]}
                     component="form"
                     sx={{
                         '& .MuiTextField-root': {m: 1, width: '25ch', backgroundColor: '#FFFFFF'},
@@ -85,106 +86,118 @@ export default function AddCompany() {
                     noValidate
                     autoComplete="off"
                 >
-                    <div>
-                        <TextField
-                            required
-                            id="name"
-                            label="Company Name"
-                            onChange={e => setCompany(prevState => ({...prevState, name: e.target.value}))}
-                            defaultValue={company.name}
-                        />
-                        <TextField
-                            required
-                            id="address"
-                            label="Address"
-                            onChange={e => setCompany(prevState => ({...prevState, address: e.target.value}))}
-                            defaultValue={company.address}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            required
-                            id="communication-name"
-                            label="Communication Name"
-                            onChange={e => setCompany(prevState => ({...prevState, communicationName: e.target.value}))}
-                            defaultValue={company.communicationName}
-                        />
-                        <TextField
-                            required
-                            id="communication-phone"
-                            label="Communication Phone"
-                            onChange={e => setCompany(prevState => ({
-                                ...prevState,
-                                communicationPhone: e.target.value
-                            }))}
-                            defaultValue={company.communicationPhone}
-                        />
-                    </div>
-                    <div>
-                        <TableContainer component={Paper}>
-                            <Table sx={{minWidth: 650}} aria-label="simple table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Gallery</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {company.gallery.map((row, index) => (
-                                        <TableRow
-                                            key={index}
-                                            sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                                        >
-                                            <TableCell component="th" scope="row">
-                                                <TextField
-                                                    required
-                                                    id={`photo-url-${index}`} // Shift ismini benzersiz bir ID ile belirtin
-                                                    label="Photo URL"
-                                                    onChange={e => setCompany(prevState => ({
-                                                        ...prevState,
-                                                        gallery: prevState.gallery.map((photo, i) =>
-                                                            index === i ? e.target.value : photo
-                                                        )
-                                                    }))}
-                                                    defaultValue={row.name}
-                                                />
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                {row && (
-                                                    <img
-                                                        src={row}
-                                                        alt="Uploaded"
-                                                        style={{maxWidth: '100px', maxHeight: '100px', marginTop: '10px'}}
-                                                    />
-                                                )}
-                                            </TableCell>
+                    <div className={styles["box-1"]}>
+                        <div className={styles["box-2"]}>
 
-                                            {company.gallery.length > 1 && <TableCell align="right">
-                                                <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
-                                                    setCompany(prevState => ({
-                                                        ...prevState,
-                                                        gallery: prevState.gallery.filter((_, i) => i !== index)
-                                                    }));
-                                                }}>Delete Photo
-                                                </button>
-                                            </TableCell>}
+                            <TextField
+                                required
+                                id="name"
+                                label="Company Name"
+                                onChange={e => setCompany(prevState => ({...prevState, name: e.target.value}))}
+                                defaultValue={company.name}
+                            />
+                            <TextField
+                                required
+                                id="address"
+                                label="Address"
+                                onChange={e => setCompany(prevState => ({...prevState, address: e.target.value}))}
+                                defaultValue={company.address}
+                            />
+                            <TextField
+                                required
+                                id="communication-name"
+                                label="Communication Name"
+                                onChange={e => setCompany(prevState => ({
+                                    ...prevState,
+                                    communicationName: e.target.value
+                                }))}
+                                defaultValue={company.communicationName}
+                            />
+                            <TextField
+                                required
+                                id="communication-phone"
+                                label="Communication Phone"
+                                onChange={e => setCompany(prevState => ({
+                                    ...prevState,
+                                    communicationPhone: e.target.value
+                                }))}
+                                defaultValue={company.communicationPhone}
+                            />
+
+                        </div>
+                        <div>
+                            <TableContainer component={Paper}>
+                                <Table sx={{minWidth: 650}} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Gallery</TableCell>
                                         </TableRow>
-                                    ))}
-                                    <TableRow key={"new-photo"} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                        <button type={"button"} style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
+                                    </TableHead>
+                                    <TableBody>
+                                        {company.gallery.map((row, index) => (
+                                            <TableRow
+                                                key={index}
+                                                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                            >
+                                                <TableCell component="th" scope="row">
+                                                    <TextField
+                                                        required
+                                                        id={`photo-url-${index}`} // Shift ismini benzersiz bir ID ile belirtin
+                                                        label="Photo URL"
+                                                        onChange={e => setCompany(prevState => ({
+                                                            ...prevState,
+                                                            gallery: prevState.gallery.map((photo, i) =>
+                                                                index === i ? e.target.value : photo
+                                                            )
+                                                        }))}
+                                                        defaultValue={row.name}
+                                                    />
+                                                </TableCell>
+                                                <TableCell align="right">
+                                                    {row && (
+                                                        <img
+                                                            src={row}
+                                                            alt="Uploaded"
+                                                            style={{
+                                                                maxWidth: '100px',
+                                                                maxHeight: '100px',
+                                                                marginTop: '10px'
+                                                            }}
+                                                        />
+                                                    )}
+                                                </TableCell>
 
-                                            setCompany(prevState => ({
-                                                ...prevState,
-                                                gallery: [
-                                                    ...prevState.gallery,
-                                                    ""
-                                                ]
-                                            }));
-                                        }}>Add Photo
-                                        </button>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
+                                                {company.gallery.length > 1 && <TableCell align="right">
+                                                    <button type="button" style={{backgroundColor: 'lightgrey'}}
+                                                            onClick={() => {
+                                                                setCompany(prevState => ({
+                                                                    ...prevState,
+                                                                    gallery: prevState.gallery.filter((_, i) => i !== index)
+                                                                }));
+                                                            }}>Delete Photo
+                                                    </button>
+                                                </TableCell>}
+                                            </TableRow>
+                                        ))}
+                                        <TableRow key={"new-photo"}
+                                                  sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+                                            <button type={"button"} style={{backgroundColor: 'lightgrey'}}
+                                                    onClick={(e) => {
+
+                                                        setCompany(prevState => ({
+                                                            ...prevState,
+                                                            gallery: [
+                                                                ...prevState.gallery,
+                                                                ""
+                                                            ]
+                                                        }));
+                                                    }}>Add Photo
+                                            </button>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
                     </div>
                     <div>
                         <TableContainer component={Paper}>
@@ -192,8 +205,7 @@ export default function AddCompany() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Shift Name</TableCell>
-                                        <TableCell align="right">Start Time</TableCell>
-                                        <TableCell align="right">End Time</TableCell>
+                                        <TableCell align="right">Start-End Time</TableCell>
                                         <TableCell align="right">Breaks</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -231,8 +243,6 @@ export default function AddCompany() {
                                                     }))}
                                                     defaultValue={row.startTime}
                                                 />
-                                            </TableCell>
-                                            <TableCell align="right">
                                                 <TextField
                                                     required
                                                     id={`shift-end-time-${index}`} // Bitiş saati için benzersiz bir ID
@@ -252,8 +262,7 @@ export default function AddCompany() {
                                                     <TableHead>
                                                         <TableRow>
                                                             <TableCell>Break Name</TableCell>
-                                                            <TableCell align="right">Start Time</TableCell>
-                                                            <TableCell align="right">End Time</TableCell>
+                                                            <TableCell align="right">Start-End Time</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -308,8 +317,6 @@ export default function AddCompany() {
                                                                         }))}
                                                                         defaultValue={breakItem.startTime}
                                                                     />
-                                                                </TableCell>
-                                                                <TableCell align="right">
                                                                     <TextField
                                                                         required
                                                                         id={`shift-${index}-break-end-time-${breakIndex}`} // Mola bitiş saati için benzersiz bir ID
@@ -334,75 +341,80 @@ export default function AddCompany() {
                                                                     />
                                                                 </TableCell>
                                                                 {row.breaks.length > 1 && <TableCell align="right">
-                                                                    <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
-                                                                        setCompany(prevState => ({
-                                                                            ...prevState,
-                                                                            shifts: prevState.shifts.map((shift, i) =>
-                                                                                index === i ? {
-                                                                                        ...shift,
-                                                                                        breaks: shift.breaks.filter((_, j) => j !== breakIndex) // İlgili mola filtrelenir ve silinir
-                                                                                    }
-                                                                                    : shift
-                                                                            )
-                                                                        }));
-                                                                    }}>Delete Break
+                                                                    <button type="button"
+                                                                            style={{backgroundColor: 'lightgrey'}}
+                                                                            onClick={() => {
+                                                                                setCompany(prevState => ({
+                                                                                    ...prevState,
+                                                                                    shifts: prevState.shifts.map((shift, i) =>
+                                                                                        index === i ? {
+                                                                                                ...shift,
+                                                                                                breaks: shift.breaks.filter((_, j) => j !== breakIndex) // İlgili mola filtrelenir ve silinir
+                                                                                            }
+                                                                                            : shift
+                                                                                    )
+                                                                                }));
+                                                                            }}>Delete Break
                                                                     </button>
                                                                 </TableCell>}
                                                             </TableRow>
                                                         ))}
                                                         <TableRow key={"new"}
                                                                   sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                                            <button type={"button"}  style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
+                                                            <button type={"button"}
+                                                                    style={{backgroundColor: 'lightgrey'}}
+                                                                    onClick={(e) => {
 
-                                                                setCompany(prevState => ({
-                                                                    ...prevState,
-                                                                    shifts: prevState.shifts.map((shift, i) =>
-                                                                        index === i ? {
-                                                                                ...shift,
-                                                                                breaks: [
-                                                                                    ...shift.breaks,
-                                                                                    {
-                                                                                        name: "",
-                                                                                        startTime: "",
-                                                                                        endTime: ""
+                                                                        setCompany(prevState => ({
+                                                                            ...prevState,
+                                                                            shifts: prevState.shifts.map((shift, i) =>
+                                                                                index === i ? {
+                                                                                        ...shift,
+                                                                                        breaks: [
+                                                                                            ...shift.breaks,
+                                                                                            {
+                                                                                                name: "",
+                                                                                                startTime: "00:00",
+                                                                                                endTime: "00:00"
+                                                                                            }
+                                                                                        ]
                                                                                     }
-                                                                                ]
-                                                                            }
-                                                                            : shift
-                                                                    )
-                                                                }));
-                                                            }}>Add Break
+                                                                                    : shift
+                                                                            )
+                                                                        }));
+                                                                    }}>Add Break
                                                             </button>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer></TableCell>
                                             {company.shifts.length > 1 && <TableCell align="right">
-                                                <button type="button" style={{backgroundColor: 'lightgrey'}} onClick={() => {
-                                                    setCompany(prevState => ({
-                                                        ...prevState,
-                                                        shifts: prevState.shifts.filter((_, i) => i !== index) // İlgili vardiya (shift) filtrelenir ve silinir
-                                                    }));
-                                                }}>Delete Shift
+                                                <button type="button" style={{backgroundColor: 'lightgrey'}}
+                                                        onClick={() => {
+                                                            setCompany(prevState => ({
+                                                                ...prevState,
+                                                                shifts: prevState.shifts.filter((_, i) => i !== index) // İlgili vardiya (shift) filtrelenir ve silinir
+                                                            }));
+                                                        }}>Delete Shift
                                                 </button>
                                             </TableCell>}
                                         </TableRow>
                                     ))}
                                     <TableRow key={"new-shift"} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-                                        <button type={"button"}   style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
+                                        <button type={"button"} style={{backgroundColor: 'lightgrey'}} onClick={(e) => {
 
                                             setCompany(prevState => ({
                                                 ...prevState,
                                                 shifts: [
                                                     ...prevState.shifts, {
                                                         name: "",
-                                                        startTime: "",
-                                                        endTime: "",
+                                                        startTime: "00:00",
+                                                        endTime: "00:00",
                                                         breaks: [
                                                             {
                                                                 name: "",
-                                                                startTime: "",
-                                                                endTime: ""
+                                                                startTime: "00:00",
+                                                                endTime: "00:00"
                                                             }
                                                         ]
                                                     }

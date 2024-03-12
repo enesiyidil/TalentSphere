@@ -7,16 +7,17 @@
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-
     cursor: pointer;
     transition: border-color 0.25s;
     margin-right: 1rem;
     gap: 1rem;
 }
+
 .button:hover {
 
 
 }
+
 .button:focus,
 .button:focus-visible {
 
@@ -30,24 +31,38 @@
 
 
     }
+
     a:hover {
         color: #747bff;
     }
+
     .button {
 
     }
 }
 
-.button-save{
-    color:red;
+.button-save {
+    color: red;
 }
 
-.personal-card-wrapper{
+.personal-card-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
-    width:90vw;
+    width: 90vw;
+}
 
+.label td, .label th {
+    color: red;
+    border: 1px solid red;
+}
 
+.container-wrapper img {
+    width: 25vw;
+    height: 40vh;
+}
+
+.linear-progress {
+    width: 25vw;
 }

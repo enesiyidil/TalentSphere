@@ -57,6 +57,7 @@ public class CompanyService {
         Company company = repository.save(Company.builder()
                         .name(dto.getName())
                         .address(dto.getAddress())
+                        .gallery(dto.getGallery())
                 .build());
         List<Communication> communicationList = new ArrayList<>();
         communicationList.add(Communication.builder()

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import static org.group3.constant.EndPoints.*;
 
-@FeignClient(name = "auth-manager", url = "${apiGatewayUrl}" + AUTH )
+@FeignClient(name = "auth-manager", url = "http://${auth-service}:9092" + AUTH )
+//@FeignClient(name = "auth-manager", url = "${apiGatewayUrl}" + AUTH )
 public interface IAuthManager {
     @PostMapping(ADMIN_SAVE)
     ResponseEntity<Long> adminSave(@RequestBody AdminSaveRequestDto dto);

@@ -15,7 +15,8 @@ import java.util.List;
 import static org.group3.constant.EndPoints.*;
 import static org.group3.constant.EndPoints.SAVE_MANAGER;
 
-@FeignClient(name = "personal-manager", url = "${apiGatewayUrl}" + PERSONAL )
+@FeignClient(name = "personal-manager", url = "http://${personal-service}:9095" + PERSONAL )
+//@FeignClient(name = "personal-manager", url = "${apiGatewayUrl}" + PERSONAL )
 public interface IPersonalManager {
 
     @GetMapping(FIND_ALL)

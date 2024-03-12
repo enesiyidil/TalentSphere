@@ -138,36 +138,42 @@ services:
       - "xpack.security.enabled=false"
     mem_limit: 1GB
 
-  talent-sphere-elasticsearch-log:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
-    environment:
-      - discovery.type=single-node
-    mem_limit: 1GB
-    ports:
-      - "9200:9200"
+  ConfigServer:
+     build: ./config-server/
+     container_name: TalentSphere-ConfigServer
+     networks:
+       - talent-sphere-network
+     image: talent-sphere-config-server-image
+     ports:
+       - "8888:8888"
 
-  talent-sphere-logstash:
-    image: docker.elastic.co/logstash/logstash:7.15.1
-    volumes:
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-    ports:
-      - "5000:5000"
+  ApiGatewayService:
+     build: ./apigateway-service/
+     container_name: TalentSphere-ApiGatewayService
+     networks:
+       - talent-sphere-network
+     image: talent-sphere-api-gateway-service-image
+     environment:
+       CONFIG_URI: http://localhost:8888
+       TALENTSPHERE_SECRETKEY: secretKey
+       TALENTSPHERE_ISSUER: issuer
+     ports:
+       - "9091:9091"
+     depends_on:
+       - ConfigServer
 
-  talent-sphere-kibana:
-    image: docker.elastic.co/kibana/kibana:7.15.1
-    ports:
-      - "5601:5601"
-    depends_on:
-      - talent-sphere-elasticsearch-log
-
-  ElasticSearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
-    container_name: talent-sphere-elasticsearch
-    networks:
-      - talent-sphere-network
-    ports:
-      - "9200:9200"
-    environment:
-      - "discovery.type=single-node"
-      - "xpack.security.enabled=false"
-    mem_limit: 1GB
+  AuthMicroService:
+     build: ./auth-service/
+     container_name: TalentSphere-AuthMicroService
+     networks:
+       - talent-sphere-network
+     image: talent-sphere-auth-micro-service-image
+     ports:
+       - "9092:9092"
+     environment:
+       CONFIG_URI: http://localhost:8888
+       TALENTSPHERE_SECRETKEY: secretKey
+       TALENTSPHERE_ISSUER: issuer
+     depends_on:
+       - ConfigServer
+       - talent-sphere-auth-db

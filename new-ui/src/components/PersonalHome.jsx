@@ -52,7 +52,7 @@ export function PersonalHome() {
 
     useEffect(() => {
         const request = async () => {
-            const response =await apiGet(`${API_GATEWAY_URL}${PERSONAL_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
+            const response = await apiGet(`${API_GATEWAY_URL}${PERSONAL_URL}${GET_INFORMATION}?id=${userProfile.id}`, token);
             if (response.status === 200) {
                 setInformation(response.data);
             } else {
@@ -67,7 +67,12 @@ export function PersonalHome() {
         const timer = setInterval(() => {
             setProgress((prevProgress) => {
                 if (prevProgress === 100) {
-                    setIndex((prevIndex) => (prevIndex + 1) % information.company.gallery.length);
+                    setIndex((prevIndex) => {
+                        if (information.company.gallery.length - 1 === prevIndex){
+                            return 0;
+                        }
+                        return prevIndex + 1;
+                    });
                     return 0;
                 }
                 return prevProgress + (100 / slideInterval) * 100;
@@ -82,13 +87,21 @@ export function PersonalHome() {
         <>
             <div className={styles["personal-wrapper"]}>
                 <div className={styles["container-wrapper"]}>
-                    <Container maxWidth="sm" >
-                        <Slide direction="right" in={true}>
-                            <img src={information.company.gallery[index]} alt={`Slide ${index}`}/>
-                        </Slide>
-                        <LinearProgress variant="determinate" value={progress}/>
+                    <Container maxWidth="sm">
+                        {information.company.gallery ? (information.company.gallery.length > 0 ?
+                                <Slide direction="right" in={true} object-fit=" cover ">
+                                    <img src={information.company.gallery[index]} alt={`Slide ${index}`}
+                                         style={{width: "25vw", height: "40vh"}}/>
+                                </Slide> : information.company.gallery.length === 1 ?
+                                    <img src={information.company.gallery[0]} alt={`${0}`}
+                                         style={{width: "25vw", height: "40vh"}}/> :
+                                    <img src="company.jpg" alt={`Company img`} style={{width: "25vw", height: "40vh"}}/>) :
+                            <img src="company.jpg" alt={`Company img`} style={{width: "25vw", height: "40vh"}}/>
+                        }
+                        <LinearProgress variant="determinate" value={progress} className={styles["linear-progress"]}
+                                        style={{width: "25vw"}}/>
                     </Container>
-                    <Container maxWidth="xs" >
+                    <Container maxWidth="sm">
                         <div className={styles["label"]}>
                             <div className={styles["textarea"]}>
                                 <span>Name: </span>
@@ -116,7 +129,7 @@ export function PersonalHome() {
                             </div>
                             <div className={styles["textarea"]}>
                                 <span>Communications Table: </span>
-                                <TableContainer component={Paper} width= "10%" height="100%" paddingTop="1.5rem">
+                                <TableContainer component={Paper} width="10%" height="100%" paddingTop="1.5rem">
                                     <Table aria-label="simple table">
                                         <TableHead>
                                             <TableRow>
@@ -144,7 +157,8 @@ export function PersonalHome() {
                     </Container>
                 </div>
                 <div className={styles["container-wrapper"]}>
-                    <Container maxWidth="xl" style={{width:'90%', height:'20%',paddingTop:'1.5rem',margin:'auto'}}>
+                    <Container maxWidth="xl"
+                               style={{width: '90%', height: '20%', paddingTop: '1.5rem', margin: 'auto'}}>
                         <TableContainer component={Paper}>
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
